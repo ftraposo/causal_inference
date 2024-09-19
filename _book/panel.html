@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Causal Inference - 6&nbsp; Panel Data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./rdd.html" rel="next">
+<link href="./diff.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./panel.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Panel Data</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Causal Inference</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./experiments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Experiments</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matching</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./iv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Difference-in-difference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./panel.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Panel Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./rdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regression Discontinuity Design</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./frdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Fuzzy Regression Discontinuity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data"><span class="header-section-number">6.0.1</span> Data</a></li>
+  <li><a href="#recap" id="toc-recap" class="nav-link" data-scroll-target="#recap"><span class="header-section-number">7</span> Recap</a>
+  <ul class="collapse">
+  <li><a href="#omitted-variable-bias" id="toc-omitted-variable-bias" class="nav-link" data-scroll-target="#omitted-variable-bias"><span class="header-section-number">7.1</span> Omitted variable bias</a></li>
+  <li><a href="#time-fixed-effects" id="toc-time-fixed-effects" class="nav-link" data-scroll-target="#time-fixed-effects"><span class="header-section-number">7.2</span> Time-fixed effects</a></li>
+  <li><a href="#entityunit-fixed-effects" id="toc-entityunit-fixed-effects" class="nav-link" data-scroll-target="#entityunit-fixed-effects"><span class="header-section-number">7.3</span> Entity/Unit-fixed effects</a></li>
+  <li><a href="#two-way-fixed-effects" id="toc-two-way-fixed-effects" class="nav-link" data-scroll-target="#two-way-fixed-effects"><span class="header-section-number">7.4</span> Two-way fixed effects</a></li>
+  <li><a href="#diagnosis-test-and-standard-errors" id="toc-diagnosis-test-and-standard-errors" class="nav-link" data-scroll-target="#diagnosis-test-and-standard-errors"><span class="header-section-number">7.5</span> Diagnosis Test and Standard errors</a></li>
+  </ul></li>
+  <li><a href="#seminar-overview" id="toc-seminar-overview" class="nav-link" data-scroll-target="#seminar-overview"><span class="header-section-number">8</span> Seminar Overview</a>
+  <ul class="collapse">
+  <li><a href="#the-republicans-should-pray-for-rain-wheather-turnout-and-voting-in-u.s.-presidential-elections" id="toc-the-republicans-should-pray-for-rain-wheather-turnout-and-voting-in-u.s.-presidential-elections" class="nav-link" data-scroll-target="#the-republicans-should-pray-for-rain-wheather-turnout-and-voting-in-u.s.-presidential-elections"><span class="header-section-number">8.1</span> The Republicans Should Pray for Rain: Wheather, Turnout, and Voting in U.S. Presidential Elections</a></li>
+  <li><a href="#the-times-are-a-changin-pooled-ols-v-fixed-effects" id="toc-the-times-are-a-changin-pooled-ols-v-fixed-effects" class="nav-link" data-scroll-target="#the-times-are-a-changin-pooled-ols-v-fixed-effects"><span class="header-section-number">8.2</span> The Times are a changin’: Pooled OLS v Fixed Effects</a>
+  <ul class="collapse">
+  <li><a href="#plm-function" id="toc-plm-function" class="nav-link" data-scroll-target="#plm-function"><span class="header-section-number">8.2.1</span> PLM Function</a></li>
+  <li><a href="#unit-fe" id="toc-unit-fe" class="nav-link" data-scroll-target="#unit-fe"><span class="header-section-number">8.2.2</span> Unit-FE</a></li>
+  <li><a href="#two-way-fixed-effects-1" id="toc-two-way-fixed-effects-1" class="nav-link" data-scroll-target="#two-way-fixed-effects-1"><span class="header-section-number">8.2.3</span> Two-Way Fixed Effects</a></li>
+  <li><a href="#fixed-effects-or-random-effects" id="toc-fixed-effects-or-random-effects" class="nav-link" data-scroll-target="#fixed-effects-or-random-effects"><span class="header-section-number">8.2.4</span> Fixed Effects or Random Effects?</a></li>
+  <li><a href="#first-differences" id="toc-first-differences" class="nav-link" data-scroll-target="#first-differences"><span class="header-section-number">8.2.5</span> First Differences</a></li>
+  <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework"><span class="header-section-number">8.2.6</span> HOMEWORK:</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Panel Data</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>weather <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Weather_publicfile.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="data" class="level3" data-number="6.0.1">
+<h3 data-number="6.0.1" class="anchored" data-anchor-id="data"><span class="header-section-number">6.0.1</span> Data</h3>
+<p><br>
+<br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("downloadthis")</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(downloadthis)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">download_link</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">link =</span> <span class="st">"https://github.com/bayreuth-politics/CI22/raw/gh-pages/docs/data/Weather_publicfile.dta"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_name =</span> <span class="st">"weather"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_extension =</span> <span class="st">".dta"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">button_label =</span> <span class="st">"Lab 5 Data"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">button_type =</span> <span class="st">"success"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">has_icon =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">self_contained =</span> <span class="cn">TRUE</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#download_link(</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#  link = "https://github.com/dpir-ci/CI22/raw/gh-pages/docs/lectures/lecture4.pdf",</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#  output_name = "week4",</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#  output_extension = ".pdf",</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#  button_label = "Lecture Slides",</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#  button_type = "default",</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">#  has_icon = FALSE,</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">#  self_contained = FALSE</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">#)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+<br>
+</p>
+<hr>
+</section>
+<section id="recap" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Recap</h1>
+<section id="omitted-variable-bias" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="omitted-variable-bias"><span class="header-section-number">7.1</span> Omitted variable bias</h2>
+<p>Using panel data helps us partly circumvent the issue of <em>omitted variable bias</em>, rather than controlling for all potential time-invariant confounders. We can simply include fixed effects that capture all of these confounders - whether observed or unobserved.<br>
+</p>
+</section>
+<section id="time-fixed-effects" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="time-fixed-effects"><span class="header-section-number">7.2</span> Time-fixed effects</h2>
+<p>We know that bias can come from variables that change over time across all units. To minimise bias from these factors, we can include in our model time-effect controls for any common impact that affects all units. Put differently, time-fixed effects are time-specific factors that affect all entities at the same point intime but evolve over time.<br>
+</p>
+</section>
+<section id="entityunit-fixed-effects" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="entityunit-fixed-effects"><span class="header-section-number">7.3</span> Entity/Unit-fixed effects</h2>
+<p>A model “unit-fixed effects” is a model to which we have added a dummy variable for every unit (county, individual, or state). By adding these to our model, we control for all differences between units that do not change over time. Unit fixed effects are essentially factors that change from one unit to another, but remain constant over time - this includes all time-invariant unobserved (and, importantly, unobservable) heterogeneity. Put differently, entity or unit-fixed effects are factors that are constant over time, but vary within entities.</p>
+<p>The coefficient of each dummy variable shifts the intercept, but does not affect the slope.</p>
+<p><span class="math display">\[Y_{i,t} = \beta_1 X_{i,t} + \alpha_i + \mu_{i,t}\]</span><br>
+</p>
+</section>
+<section id="two-way-fixed-effects" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="two-way-fixed-effects"><span class="header-section-number">7.4</span> Two-way fixed effects</h2>
+<p>We can combine both time and unit fixed effects at the same time. These models are referred as <em>Two-way fixed effects</em> models. By including both fixed effects we are reducing bias that comes from:</p>
+<ul>
+<li>Factors that are constant, but differ across each unit.</li>
+<li>Factor that vary over time, but affect all units at the same time.<br>
+</li>
+</ul>
+</section>
+<section id="diagnosis-test-and-standard-errors" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="diagnosis-test-and-standard-errors"><span class="header-section-number">7.5</span> Diagnosis Test and Standard errors</h2>
+<p>Using panel data we cannot assume that regression errors are independent of each other. Indeed, standard errors are likely correlated within the same unit or the same year. Therefore, we need to cluster standard errors to adjust/account for this correlation. Using <em>Clustered standard errors</em> we allow for heteroskedasticity and autocorrelation within an entity, but treat the errors as uncorrelated across entities.<br>
+</p>
+<p><strong>Before starting this seminar</strong></p>
+<ol type="1">
+<li><p>Create a folder called “lab5”</p></li>
+<li><p>Download the data (you can use this button or the one at the top, or read csv files directly from github):</p></li>
+<li><p>Open an R script (or Markdown file) and save it in our “lab4” folder.</p></li>
+<li><p>Set your working directory using the setwd() function or by clicking on “More“. For example <em>setwd(“~/Desktop/Causal Inference/2022/Lab4”)</em></p></li>
+<li><p>Let’s install an load the packages that we will be using in this lab:</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jtools) <span class="co"># generate plots with regression coefficients</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stargazer) <span class="co"># generate formated regression tables </span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(texreg) <span class="co"># generate formatted regression tables</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># to conduct some tidy operations</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co"># to generate plots </span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plm) <span class="co"># conduct one-way and two-way fixed effects </span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr) <span class="co">#  to conduct ols and provides robust standard errors</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest) <span class="co"># calculates the variance-covariance matrix to be clustered by group.</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sandwich) <span class="co"># to calculate heteroscedasticity-Consistent Covariance Matrix Estimation</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven) <span class="co"># upload dta files </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="seminar-overview" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Seminar Overview</h1>
+<p>In this <strong>seminar</strong>, we will cover the following topics:<br>
+1. Conduct a time fixed effects model using the <code>lm()</code> function<br>
+2. Conduct a time and unit fixed model using the <code>lm()</code> function<br>
+3. Conduct a time fixed effects model using the <code>plm()</code> function<br>
+4. Conduct a time and unit fixed effect model using the <code>plm()</code> function.<br>
+4. Correct standard errors obtained from the <code>plm()</code> function.<br>
+5. Conduct a <em>Hausmann test</em> and <em>F-test</em><br>
+</p>
+<hr>
+<section id="the-republicans-should-pray-for-rain-wheather-turnout-and-voting-in-u.s.-presidential-elections" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="the-republicans-should-pray-for-rain-wheather-turnout-and-voting-in-u.s.-presidential-elections"><span class="header-section-number">8.1</span> The Republicans Should Pray for Rain: Wheather, Turnout, and Voting in U.S. Presidential Elections</h2>
+<p>Today, we will work with data from Gomez et al work on <a href="https://www.aeaweb.org/articles?id=10.1257/aer.98.1.311"><strong>The Republicans Should Pray for Rain: Wheather, Turnout, and Voting in U.S. Presidential Elections</strong></a>. In this paper, Gomez et al seek to answer the following question: <em>Does bad weather affect turnout?</em> To address this question, they looked at 14 U.S presidential elections. Using GIS interpolations and weather data from 22,000 U.S weather stations, they provide election day estimates of rain and snow at the county level.</p>
+<p><br>
+</p>
+<p>The authors find that rain significantly reduces voter participation by a rate of just less than 1% per inch. Meanwhile, an inch of snowfall decreases turnout by almost .5%. The authors also find that poor weather benefits Republicans. The authors’ main outcome of interest is vote turnout at the county level.<br>
+<br>
+</p>
+<p>Their data consists of over 3,000 counties in the continental United States for each presidential election from 1948 to 2000. The meteorological variables were drawn from the National Climatic Data Center that contained Day data report of various measures of the day’s weather, including rainfall and snow, for over 20,000 weather stations. In total the authors collected up to 43,340 observations (N = 3,115, max, and T = 14 elections).<br>
+<br>
+</p>
+<p>The main “treatment” variable of this study is estimated rainfall and snowfall measured in inches (1 in = 2,54 cm). The authors used two alternative measures of weather. First, they calculated the normal (average) rainfalls and snowfalls for each election data for each county using data from 1948-2000 time span. Then, they subtracted the appropriate daily normal value from the rainfall or snowfall estimated to have occurred on each election day under analysis.</p>
+<p><br>
+</p>
+<p>The authors control for a number of socio-economic factors that are associated with voter turnout such as <em>High School Graduates</em> in the county, <em>median household income</em>, and how <em>rural</em> the county is.</p>
+<p><br>
+</p>
+<p>The authors find when measured as deviations from their normal values, rain and snow elicit a negative and statistically significant effect on voter turnout. Thus, evidence supports the claim that bad weather lowers voters turnout. The authors also find that when rain and snow increase above their respective election day normal, the vote share of Republican presidential candidates increases.<br>
+</p>
+<p>A description of some of the variables that we will use today is below:</p>
+<table class="table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 83%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Year</code></td>
+<td>Election Year</td>
+</tr>
+<tr class="even">
+<td><code>State</code></td>
+<td>State name</td>
+</tr>
+<tr class="odd">
+<td><code>County</code></td>
+<td>County name</td>
+</tr>
+<tr class="even">
+<td><code>FIPS_County</code></td>
+<td>County id</td>
+</tr>
+<tr class="odd">
+<td><code>Turnout</code></td>
+<td>Turnout presidential election as a percentage of Voting-age population</td>
+</tr>
+<tr class="even">
+<td><code>Rain</code></td>
+<td>GIS rainfall estimate</td>
+</tr>
+<tr class="odd">
+<td><code>Snow</code></td>
+<td>GIS snowfall estimate</td>
+</tr>
+<tr class="even">
+<td><code>Rain_Dev</code></td>
+<td>Deviation from normal rainfall</td>
+</tr>
+<tr class="odd">
+<td><code>Snow_Dev</code></td>
+<td>Deviation from normal snowfall</td>
+</tr>
+<tr class="even">
+<td><code>GOPVoteShare</code></td>
+<td>Republican Candidate’s Vote Share</td>
+</tr>
+<tr class="odd">
+<td><code>PcntBlack</code></td>
+<td>Estimated percentage of Black population</td>
+</tr>
+<tr class="even">
+<td><code>ZPcntHSGrad</code></td>
+<td>Estimated percentage high school grads, standarised by years at the county level</td>
+</tr>
+<tr class="odd">
+<td><code>FarmsPerCap</code></td>
+<td>Farms per capita</td>
+</tr>
+<tr class="even">
+<td><code>Unemploy</code></td>
+<td>Estimated Unemployment Rate</td>
+</tr>
+<tr class="odd">
+<td><code>AdjIncome</code></td>
+<td>CPI Adj Median Household Income (1982-84=100), in 10000s</td>
+</tr>
+<tr class="even">
+<td><code>Closing</code></td>
+<td>length of time between date voter must register and election day</td>
+</tr>
+<tr class="odd">
+<td><code>Literacy</code></td>
+<td>Proportion of legislator’s children that are female</td>
+</tr>
+<tr class="even">
+<td><code>Poll Tax</code></td>
+<td>Literacy test</td>
+</tr>
+<tr class="odd">
+<td><code>Closing</code></td>
+<td>Poll tax</td>
+</tr>
+<tr class="even">
+<td><code>Yr52</code></td>
+<td>Dummy election 1952</td>
+</tr>
+<tr class="odd">
+<td><code>Yr56</code></td>
+<td>Dummy election 1956</td>
+</tr>
+<tr class="even">
+<td><code>Yr..</code></td>
+<td>Dummy election …</td>
+</tr>
+<tr class="odd">
+<td><code>Yr2000</code></td>
+<td>Dummy election 2000</td>
+</tr>
+</tbody>
+</table>
+<p>Now let’s load the data. There are two ways to do this:</p>
+<p>You can load the dataset from your laptop using the <code>read_dta()</code> function. We will call this data frame <strong>weather</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set your working directory</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd("~/Desktop/Causal Inference/2022/Lab5")</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd("/cloud/project")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Or you can download the data from the course website from following url: https://github.com/bayreuth-politics/CI22/raw/gh-pages/docs/data/Weather_publicfile.dta.</p>
+<hr>
+<p>Let us start with a few descriptive statistics to become familiar with the data. First, as always, we use the <code>head()</code> function to get an impression of the data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(weather)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<p>Now, let’s have a look at the number of elections that are included in the data set. We know that the authors are looking at presidential elections, so each unique year in the data can cover only one and the same presidential election. We use the <code>unique()</code> command to retrieve unique values of the <code>Year</code> variable. Then, you can use the <code>length()</code> command to display the number of unique values.<br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieving unique values of the variable</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(weather<span class="sc">$</span>Year)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieving the number of the unique values of the variable.</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(weather<span class="sc">$</span>Year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<p>So the data set covers 14 different presidential elections - as the <code>unique()</code> command shows us, these are all elections that took place between 1948 and 2000. Let’s do the same now for the number of states.<br>
+</p>
+<p><strong>Exercise 1: How many US states are covered by the data - which ones are missing?</strong><br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieving the number of the unique values of the variable.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(weather<span class="sc">$</span>State))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieving unique values of the variable</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(weather<span class="sc">$</span>State)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<p>The data cover 48 US states, so two are missing. We can see that the data cover all contiguous US states - the two missing ones are Alaska and Hawaii. Is there a reason to exclude them?<br>
+</p>
+<p>There is! Alaska and Hawaii joined the Union only in 1959 - so the authors would have had shorter time-series for these two states.</p>
+</details>
+<p><br>
+</p>
+</section>
+<section id="the-times-are-a-changin-pooled-ols-v-fixed-effects" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="the-times-are-a-changin-pooled-ols-v-fixed-effects"><span class="header-section-number">8.2</span> The Times are a changin’: Pooled OLS v Fixed Effects</h2>
+<p><br>
+</p>
+<p>Let’s start by paying attention to the temporal dimension of our voting data. Conventional wisdom has it that each and every election is different. Accordingly, we want to acknowledge these differences across elections and take them into account when estimating our models.</p>
+<p>Let’s first have a look at the broad picture by plotting the outcome of interest across time. We can use the <code>boxplot()</code> function to this. The syntax is the following <code>boxplot(Y ~ X, data= data, xlab="X Label", ylab="Y Label")</code>.<br>
+</p>
+<p><strong>Exercise 2: Plot <code>GOPVoteShare</code> over time</strong></p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(GOPVoteShare <span class="sc">~</span> Year, </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> weather, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Election Year"</span>, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"GOP Vote Share"</span>, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">las =</span> <span class="dv">2</span>) <span class="co"># This argument rotates the axis labels</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<p>The vote share cast for the GOP varies widely. Note that the data set includes an observation for each <em>county</em>. The box indicates the interquartile range (i.e.&nbsp;the difference between the third and first quartile of data points) and the solid lines the median value for each year. There are meaningful differences: Note how GOP vote share is larger in 1972, when McGovern (ever heard of him?) had no chance against Nixon. Importantly, we still see a rather broad range of GOP vote shares - this is the variation introduced by individual counties and their specifics. Considering only temporal differences here, we do not distinguish any other effects.<br>
+</p>
+</details>
+<p><br>
+</p>
+<p>Let’s now run a simple OLS model without considering any variation introduced by temporal differences or unit (i.e.&nbsp;county) specifics. Such a model is called <em>pooled OLS</em> as we simply pool all observations in our data set to estimate a coefficient. By design, all observations are considered to be independent of each other in such model.<br>
+</p>
+<p><strong>Exercise 3: Regress <code>GOPVoteShare</code> on <code>Rain</code></strong><br>
+</p>
+<p>Estimate two models: First, a simple bivariate model and second a model that includes important covariates: <code>PcntBlack</code>, <code>ZPcntHSGrad</code>, <code>FarmsPerCap</code>, <code>AdjIncome</code> and <code>Literacy</code>. Interpret your model estimates.</p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bivariate pooled OLS</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>ols_bivariate <span class="ot">&lt;-</span> <span class="fu">lm</span>(GOPVoteShare <span class="sc">~</span> Rain, <span class="at">data=</span>weather)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ols_bivariate)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Multivariate pooled OLS</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>ols_covariates <span class="ot">&lt;-</span> <span class="fu">lm</span>(GOPVoteShare <span class="sc">~</span> Rain <span class="sc">+</span> PcntBlack <span class="sc">+</span> ZPcntHSGrad <span class="sc">+</span> FarmsPerCap <span class="sc">+</span> AdjIncome <span class="sc">+</span> Literacy, <span class="at">data=</span>weather)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ols_covariates)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The bivariate model estimates a - hardly significant - association between rain and GOP vote share of 0.5%-points per inch. As we know, however, such bivariate association does not account for several other effects. Indeed, all covariates included in the multivariate pooled OLS are highly correlated with GOP vote share - and the estimate of rain on election day doubles to about 1%-point in the multivariate model.</p>
+</details>
+<p><br>
+</p>
+<p>Let’s now move away from the pooled - or naive - OLS model. We know that despite accounting for the covariates, the multivariate model does not account for variance from two important sources: (i) general temporal development, (ii) unit-specific time-invariant variance. In a first step, we account for the former. Let’s see how acknowledging general election effects changes our estimate.</p>
+<p>In other words, we will now estimate a <strong>fixed-effects model</strong>. You can use the <code>lm()</code> function to include time-fixed effects. If you add the <code>Year</code> variable as factorised variable, a dummy variable for each year is added to the regression equation. In other words, we allow each presidential election to have a different intercept but estimate a single slop for the independent variables.<br>
+</p>
+<p><strong>Exercise 4: Estimate the same bivariate and multivariate models as above including time-fixed effects.</strong></p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<p><br>
+</p>
+<p>Note that this is not the same as simply adding the <code>Year</code> variable as an independent variable. If you did the latter, - with <code>Year</code> being a continuous variable - R would simply understand it to be a single, general and <em>continuous</em> time trend.<br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bivariate time FE</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>FE_bivariate <span class="ot">&lt;-</span> <span class="fu">lm</span>(GOPVoteShare <span class="sc">~</span> Rain <span class="sc">+</span> <span class="fu">factor</span>(Year), <span class="at">data=</span>weather)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(FE_bivariate)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Multivariate time FE</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>FE_covariates <span class="ot">&lt;-</span> <span class="fu">lm</span>(GOPVoteShare <span class="sc">~</span> Rain <span class="sc">+</span> PcntBlack <span class="sc">+</span> ZPcntHSGrad <span class="sc">+</span> FarmsPerCap <span class="sc">+</span> AdjIncome <span class="sc">+</span> Literacy  <span class="sc">+</span> <span class="fu">factor</span>(Year), <span class="at">data=</span>weather)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(FE_covariates)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<p>Do you notice the vast differences of our estimated effect of <code>Rain</code>? In the bivariate FE model, the estimated effect is <em>negative</em>, so one inch of rain would be associated with a 1%-point decrease in GOP vote share. Once we control for the same set of covariates as above, the model estimates that an increase in one unit of<code>Rain</code> is not associated with GOP vote share at all!</p>
+</details>
+<p><br>
+</p>
+<p>Let’s pause a moment to make sure we grasp the difference between a pooled OLS and the FE estimator. Simply speaking, the pooled OLS considers each observation but does not differentiate them in any particular way. Thus, the bivariate model simply estimates the mathematical association between the two variables, using all data points:<br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(modelr)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(ggplot2)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Intercept=</span><span class="dv">1</span>, <span class="at">Rain=</span><span class="fu">seq_range</span>(weather<span class="sc">$</span>Rain, <span class="dv">10</span>))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(ols_bivariate,grid)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(weather, <span class="fu">aes</span>(Rain)) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> GOPVoteShare)) <span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> pred), <span class="at">data =</span> grid, <span class="at">colour =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<p>The logic of the FE estimator is different, however. This estimator looks at and compares data points <em>within</em> a certain period. It estimates a single coefficient (or slope) for independent variables, but allows each period to have an individual intercept, thus capturing general time trends that affect all units. Let’s look at the coefficient of <code>Rain</code> in the bivariate FE model now:<br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>weather<span class="sc">$</span>fYear <span class="ot">&lt;-</span> <span class="fu">factor</span>(weather<span class="sc">$</span>Year) <span class="co"># Creating a factor variable makes it easier to plot</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>grid_fixdum <span class="ot">&lt;-</span> <span class="fu">expand</span>(<span class="fu">data.frame</span>(<span class="at">Intercept=</span><span class="dv">1</span>, <span class="at">Rain=</span><span class="fu">seq_range</span>(weather<span class="sc">$</span>Rain, <span class="dv">14</span>), <span class="at">Year=</span><span class="fu">unique</span>(weather<span class="sc">$</span>fYear)),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                      Rain, Year)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>grid_fixdum<span class="sc">$</span>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(FE_bivariate,grid_fixdum)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(weather, <span class="fu">aes</span>(Rain)) <span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> GOPVoteShare, <span class="at">colour=</span>fYear)) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">y =</span> GOPVoteShare), <span class="at">method=</span><span class="st">'lm'</span>, <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">colour=</span><span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>grid_fixdum, <span class="fu">aes</span>(<span class="at">x=</span>Rain, <span class="at">y=</span>pred, <span class="at">colour=</span>Year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<p>In fact, looking only at the effects <em>within</em> <code>Years</code>, we can see that the aggregate slope is even slightly negative!<br>
+</p>
+<p>Even with our FE estimates, however, there is an important problem. Using the <code>lm()</code> command, R estimates the time dummies as additional variables. This affects the measures of uncertainty and, therefore, statistical significance as observations within the same year are not independent. In fact, we want to estimate FE models precisely because we have reason to believe that they are not independent of each other.<br>
+</p>
+<p>To adjust for this dependence of observations, we must calculate <strong>robust - or clustered or panel-corrected - standard errors</strong>. <em>This is important and should always be done when estimating FE models - otherwise standard errors will be (heavily) biased. In turn, this would mean we make wrong inferences.</em><br>
+</p>
+<p>Luckily, we can easily adjust standard errors, either manually using special packages such as the <code>sandwich</code> package or automatically as part of the regression estimation. To do the latter, we can use the <code>lm_robust()</code> command from the <code>estimatr</code> package. It’s syntax is similar to the general <code>lm()</code> command, but it allows you to simply specify fixed effects by adding a <code>fixed_effects=</code> argument, followed by the variable indicating FE. Robust standard errors are automatically calculated when you use that function.<br>
+</p>
+<p><strong>Exercise 5: Estimate the same time-FE models as above with robust standard errors using the <code>lm_robust()</code> function.</strong></p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(estimatr)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Bivariate time-FE with  roust SEs</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>FE_robust_bivariate <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(GOPVoteShare <span class="sc">~</span> Rain, <span class="at">fixed_effects=</span> <span class="fu">factor</span>(Year), <span class="at">data=</span>weather)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(FE_robust_bivariate)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Multivariate time-FE with  roust SEs</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>FE_robust_covariates <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(GOPVoteShare <span class="sc">~</span> Rain <span class="sc">+</span> PcntBlack <span class="sc">+</span> ZPcntHSGrad <span class="sc">+</span> FarmsPerCap <span class="sc">+</span> AdjIncome <span class="sc">+</span> Literacy, <span class="at">fixed_effects=</span> <span class="fu">factor</span>(Year), <span class="at">data=</span>weather)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(FE_robust_covariates)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+This is better - now we have unbiased SEs. Note that calculating robust standard errors does not affect the estimates - but it does change SEs and all statistics that are dependent on them. Since we calculate models in order to make causal statements about effects, it is absolutely crucial to make sure these statistics are unbiased.
+</details>
+<p><br>
+</p>
+<p><strong>Exercise 6: Display the regression output of all six models in a single table. Interpret the models.</strong></p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(texreg)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This is one possible option, there are many others. </span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">screenreg</span>(<span class="at">l=</span><span class="fu">list</span>(ols_bivariate, ols_covariates, FE_bivariate, FE_covariates, FE_robust_bivariate, FE_robust_covariates),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">custom.header =</span> <span class="fu">list</span>(<span class="st">"Pooled OLS"</span> <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="st">"Time FE"</span> <span class="ot">=</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>, <span class="st">"Robust Time FE"</span> <span class="ot">=</span> <span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">omit.coef =</span> <span class="st">"(Intercept)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<p>Note that the default display of the <code>lm_robust()</code> differs from the standard OLS output we encountered so far. Instead of standard errors, the table indicates the 95% confidence intervals of the estimates - this is indeed an increasingly popular way to present results as confidence intervals give a clearer indication of the effect’s uncertainty. Also, all significant results are marked by only one asterisk, which indicates that the value of the null hypothesis (i.e.&nbsp;0) falls outside the confidence interval.<br>
+</p>
+<p>Pay attention to the significant differences between the OLS models and the FE models. Based on the pooled OLS model, we would have thought that <code>rain</code> is associated with an increase in GOP vote share once we control for covariates. However, doing so does not account for temporal changes and is based on comparisons across different elections. In other words, a pooled OLS compares different observations from different points in time of different units to each other.<br>
+</p>
+Accounting for time by calculating time-FE models changes the picture. While we find a bivariate relationship, there is no significant association between <code>Rain</code> (or <code>AdjIncome</code>) and <code>GOPVoteShare</code> once we include a list of (time-variant) covariates into our model. Note that in the FE models we are estimating effects of <code>Rain</code> within each individual election year and do <em>not</em> simply compare observations from different election years to each other.<br>
+
+</details>
+<p><br>
+</p>
+<hr>
+<section id="plm-function" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="plm-function"><span class="header-section-number">8.2.1</span> PLM Function</h3>
+<p><br>
+Rather than using <code>lm()</code> or <code>lm_robust()</code>. We can use the <code>plm()</code> function from the <code>plm</code> package that allows conducting unit and time fixed effect. The syntax is quite simple: <code>plm(formula, effect = "", model = "", index = c("unit", "year"), data = data)</code>. The <code>effect</code> argument sets what type of model you want to run, some of the options are “individual”, which is unit-fixed effect, “time” for time-fixed effects, and “twoways” for two-way fixed effects. The <code>model</code> argument determines the estimation method. If you want to calculate the coefficients by demeaning both dependent and independent variables, and then calculate estimates using deviations from the mean, you need to set <code>model</code> argument equal to <code>"within"</code>. What essentially happens with the “within” estimation is that subtracts group-specific means values from the dependent variable and explanatory variables, which removes unit-specific and time-specific effects. If you want to estimate the coefficients using the first difference estimator, you can set the <code>model</code> argument equal to <code>"fd"</code>. The <code>index</code> argument tells the function what is the structure of the data i.e.&nbsp;what variable contains the time periods and what variable contains the units, so we need to tell the function what variable is the entity identifiers and the time identifier.</p>
+<p>Now, let’s estimate this using a fixed-effects model, using the <code>plm()</code> function. Let’s start conducting time FE model for the <code>Turnout</code> variable for both “treatment” variables <code>Rain_Dev</code> and <code>Snow_Dev</code>. Let’s conduct the simplest version without covariates.</p>
+<p><strong>Exercise 7: Run time FE model for both weather variables (<code>Rain_Dev</code> and <code>Snow_Dev</code> in separate models), set <code>effects</code> equal to “time”. Set the model argument equal to <code>"within"</code> set the <code>index</code> argument equal to <code>c("FIPS_County", "Year")</code>. Store the output of your time FE model into an object and then use the <code>summary()</code> to check for your results. Interpret the results of both estimations.</strong></p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>turnout_time_plm_rain <span class="ot">&lt;-</span> <span class="fu">plm</span>(Turnout <span class="sc">~</span> Rain_Dev, <span class="at">effect =</span> <span class="st">"time"</span>, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"FIPS_County"</span>, <span class="st">"Year"</span>), <span class="at">data =</span> weather)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(turnout_time_plm_rain)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>turnout_time_plm_snow <span class="ot">&lt;-</span> <span class="fu">plm</span>(Turnout <span class="sc">~</span> Snow_Dev, <span class="at">effect =</span> <span class="st">"time"</span>, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"FIPS_County"</span>, <span class="st">"Year"</span>), <span class="at">data =</span> weather)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(turnout_time_plm_snow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We find that a unit increase on deviation of rainfall from a “normal” election day weather is associated with a <code>2.16</code> increase in turnout, once we include time-fixed effects. The effect of snowfalls seems to be smaller at <code>1.0105</code>. Note that the results of these bivariate models are in the opposite direction of what the authors found in their study. Let’s do the same but now let’s look at vote share for Republicans.</p>
+</details>
+<p><br>
+</p>
+<p><strong>Exercise 8: Run a time FE model using the <code>plm()</code> function, but look at the effect of rainfall and snowfall on the vote share for Republicans (<code>GOPVoteShare</code>). Remember to set the <code>effect</code> argument equal to <code>"time"</code> and time <code>model</code> argument equal to <code>within</code>. Store the output from the <code>plm()</code> function into an object. Use the <code>summary()</code> command check the results. Interpret the coefficient from the <code>Rain_Dev</code> and <code>Snow_Dev</code> “treatment” variables. Doabove average rainfalls and snowfalls increase or decrease GOP vote share? Are the results statistically significant?</strong></p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>gop_time_plm_rain <span class="ot">&lt;-</span> <span class="fu">plm</span>(GOPVoteShare <span class="sc">~</span> Rain_Dev, <span class="at">effect =</span> <span class="st">"time"</span>, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"FIPS_County"</span>, <span class="st">"Year"</span>), <span class="at">data =</span> weather)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gop_time_plm_rain)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>gop_time_plm_snow <span class="ot">&lt;-</span> <span class="fu">plm</span>(GOPVoteShare <span class="sc">~</span> Snow_Dev, <span class="at">effect =</span> <span class="st">"time"</span>, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"FIPS_County"</span>, <span class="st">"Year"</span>), <span class="at">data =</span> weather)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gop_time_plm_snow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We find that a unit increase in the deviation from the average rainfalls on election day is associated with an increase in vote share for the Republicans by 1.93 percent, once we control for time-FE. Meanwhile, a unit increase in the deviation from the average snowfall is associated with a 0.01 increase in vote share for Republicans. However, this last result is not statistically significant. These results are more in line with what the authors found in their study.</p>
+</details>
+<p><br>
+</p>
+<hr>
+</section>
+<section id="unit-fe" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="unit-fe"><span class="header-section-number">8.2.2</span> Unit-FE</h3>
+<p>With the <code>plm()</code> function we can also conduct unit-FE. We only need to do is to set the <code>effect</code> argument equal to <code>"individual"</code>. Let’s do that:</p>
+<p><strong>Exercise 9: Conduct a unit FE looking at the effect of weather on voter turnout (<code>Turnout</code>) and vote share for Republicans (<code>GOPVoteShare</code>). Use both measures of weather <code>Rain_Dev</code> and <code>Snow_Dev</code>. Store the output of your panel data estimations into an object and use the <code>summary()</code> function to check the results.</strong></p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Turnout - rain</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>turnout_unit_plm_rain <span class="ot">&lt;-</span> <span class="fu">plm</span>(Turnout <span class="sc">~</span> Rain_Dev, <span class="at">effect =</span> <span class="st">"individual"</span>, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"FIPS_County"</span>, <span class="st">"Year"</span>), <span class="at">data =</span> weather)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(turnout_unit_plm_rain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Turnout - snow</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>turnout_unit_plm_snow <span class="ot">&lt;-</span> <span class="fu">plm</span>(Turnout <span class="sc">~</span> Snow_Dev, <span class="at">effect =</span> <span class="st">"individual"</span>, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"FIPS_County"</span>, <span class="st">"Year"</span>), <span class="at">data =</span> weather)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(turnout_unit_plm_snow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># GOP vote share - rain </span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>gop_unit_plm_rain <span class="ot">&lt;-</span> <span class="fu">plm</span>(GOPVoteShare <span class="sc">~</span> Rain_Dev, <span class="at">effect =</span> <span class="st">"individual"</span>, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"FIPS_County"</span>, <span class="st">"Year"</span>), <span class="at">data =</span> weather)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gop_unit_plm_rain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># GOP vote share - snow  </span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>gop_unit_plm_snow <span class="ot">&lt;-</span> <span class="fu">plm</span>(GOPVoteShare <span class="sc">~</span> Snow_Dev, <span class="at">effect =</span> <span class="st">"individual"</span>, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"FIPS_County"</span>, <span class="st">"Year"</span>), <span class="at">data =</span> weather)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gop_unit_plm_snow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Using County-level FE, we find results that are in line with the findings reported by Gomez et al.&nbsp;We find that a unit increase in the deviation from the average weather on election day is associated with a decrease in voter turnout by 2.68 per cent. We find similar results for snow (-0.87). We also find having relatively bad weather favours Republicans by a sizeable 4.96 percentage point increase in their vote share.</p>
+</details>
+<hr>
+</section>
+<section id="two-way-fixed-effects-1" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="two-way-fixed-effects-1"><span class="header-section-number">8.2.3</span> Two-Way Fixed Effects</h3>
+<p><br>
+</p>
+<p>Now that we have conducted time and unit FE separately, but we can conduct a two-way FE model that controls for unit and time FE at the same time. In a two-ways FE model, we are controlling for all unit-specific time-invariant confounders and year-specific confounders that affect all units at the same time. To do this using the <code>plm()</code> is very simple, we only need to change the <code>effect</code> argument and set it equal to <code>twoways</code>.</p>
+<p><strong>Exercise 10: Conduct a two-way FE model looking at the effect of weather on voter turnout and GOP vote share. Use both measures of weather <code>Rain_Dev</code> and <code>Snow_Dev</code>. Set the <code>effect</code> argument equal to <code>"twoways"</code>. Store the outputs into objects and then use the <code>summary()</code> to check the results. </strong></p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># two-way Turnout - rain</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>turnout_twoway_plm_rain <span class="ot">&lt;-</span> <span class="fu">plm</span>(Turnout <span class="sc">~</span> Rain_Dev, <span class="at">effect =</span> <span class="st">"twoways"</span>, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"FIPS_County"</span>, <span class="st">"Year"</span>), <span class="at">data =</span> weather)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(turnout_twoway_plm_rain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># two-way Turnout - snow</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>turnout_twoway_plm_snow <span class="ot">&lt;-</span> <span class="fu">plm</span>(Turnout <span class="sc">~</span> Snow_Dev, <span class="at">effect =</span> <span class="st">"twoways"</span>, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"FIPS_County"</span>, <span class="st">"Year"</span>), <span class="at">data =</span> weather)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(turnout_twoway_plm_snow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># two-way GOP vote share - rain</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>gop_twoway_plm_rain <span class="ot">&lt;-</span> <span class="fu">plm</span>(GOPVoteShare <span class="sc">~</span> Rain_Dev, <span class="at">effect =</span> <span class="st">"twoways"</span>, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"FIPS_County"</span>, <span class="st">"Year"</span>), <span class="at">data =</span> weather)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gop_twoway_plm_rain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># two-way GOP vote share - rain</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>gop_twoway_plm_snow <span class="ot">&lt;-</span> <span class="fu">plm</span>(GOPVoteShare <span class="sc">~</span> Snow_Dev, <span class="at">effect =</span> <span class="st">"twoways"</span>, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"FIPS_County"</span>, <span class="st">"Year"</span>), <span class="at">data =</span> weather)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gop_twoway_plm_snow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We again find evidence that weather is associated with a decrease in turnout and an increase in the GOP vote share once we include time and unit fixed effects. With time and unit fixed effects we are controlling for all time-invariant confounders. We are also controlling for time-specific confounders, but a particular type of time-specific confounders, only those that affect all units in the same period of analysis. Thus, we need to further control for time-varying unit-specific confounders such as the average income or unemployment rates at the county levels, which are different from one County to another and also vary from one presidential cycle to another.</p>
+</details>
+<p><br>
+</p>
+<p><strong>Exercise 11: Run a two-way FE model looking at the effect of weather <strong>only</strong> on Turnout. The syntax is the same as <code>lm()</code>, you can include additional variables into your model by adding the variable name followed by a <code>+</code> sign between variables. Include the following covariates: <code>PcntBlack</code>, <code>ZPcntHSGrad</code>, <code>FarmsPerCap</code>, <code>AdjIncome</code> and <code>Literacy</code>. Store the output from your <code>plm()</code> estimations into separate objects and then use the <code>summary()</code> function to check the results. Again, conduct separate estimations one only using the <code>Rain_Dev</code> and another model using the <code>Snow_Dev</code> variable.</strong></p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># turnout - rain + covariates </span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>turnout_twoway_plm_rain_cov <span class="ot">&lt;-</span> <span class="fu">plm</span>(Turnout <span class="sc">~</span> Rain_Dev <span class="sc">+</span> PcntBlack <span class="sc">+</span> ZPcntHSGrad <span class="sc">+</span> FarmsPerCap <span class="sc">+</span> AdjIncome <span class="sc">+</span> Literacy, <span class="at">effect =</span> <span class="st">"twoways"</span>, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"FIPS_County"</span>, <span class="st">"Year"</span>), <span class="at">data =</span> weather)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(turnout_twoway_plm_rain_cov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># turnout - snow + covariates </span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>turnout_twoway_plm_snow_cov <span class="ot">&lt;-</span> <span class="fu">plm</span>(Turnout <span class="sc">~</span> Snow_Dev <span class="sc">+</span> PcntBlack <span class="sc">+</span> ZPcntHSGrad <span class="sc">+</span> FarmsPerCap <span class="sc">+</span> AdjIncome <span class="sc">+</span> Literacy, <span class="at">effect =</span> <span class="st">"twoways"</span>, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"FIPS_County"</span>, <span class="st">"Year"</span>), <span class="at">data =</span> weather)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(turnout_twoway_plm_snow_cov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+<p><br>
+</p>
+<p>Now let’s report the FE models only for the <strong>turnout</strong> outcome variable into a single regression table. Let’s also only report for the <strong>rainfall</strong> variable (otherwise we will have 14 models). Let’s use <code>screenreg()</code> and let’s compare the results. You can store all of the outputs into one single <code>list()</code> and give them names, as you can see below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>plm_models <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"Time fixed effect"</span> <span class="ot">=</span> turnout_time_plm_rain,</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"Unit fixed effect"</span> <span class="ot">=</span>  turnout_unit_plm_rain,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"Twoway"</span> <span class="ot">=</span> turnout_twoway_plm_rain,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"Twoway + cov"</span> <span class="ot">=</span> turnout_twoway_plm_rain_cov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Exercise 12: Report in a regression table the following modes: time FE, unit FE, Two ways and two ways FE models for the rainfall variable (<code>Rain_Dev</code>) and only the voter turnout (<code>Turnout</code>) outcome. Use the <code>screenreg()</code> function.</strong></p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">screenreg</span>(plm_models,</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">stars =</span> <span class="fl">0.05</span>,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">custom.coef.names =</span> <span class="fu">c</span>(<span class="st">"Rain"</span>, <span class="st">"% Black "</span>, <span class="st">"Graduates"</span>, <span class="st">"Rural"</span>, <span class="st">"Income"</span>, <span class="st">"Literacy"</span>),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">reorder.coef =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">2</span> ,<span class="dv">6</span>),</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">caption =</span> <span class="st">"Fixed effects models - Voter turnout"</span>,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">caption.above =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+<p><br>
+</p>
+<p>One limitation with the <code>plm()</code> function is that it calculates clustered standard errors without correcting for small samples and not reducing downward bias. The data that we are using is far from small, but when you are dealing with small panels, you may want to try to conduct this small sample correction. For that, we can use the <code>coeftest()</code> and <code>vcovHC()</code> function to obtain cluster-robust standard errors and draw inference based on robust standard errors.</p>
+<p>The syntax’s a little bit tricky, but let’s look at the code below from the inside out. The first function is <code>vcovHC()</code> function. <code>vcovHC()</code> calculates heteroscedasticity-consistent standard errors or aka “HC1”. Then, once we calculate our standard errors, we can perform a z/quasi-t Wald test using the <code>coeftest()</code> using the standards errors that we estimated from the <code>vcovHC()</code>. The first argument inside of the <code>vcovHC()</code> function is the object where you stored the output from your fixed-effect model from <code>plm()</code>. The second argument is <code>type</code>. This is the type of small sample adjustment that we want to make. “HC1” is the commonly used approach to correct for small samples, so we can set <code>type</code> equal to <code>"HC1"</code>. Finally, the third argument is <code>cluster</code> is an argument that we can use to determine whether we want to obtain the variance-covariance matrix clustered by units (<code>"groups"</code>) either or by time (<code>"time"</code>). You can set both by setting the argument <code>cluster = c("group", "time")</code>. Then, the second function is <code>coeftest()</code>. The first argument of this function is the object where you stored your output from <code>plm()</code>. The second argument <code>vcov</code> is the variance-covariance matrix of the estimated coefficients. In this case, rather than using the non-robust variance-covariance matrix from the <code>plm()</code> function, we will use the White’s heteroscedasticity-consistent covariance matrix that we obtained from the <code>vcovHC()</code> function. Using this matrix also allow us to overcome with serial correlation, cross-sectional dependent and heteroscedasticity across groups and time. You see the syntax below for the two-way fixed effect model where we looked at the effect of rainfalls on voter turnout, including covariates.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>out_rain_cov <span class="ot">&lt;-</span> <span class="fu">coeftest</span>(turnout_twoway_plm_rain_cov, <span class="at">vcov =</span> <span class="fu">vcovHC</span>(turnout_twoway_plm_rain_cov, <span class="at">type =</span> <span class="st">"HC1"</span>, <span class="at">cluster =</span> <span class="fu">c</span>(<span class="st">"group"</span>, <span class="st">"time"</span>)))</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>out_rain_cov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>It’s important to separate estimation from inference, so first we got our point estimate, which is equal <code>-1.23</code>, but when we want to make inference from this point estimate, we need to make the appropriate adjustments to yield accurate standard errors. If you see the “unadjusted” standard errors from <code>plm()</code> of the Rainfall variable were 0.159, but once we did this small sample bias correct, they changed to 0.170, which is not that much, a roughly 6% increase. Presumably the standard errors did not change substantially given that we are working with a relatively large sample. In other cases, the change might well have a meaningful impact on the interpretation of your findings.</p>
+<p>Now obtain the estimates of the two-way fixed effect model of snowfalls on voter turnout and adjust your standard errors.</p>
+<p><strong>Exercise 13: Perform the small sample correction to the standard errors obtained from the two-way FE with covariates, do this for the model that looks at the effect of snowfall (<code>Snow_Dev</code>) on voter turnout (<code>Turnout</code>). Compare the standard errors to the “unadjusted” standard errors obtained from <code>plm()</code>.</strong></p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(turnout_twoway_plm_snow_cov)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>out_snow_cov <span class="ot">&lt;-</span> <span class="fu">coeftest</span>(turnout_twoway_plm_snow_cov, <span class="at">vcov =</span> <span class="fu">vcovHC</span>(turnout_twoway_plm_snow_cov, <span class="at">type =</span> <span class="st">"HC1"</span>, <span class="at">cluster =</span> <span class="fu">c</span>(<span class="st">"group"</span>, <span class="st">"time"</span>)))</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>out_snow_cov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can see that without the small sample adjustment, the standard errors were 0.136, but once we did this small sample adjustment we got slightly larger standard errors (0.167). They don’t seemed to change that much, but actually this is a 22% increase, which may radically change whether your results are statistically significant or not!</p>
+</details>
+<p><br>
+</p>
+<hr>
+</section>
+<section id="fixed-effects-or-random-effects" class="level3" data-number="8.2.4">
+<h3 data-number="8.2.4" class="anchored" data-anchor-id="fixed-effects-or-random-effects"><span class="header-section-number">8.2.4</span> Fixed Effects or Random Effects?</h3>
+<p>So far we have looked at fixed effects using the <code>lm()</code> and <code>plm()</code> functions, assuming that we should run a fixed effect model. But which model should we go with? Let’s now test whether time-FE or random effects is the more appropriate model.Recall the differences between the two estimators.<br>
+</p>
+<p>The <strong>fixed effects estimator</strong> - or <em>within estimator</em> accounts for unobserved heterogeneity that is correlated with the independent covariates. In this model, the group means are fixed, with each one having a separate intercept - recall the year-dummies in the models above. For the time-fixed effects in our example this means we are essentially looking at the unit-demeaned data for each time period. In other words, we are looking at the variation across units <em>within</em> a certain year - i.e.&nbsp;for each presidential election In other words, we are estimating our coefficient while time is fixed.<br>
+</p>
+<p><span class="math display">\[FE:  Y_{i,t} = \alpha_i + \beta_1 X_{i,t} + u_{i,t}\]</span></p>
+<p>In the case of a <strong>random effects model</strong>, we assume that <span class="math inline">\(\alpha_i\)</span> has zero mean. In other words, instead of using fixed means per group, the group means are a random sample of a population. While the fixed effects model ‘gets rid’ of unobserved time-invariant heterogeneity (<span class="math inline">\(\alpha_i\)</span>), the random effects model makes the assumption that the unobserved effect is uncorrelated with the explanatory variables. If the assumption holds, the random effects estimator is more efficient as it accounts for <span class="math inline">\(\alpha_i\)</span> or time-invariant covariates. In essence, the random effects model is a weighted average of the <em>within estimator</em> and a <em>between estimator</em> that looks at effects between units.<br>
+</p>
+<p><span class="math display">\[RE: Y_{i,t} = \alpha_i + \beta_0 + \beta_1 X_{i,t,1} + \beta_2 X_{i,t,2} + u_{i,t}\]</span></p>
+<p>We can use two different tests to check our data in order to find out which model is more appropriate. First, the <em>Hausman-Test</em> (sometimes also called <em>Durbin–Wu–Hausman test</em>) analyses the difference of the vectors of the coefficients of the two models under the null hypothesis that the models’ estimates are consistent. If the test finds that the models are consistent, we choose the random effects model as it is <em>more efficient</em> than the fixed effects model. However, the random effects model is inconsistent if there indeed is unobserved heterogeneity correlated with the covariates due to omitted variables, in which case the FE estimator should always be preferred.<br>
+</p>
+<p>An <em>F-Test</em> looks at whether any additional effects - such as one-way or two-way effects - are predictive of the outcome. That is, it tests the effects introduced in a within-model as compared to another model such as a random effects model. If the effects of the within-estimator are not significant, we can, again, use the random effects model to increase the efficiency of our estimators. If this is not the case, we go with FE, which is always unbiased with regard to unobserved heterogeneity that is constant over time.<br>
+</p>
+<p>Let’s now conduct the tests. To do so, we first specify <em>fixed-effects</em> and <em>random effects</em> models using the <code>plm</code> package. The syntax is essentially the same as for <code>lm()</code>. However, you need to add the <code>model</code> argument as well as the <code>index</code> argument to specify the time variable (for fixed effects) and the unit and time variables (for random effects).<br>
+</p>
+<p><strong>Exercise 14: Specify a time-fixed effects and random effects model using <code>plm()</code>.Run this panel data estimation for the GOP vote share outcome. Include the same covariates that we included before. Store the outputs from these models into different objects.</strong></p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(plm)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Time-FE. </span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>FE_time <span class="ot">&lt;-</span> <span class="fu">plm</span>(GOPVoteShare <span class="sc">~</span> Rain <span class="sc">+</span> PcntBlack <span class="sc">+</span> ZPcntHSGrad <span class="sc">+</span> FarmsPerCap <span class="sc">+</span> AdjIncome <span class="sc">+</span> Literacy, <span class="at">model=</span> <span class="st">"within"</span>, <span class="at">index=</span><span class="st">"Year"</span>, <span class="at">data=</span>weather)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Note: The identical model can be specified by explicitly indicating time-FE:</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co">#FE_time2 &lt;- plm(GOPVoteShare ~ Rain + PcntBlack + ZPcntHSGrad + FarmsPerCap + AdjIncome + Literacy, model= "within", effect="time", index=c("FIPS_County","Year"), data=weather)</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Random Effects</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>random <span class="ot">&lt;-</span> <span class="fu">plm</span>(GOPVoteShare <span class="sc">~</span> Rain <span class="sc">+</span> PcntBlack <span class="sc">+</span> ZPcntHSGrad <span class="sc">+</span> FarmsPerCap <span class="sc">+</span> AdjIncome <span class="sc">+</span> Literacy, <span class="at">model=</span> <span class="st">"random"</span>, <span class="at">index=</span><span class="fu">c</span>(<span class="st">"FIPS_County"</span>, <span class="st">"Year"</span>), <span class="at">data=</span>weather)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+<p><br>
+</p>
+<p><strong>Exercise 15: Conduct both a <code>Hausman test</code> and <code>F-test</code> using the models you just specified. Interpret your results.</strong><br>
+</p>
+<p>You can use the <code>phtest</code> and <code>pFtest</code>commands for Hausman and F-Tests, respectively. The syntax is simple and similar for both: <code>command(Model1, Model2)</code>.</p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">phtest</span>(FE_time, random)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pFtest</span>(FE_time, random)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>What do the tests tell us? In the case of the Hausman test, we can reject the null hypothesis of consistency and find that the models are inconsistent. The F-test shows us that we can reject the null hypothesis of no significant effects in the fixed-effects model: The FE model indeed adds significant effects. So, both models would caution us against using the random effects model and make us choose the FE estimator. Both tests giving us the same indication is the best outcome as we can be pretty sure about the need to choose the FE model. However, in some cases you might get two different indications - in which case it usually is a good choice to choose the conservative option: the unbiased but (possibly) inefficient FE estimator.</p>
+</details>
+<p><br>
+</p>
+<hr>
+</section>
+<section id="first-differences" class="level3" data-number="8.2.5">
+<h3 data-number="8.2.5" class="anchored" data-anchor-id="first-differences"><span class="header-section-number">8.2.5</span> First Differences</h3>
+<p>Let’s now finally look at another estimator that can be of use when working with panel data. The <strong>First Difference Estimator</strong> looks at the differences between time units. Similar to the FE estimator, time invariant unit-specific covariates are dropped from the model as it <em>only</em> considers changes from one time period to the other:</p>
+<p><span class="math display">\[FD: \Delta Y_i = \delta +  \beta_1 \Delta X_{i1} + \beta_2 \Delta X_{i2} + \Delta v_i\]</span></p>
+<p>You might have noticed a similarity to the FE estimator. While the FE estimator demeans over units or times, the FD estimator considers differences over time periods. Accordingly, the first difference estimator is identical to the FE estimator <strong>if</strong> the number of time periods is two: Whenever this is the case, the differencing of the FD estimator and the demeaning of the FE estimator are equivalent.</p>
+<p><strong>Exercise 16: Estimate the first difference estimator using the same model specification as in Exercise 6.</strong><br>
+</p>
+<p>Make sure to use the <code>plm</code> package and the specify the FD estimator with the argument <code>model="fd"</code> and to specify the unit and time variable using the <code>index</code> argument.</p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fd_model  <span class="ot">&lt;-</span> <span class="fu">plm</span>(GOPVoteShare <span class="sc">~</span> Rain <span class="sc">+</span> PcntBlack <span class="sc">+</span> ZPcntHSGrad <span class="sc">+</span> FarmsPerCap <span class="sc">+</span> AdjIncome <span class="sc">+</span> Literacy,<span class="at">data=</span>weather,<span class="at">effect=</span><span class="st">"individual"</span>,<span class="at">model=</span><span class="st">"fd"</span>,<span class="at">index=</span><span class="fu">c</span>(<span class="st">"FIPS_County"</span>,<span class="st">"Year"</span>))</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fd_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<p>The output of the FD estimator indicates the association of the effect of a change in an independent variable from one time period to the the following period for the same unit. That is, if <code>Rain</code> in a county increase by one inch, Republican vote share is estimated be <code>8%-points</code> higher on average in the next period. Note that the FD estimator does not consider longer time effects, i.e.&nbsp;those that have an effect beyond the following time period. This might be useful if we have strong reasons to believe this is what happens, otherwise the FE estimator is generally the more powerful estimator.</p>
+</details>
+<p><br>
+</p>
+<hr>
+</section>
+<section id="homework" class="level3" data-number="8.2.6">
+<h3 data-number="8.2.6" class="anchored" data-anchor-id="homework"><span class="header-section-number">8.2.6</span> HOMEWORK:</h3>
+<p>Now let’s go back estimating the effect of weather on voter turnout. We also can look at the extensive and intensive margin of weather on vote turnout. Extensive margin refers to a discrete change in the level to which an activity or intervention takes place. For example, going from normal daily election weather to a day that is above this average. Let’s dichotomise the <code>Rain_Dev</code> and <code>Snow_Dev</code> variable. Let’s set 1 for any day that the weather is worse than normal (<code>Rain_Dev &gt; 0</code> or <code>Snow_Dev &gt; 0</code>) .Meanwhile, intensive margin refers to the degree (intensity) to which a resource is utilised, but more broadly on how strong the intervention is, which is basically what we did before.</p>
+<p><strong>Homework 1: Create a dummy variable </strong></p>
+<br>
+
+<details>
+<summary>
+<em>Homework 1</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>weather <span class="ot">&lt;-</span> weather <span class="sc">%&gt;%</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dummy_rainfall =</span> <span class="fu">ifelse</span>(Rain_Dev <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">dummy_snowfall =</span> <span class="fu">ifelse</span>(Snow_Dev <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 9616 County - election day with rainfall above election day county average</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(weather<span class="sc">$</span>dummy_rainfall)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a> <span class="co"># 2439 County - election day with snowfalls above election day county average</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(weather<span class="sc">$</span>dummy_snowfall)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+<p><br>
+</p>
+<p><strong>Homework 2: Run <code>plm()</code> looking at the extensive margin of weather on voter turnout. Use the <code>plm()</code> function. Include the same covariates that we used in the previous exercise. Set the <code>model</code> argument equal to <code>"within"</code> and set the <code>effect</code> argument equal to <code>"twoways"</code> so we can get the estimates of a two-way FE.</strong></p>
+<br>
+
+<details>
+<summary>
+<em>Homework 2</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>extensive_rain_cov <span class="ot">&lt;-</span> <span class="fu">plm</span>(Turnout <span class="sc">~</span> dummy_rainfall <span class="sc">+</span> PcntBlack <span class="sc">+</span> ZPcntHSGrad <span class="sc">+</span> FarmsPerCap <span class="sc">+</span> AdjIncome <span class="sc">+</span> Literacy, <span class="at">effect =</span> <span class="st">"twoways"</span>, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"FIPS_County"</span>, <span class="st">"Year"</span>), <span class="at">data =</span> weather)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(extensive_rain_cov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+<p><br>
+</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./diff.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Difference-in-difference</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./rdd.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regression Discontinuity Design</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,60 @@
+{
+  "index.qmd": {
+    "index.html": "46b42b22",
+    "index.tex": "cd999b42"
+  },
+  "intro.qmd": {
+    "intro.html": "a45f7bf6",
+    "intro.tex": "4ed76940"
+  },
+  "summary.qmd": {
+    "summary.html": "6945d686",
+    "summary.tex": "6d7f768f"
+  },
+  "references.qmd": {
+    "references.html": "f9f31c6d"
+  },
+  "diff.qmd": {
+    "diff.html": "6bc191ee",
+    "diff.tex": "af112e93"
+  },
+  "iv.qmd": {
+    "iv.html": "113295d0"
+  },
+  "panel.qmd": {
+    "panel.html": "be496734"
+  },
+  "rdd.qmd": {
+    "rdd.html": "89692fa6",
+    "rdd.tex": "e6cf0d39"
+  },
+  "frdd.qmd": {
+    "frdd.html": "d42152aa",
+    "frdd.tex": "f96623d9"
+  },
+  "experiments.qmd": {
+    "experiments.html": "aa456688"
+  },
+  "matching.qmd": {
+    "matching.html": "3c3457fb"
+  },
+  "noncompliance.qmd": {
+    "noncompliance.html": "869bf3d6"
+  },
+  "quarto create document.qmd/intro.qmd": {
+    "intro.html": "d874265d",
+    "intro.tex": "1b9461b8"
+  },
+  "quarto create document.qmd/index.qmd": {
+    "index.html": "163b77de",
+    "index.tex": "1e17ebec"
+  },
+  "quarto create document.qmd/summary.qmd": {
+    "summary.html": "b3f412a7",
+    "summary.tex": "655e764e"
+  },
+  "quarto create document.qmd/references.qmd": {
+    "references.html": "47941990",
+    "references.tex": "cb4a4eaf"
+  }
+}

@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>diff</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="diff.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+<section id="difference-in-difference" class="level1">
+<h1>Difference-in-difference</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>greekislands <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"greekislands.dta"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>greekislands <span class="ot">&lt;-</span> greekislands <span class="sc">%&gt;%</span> </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">evertr =</span> treat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<p><br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("downloadthis")</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(downloadthis)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">download_link</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">link =</span> <span class="st">"https://github.com/bayreuth-politics-ci/CI22/raw/gh-pages/docs/data/greekislands.dta.dta"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_name =</span> <span class="st">"greekislands"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_extension =</span> <span class="st">".dta"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">button_label =</span> <span class="st">"Lab 6 Data"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">button_type =</span> <span class="st">"success"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">has_icon =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">self_contained =</span> <span class="cn">TRUE</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#download_link(</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#  link = "https://github.com/dpir-ci/CI22/raw/gh-pages/docs/lectures/lecture4.pdf",</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#  output_name = "week5",</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#  output_extension = ".pdf",</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#  button_label = "Lecture Slides",</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#  button_type = "default",</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">#  has_icon = FALSE,</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">#  self_contained = FALSE</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">#)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+</section>
+<section id="recap" class="level2">
+<h2 class="anchored" data-anchor-id="recap">Recap</h2>
+<p>The intuition of the DD strategy is to combine two simpler approaches. The first difference (before and after) eliminates unit-specific fixed effects. Then, the second difference eliminates time fixed effects. With this approach, we get an unbiased estimate of a (policy) intervention.</p>
+<p>We learned that we can break down the difference between treated units and untreated units in post-treatment as the Average Treatment Effect Amongst the Treated (ATT), different time trends and selection bias. However, we can impose additional estimation assumptions to retrieve a credible estimate of the effect of treatment. The key assumption in diff-in-diff studies is the so-called <strong>Parallel Trends</strong> or <strong>Common Trends</strong> assumption. This assumption states that in the absence of the treatment/policy, we should expect to see that treated units would follow similar trends to the untreated ones. Unfortunately, we cannot test whether this assumption holds, but we can at least conduct some tests that would be indicated that the <strong>Parallel Trends</strong> holds.</p>
+<p>We also learned that we can calculate the ATT in different ways. We learned that we can manually calculate the difference-in-difference estimator.</p>
+<ul>
+<li><strong>Group-period interactions</strong>: Here the treatment variable is equal to 1 for all the years since the unit received the treatment. Then, our coefficient of interest is captured by the interaction between the treatment and the time variable.</li>
+</ul>
+<p>If you go back to the Golden Dawn, we can see how we retrieve the beta coefficient from the interaction.</p>
+<p><span class="math display">\[gdper_{mt} = \beta_0 + \beta_1eventr_m + \beta_2post_t + \beta_3evertr_m \times post_t + u_{mt}\]</span></p>
+<table class="table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 29%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;"><strong>Post = 0</strong></th>
+<th style="text-align: center;"><strong>Post = 1</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Treat = 0</strong></td>
+<td style="text-align: center;"><span class="math inline">\(\beta_0 + u_{mt}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\beta_0 + \beta_2 + u_{mt}\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>Treat = 1</strong></td>
+<td style="text-align: center;"><span class="math inline">\(\beta_0 +\beta_1 + u_mt\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\beta_0 + \beta_1 + \beta_2 + \beta_3 + u_{mt}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Then, we can get our estimate by the calculating the difference of the outcome variable for both treated and untreated units and, and then subtract these differences:</p>
+<p><span class="math display">\[((\beta_0 + \beta_1  + \beta_2 + \beta_3 + u_{mt}) - (\beta_0 + \beta_1 + u_mt)) -((\beta_0 + \beta_2 + u_{mt})-(\beta_0 + u_{mt}))\]</span> <span class="math display">\[(\beta_2 + \beta_3) -(\beta_2)\]</span> <span class="math display">\[\beta_3\]</span> - <strong>Unit and time dummies and a treatment indicator</strong>: Again, in the case of the Golden Dawn example, we can represent this estimation strategy using the following regression model:</p>
+<p><span class="math display">\[gdper_{mt} =  \beta_1treatment_{mt} + \alpha_m \text{unit dummy} + \gamma_t \text{time dummy} +  u_{mt}\]</span> For treated before treated <span class="math inline">\(Treatment = 0\)</span>:</p>
+<p><span class="math display">\[gdper_{mt} =  \beta_1\times 0 + \alpha_m \times 1 + \gamma_t \times +  u_{mt}\]</span> <span class="math display">\[gdper_{mt} = \alpha_m + \gamma_t + u_{mt}\]</span> For treated after treated <span class="math inline">\(Treatment = 1\)</span>:</p>
+<p><span class="math display">\[gdper_{mt} = \beta_1 +  \alpha_m + \gamma_t + u_{mt}\]</span> Then, we can take the difference before and after:</p>
+<p><span class="math display">\[(\beta_1 +  \alpha_m + \gamma_t + u_{mt}) - (\alpha_m + \gamma_t + u_{mt})\]</span> <span class="math display">\[\beta_1\]</span> Again we are levering the parallel trends assumption by assuming that time-trends are the same for both treated and untreated units.</p>
+<p>Finally, we discussed inference and in particular standard errors. Given that we have repeated observations, this type of data exhibits serially correlated regressors and residuals, we need to make the appropriate adjustments to calculate standard errors. One way is to address this is to use clustered standard errors.<br>
+</p>
+<p><strong>Before starting this seminar</strong></p>
+<ol type="1">
+<li><p>Create a folder called “lab6”</p></li>
+<li><p>Download the data (you can use this button or the one at the top, or read csv files directly from github):</p></li>
+<li><p>Open an R script (or Markdown file) and save it in our “lab6” folder.</p></li>
+<li><p>Set your working directory using the setwd() function or by clicking on “More“. For example <em>setwd(“~/Desktop/Causal Inference/2022/Lab6”)</em></p></li>
+<li><p>Let’s install an load the packages that we will be using in this lab:</p></li>
+</ol>
+<p><br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jtools) <span class="co"># generate plots with regression coefficients</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stargazer) <span class="co"># generate formated regression tables </span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(texreg) <span class="co"># generate formatted regression tables</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># to conduct some tidy operations</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co"># to generate plots </span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plm) <span class="co"># conduct one-way and two-way fixed effects </span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr) <span class="co">#  to conduct ols and provides robust standard errors</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest) <span class="co"># calculates the variance-covariance matrix to be clustered by group.</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sandwich) <span class="co"># to calculate heteroscedasticity-Consistent Covariance Matrix Estimation</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven) <span class="co"># upload dta files </span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("wesanderson")</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wesanderson) <span class="co"># Wes Anderson palette (Let's make our plots as Indie as possible)</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("modelsummary")</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="seminar-overview" class="level2">
+<h2 class="anchored" data-anchor-id="seminar-overview">Seminar Overview</h2>
+<p>In this <strong>seminar</strong>, we will cover the following topics:<br>
+1. “Manually” calculate the difference-in-difference estimator”<br>
+2. Obtaining the difference in difference estimator using the <code>lm()</code> function<br>
+3. Check for parallel trends<br>
+4. Conduct a fixed effect in difference in difference estimation using both <code>lm_robust()</code> and <code>plm()</code> function.<br>
+4. Conduct a placebo test<br>
+</p>
+</section>
+<section id="waking-up-the-golden-dawn-does-exposure-to-the-refugee-crisis-increase-support-for-extreme-right-parties-dinas-et-al-2018" class="level2">
+<h2 class="anchored" data-anchor-id="waking-up-the-golden-dawn-does-exposure-to-the-refugee-crisis-increase-support-for-extreme-right-parties-dinas-et-al-2018">Waking Up the Golden Dawn: Does Exposure to the Refugee Crisis Increase Support for Extreme-Right Parties? (Dinas et al, 2018)</h2>
+<p>The main question of this paper is the following: <strong>Did the influx of refugees in Greece increase support for the right-wing Golden Dawn party in 2015?</strong></p>
+<p>The authors exploit that the Aegean islands close to the Turkish border experienced sudden and drastic increases in the number of Syrian refugees while other islands slightly farther away—but with otherwise similar institutional and socio-economic characteristics—did not.</p>
+<p>We can see here on the Figure in the left that level of exposure to refugees across the Aegean islands. The figure on the right shows how sudden was the influx of refugees.</p>
+<section id="timing" class="level3">
+<h3 class="anchored" data-anchor-id="timing">Timing</h3>
+<ul>
+<li>The refugee crisis started in the spring of 2015</li>
+<li>Greece held an election September, 2015, right after the first wave of refugee arrival, where in the data is coded as 1 for the <code>post</code> variable and coded as year 2016</li>
+<li>The previous election had taken place only eight months prior in January 2015, before significant number of refugees arrived, which is coded in the data as year 2015.</li>
+<li>Two more elections were held in 2012. The election in May 2012 is coded as 2012 and the election in June 2013 is coded as 2013.<br>
+</li>
+<li>The unit of analysis are municipalities</li>
+</ul>
+<p>Now let’s familiarise ourselves with the data. A description of some of the variables that we will use today is below:</p>
+<table class="table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 83%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Year</code></td>
+<td>Election Year from 2012 to 2016</td>
+</tr>
+<tr class="even">
+<td><code>municipality</code></td>
+<td>Municipality id</td>
+</tr>
+<tr class="odd">
+<td><code>post</code></td>
+<td>A dummy variable that switches on year 2016</td>
+</tr>
+<tr class="even">
+<td><code>treatment</code></td>
+<td>A dummy variable indicating if the municipality received refugees on the 2016 election</td>
+</tr>
+<tr class="odd">
+<td><code>evertr</code></td>
+<td>Treatment variable indicating if the municipality received refugees</td>
+</tr>
+<tr class="even">
+<td><code>gdper</code></td>
+<td>Vote share for the Golden Dawn at the municipality level as percentage of total votes</td>
+</tr>
+</tbody>
+</table>
+<p>Now let’s load the data. There are two ways to do this:</p>
+<p>You can load the dataset from your laptop using the <code>read_dta()</code> function. We will call this data frame <strong>greekislands</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set your working directory</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd("~/Desktop/Causal Inference/2022/Lab6")</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd("/cloud/project")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Or you can download the data from the course website from following url: https://github.com/bayreuth-politics/CI22/raw/gh-pages/docs/data/greekislands.dta.dta.</p>
+<p>Let’s start by checking our data as always.</p>
+<p><strong>Exercise 1: Use the <code>head()</code> function to familiarise yourself with the data set.</strong><br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>greekislands <span class="ot">&lt;-</span> greekislands <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(muni) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">treat =</span> <span class="fu">max</span>(treatment))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(greekislands)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is what we would expect. Recall that the <code>treat</code> variable indicates municipalities that are treated at some point - independent of the timing -, while the <code>treatment</code> variable marks municipalities after they were treated.</p>
+</details>
+<p><br>
+</p>
+<p>As we can see, the data set covers multiple election years. Before working with the data, let’s make sure we know how many and which elections are included in the data.<br>
+</p>
+<p><strong>Exercise 2: How many elections, i.e.&nbsp;<code>years</code> are covered by the data?</strong><br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(greekislands<span class="sc">$</span>year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+Using the <code>unique</code> command, we find that four elections are covered by the data: The elections that took place in 2012, 2013, 2015, and 2016.</p>
+</details>
+<p><br>
+</p>
+<p>Let’s have a look at general voting patterns of the <em>Golden Dawn</em> over time, irrespective of treatment status of municipalities.</p>
+<p><strong>Exercise 3: Plot the vote share of the Golden Dawn Party (<code>gdper</code>) over time.</strong></p>
+<p>There are several ways to do this. For instance, you could plot the dispersion across municipalities by using the <code>boxplot</code> command or, alternatively, calculate average values per year. Feel free to pick the option you deem most appropriate.<br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First option: Boxplot</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(gdper <span class="sc">~</span> year, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> greekislands, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Election Year"</span>, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Golden Dawn Vote Share"</span>, </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">las =</span> <span class="dv">2</span>) <span class="co"># This argument rotates the axis labels</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Second Option: Plot averages</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculating and storing means</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>average_data <span class="ot">&lt;-</span> greekislands <span class="sc">%&gt;%</span> </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>            <span class="fu">summarize</span>(<span class="at">gd_averages =</span> <span class="fu">mean</span>(gdper))</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting means using ggplot</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(average_data, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> gd_averages)) <span class="sc">+</span> </span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Election Year"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Average GD Vote Share"</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="dv">0</span>,<span class="fl">6.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<p>We can se that the vote share for the Golden Dawn party has remained somewhat stable between the 2012 and 2013 elections, and dropped in the 2015 election to an average value (per municipality) of 4.46%. In the 2016 election, the party’s vote share rose substantively - to a new high of 6%.</p>
+</details>
+<p><br>
+</p>
+</section>
+</section>
+<section id="differences-in-differences" class="level2">
+<h2 class="anchored" data-anchor-id="differences-in-differences">Differences-in-Differences</h2>
+<p><br>
+</p>
+<p>Being aware of the general trends of the Golden Dawn’s vote share is an important information about context and the party’s history. However, it cannot tell us anything about the treatment effect we seek to analyse: The arrival of refugees in some Greek municipalities in the summer of 2015.<br>
+</p>
+<p>A naive observer might propose identifying this effect by looking at the differences between treated and untreated units in the post-treatment periods. Would this, however, be an appropriate representation of a possible treatment effect? It clearly would not! Comparing post-treatment differences only doesn’t allows us to account for unit/municipality-specific effects and voting patterns. Treatment, after all, was not assigned randomly. We would not be able to say what the effect of the treatment is unless we can make a statement about how the treatment changed the outcome or resulted in the diversion from a previous trajectory. Using a <em>differences-in-differences</em> design allows us to do so.</p>
+<p><strong>Exercise 4: Estimate the treatment effect by calculating differences-in-differences between 2015 and 2016 using the <code>mean()</code> function.</strong><br>
+</p>
+<p><em>Hint: Calculate the differences between treated and untreated units for the years 2015 and 2016 first.</em></p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Difference in means between treated and untreated in 2016 (pot-treatment).</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>post_difference <span class="ot">&lt;-</span> <span class="fu">mean</span>(greekislands<span class="sc">$</span>gdper[greekislands<span class="sc">$</span>treat <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> greekislands<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">2016</span>]) <span class="sc">-</span>  <span class="fu">mean</span>(greekislands<span class="sc">$</span>gdper[greekislands<span class="sc">$</span>treat <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> greekislands<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">2016</span>])</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>post_difference</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Difference in means between treated and untreated in 2015 (pre-treatment).</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>pre_difference <span class="ot">&lt;-</span> <span class="fu">mean</span>(greekislands<span class="sc">$</span>gdper[greekislands<span class="sc">$</span>treat <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> greekislands<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">2015</span>]) <span class="sc">-</span>    <span class="fu">mean</span>(greekislands<span class="sc">$</span>gdper[greekislands<span class="sc">$</span>treat <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> greekislands<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">2015</span>])</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>pre_difference</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Now calculate the difference between the two differences above</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>diff_in_diff <span class="ot">&lt;-</span> post_difference <span class="sc">-</span> pre_difference</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>diff_in_diff</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>&nbsp;</p>
+The difference in the Golden Dawn’s vote share between treated and untreated municipalities has increased in 2016. The differences-in-differences amount to <code>2.12</code>. This suggests that the treatment (i.e.&nbsp;the arrival of refugees) increased the vote share of the golden dawn by roughly 2%points in the affected municipalities.
+</details>
+<p><br>
+</p>
+<p>While it is important to understand what exactly the difference-in-difference means, we usually do not have to calculate it manually. In fact, we can simply use an OLS to estimate differences-in-differences.<br>
+</p>
+<p><strong>Exercise 5: Estimate the difference-in-difference between 2015 and 2016 using an OLS regression.</strong></p>
+<details>
+<summary>
+<em>Hint</em>
+</summary>
+You can run a simple OLS with the interaction term of <em>treat</em> and a dummy variable for the post-treatment period as independent variables. However, you should restrict the data to the years 2015 and 2016, specifying <code>data = greekislands[greekislands$year&gt;=2015,]</code> as argument for your OLS.
+</details>
+<p><br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a post-treatment period (i.e. 2016) dummy</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>greekislands<span class="sc">$</span>post_treatment <span class="ot">&lt;-</span> greekislands<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">2016</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>ols_did <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(gdper <span class="sc">~</span> evertr <span class="sc">*</span> post_treatment, <span class="at">data =</span> greekislands[greekislands<span class="sc">$</span>year<span class="sc">&gt;=</span><span class="dv">2015</span>,])</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ols_did)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(ols_did),<span class="at">digits=</span><span class="fu">max</span>(<span class="dv">3</span>, <span class="fu">getOption</span>(<span class="st">"digits"</span>) <span class="sc">-</span> <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+The estimate for the interaction term, i.e.&nbsp;treated units after they were treated, corresponds to the difference-in-differences. As you can see, the OLS provides exactly the same point estimate as the manual calculation of the difference-in-differences, <code>2.12</code> - however, the OLS also provides measures of uncertainty, showing us that the estimate is significant to conventional levels. The OLS provides quite intuitive estimates: The intercept corresponds to the Golden Dawn’s vote share in in untreated municipalities in 2015. Treated municipalities had, on average, a higher vote share for the party by roughly <code>0.62</code>%points. The parties vote share increased by about 1.27%points in untreated municipalities in 2016.
+</details>
+<p><br>
+</p>
+<p>Note that there are multiple ways to calculate the difference-in-differences. Fixed effects are usually the preferred approach as they provide the most flexible (e.g.&nbsp;in terms of multiple time periods) and most efficient estimator. Let’s therefore calculate a fixed effects model for the same difference-in-differences as in Exercise 5.<br>
+</p>
+<p><strong>Exercise 6: Estimate the difference-in-differences between 2015 and 2016 using a Fixed Effects regression.</strong><br>
+</p>
+<p>_Hint: You can use either <code>lm_robust()</code>, <code>plm()</code> or <code>lm()</code> with dummy variables.<br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lm_robust</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>fe_robust <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(gdper <span class="sc">~</span> evertr<span class="sc">*</span>post_treatment, <span class="at">fixed_effects=</span> <span class="fu">factor</span>(muni), <span class="at">data=</span>greekislands[greekislands<span class="sc">$</span>year<span class="sc">&gt;=</span><span class="dv">2015</span>,])</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fe_robust)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plm</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>fe_plm <span class="ot">&lt;-</span> <span class="fu">plm</span>(gdper <span class="sc">~</span> evertr<span class="sc">*</span>post_treatment, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"muni"</span>), <span class="at">data=</span>greekislands[greekislands<span class="sc">$</span>year<span class="sc">&gt;=</span><span class="dv">2015</span>,])</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fe_plm)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>fe_dummy <span class="ot">&lt;-</span> <span class="fu">lm</span>(gdper <span class="sc">~</span> evertr <span class="sc">*</span> post_treatment <span class="sc">+</span> <span class="fu">factor</span>(muni), <span class="at">data =</span> greekislands[greekislands<span class="sc">$</span>year<span class="sc">&gt;=</span><span class="dv">2015</span>,])</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fe_dummy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+All three fixed effects estimators provide the same estimate - which corresponds to the one we manually estimated at the beginning of this lab. Note that we could also use the first differences estimator - in the case of two time periods it is equivalent to the fixed effects estimator. However, the fixed effects estimator provides much more flexibility when more than two time periods are being analysed.<br>
+
+</details>
+<p><br>
+</p>
+</section>
+<section id="generalised-diff-in-diff" class="level2">
+<h2 class="anchored" data-anchor-id="generalised-diff-in-diff">Generalised Diff-in-Diff</h2>
+<p>Let’s now extend our analysis by including all pre-treatment periods in our analysis. The easiest way to do so is running a two-way fixed effects regression.<br>
+</p>
+<p><strong>Exercise 7: Estimate the difference-in-differences using a two-way Fixed Effects regression with all time periods and <code>treatment</code> as independent variable.</strong><br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>twoway_FE <span class="ot">&lt;-</span> <span class="fu">plm</span>(gdper <span class="sc">~</span> treatment, <span class="at">effect=</span><span class="st">"twoways"</span>,<span class="at">model=</span><span class="st">"within"</span>,<span class="at">index=</span><span class="fu">c</span>(<span class="st">"muni"</span>,<span class="st">"year"</span>), <span class="at">data=</span>greekislands)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(twoway_FE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+As you can see, the estimate is now slightly smaller than the one we got by comaparing 2015 and 2016 only. This is not surprising as the regression considers all pre-treatment periods now and, therefore, attributes some of the variance to other factors such as unit-specific trends. However, it is noteworthy that the change is negligible. We still estimate that the treatment effect, or ATT, is roughly above 2%points.<br>
+
+</details>
+<p><br>
+</p>
+<p><strong>Exercise 8: Calculate robust standard errors for (i) the plm FE model, (ii) the two-way FE model and present the regression output in a single table. Include the simple OLS model in the table.</strong><br>
+</p>
+<p><em>Note: There is no need to adjust standard errors after using <code>lm_robust()</code> as the command automatically does that.</em><br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">### ADJUSTING STANDARD ERRORS</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="do">## plm FE model</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>fe_plm_se <span class="ot">&lt;-</span> <span class="fu">coeftest</span>(fe_plm, <span class="at">vcov =</span> <span class="fu">vcovHC</span>(fe_plm, <span class="at">type =</span> <span class="st">"HC1"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">cluster =</span> <span class="st">"group"</span>))</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>fe_plm_se</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="do">## two-way FE model</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>twoway_FE_se <span class="ot">&lt;-</span> <span class="fu">coeftest</span>(twoway_FE, <span class="at">vcov =</span> <span class="fu">vcovHC</span>(twoway_FE, <span class="at">type =</span> <span class="st">"HC1"</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">cluster =</span> <span class="fu">c</span>(<span class="st">"group"</span>, <span class="st">"time"</span>)))</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>twoway_FE_se</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="do">## CREATING A REGRESSION TABLE</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="fu">screenreg</span>(<span class="at">l=</span><span class="fu">list</span>(ols_did, fe_plm_se, twoway_FE_se), <span class="at">custom.header =</span> <span class="fu">list</span>(<span class="st">"OLS (2-period)"</span> <span class="ot">=</span> <span class="dv">1</span>, <span class="st">"FE (2-period)"</span> <span class="ot">=</span> <span class="dv">2</span>, <span class="st">"2-way FE"</span> <span class="ot">=</span> <span class="dv">3</span>), <span class="at">custom.coef.map =</span> <span class="fu">list</span>(<span class="st">"treatment"</span> <span class="ot">=</span> <span class="st">"Treatment"</span>, <span class="st">"evertr:post_treatmentTRUE"</span> <span class="ot">=</span> <span class="st">"Treatment (Interaction)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<br>
+
+</details>
+<p><br>
+</p>
+</section>
+</section>
+<section id="pararell-trends" class="level1">
+<h1>Pararell trends</h1>
+<p>As we know, we cannot test whether the parallel trends, but we can conduct some visual inspects and statistical analyses. One way to do this is to plot the outcome variable for both treated and untreated units overtime before the intervention.</p>
+<p>Let’s first get the mean vote share for the Golden Dawn for the treated and untreated units. Let’s do using Tidyverse using the <code>group_by()</code> and <code>summarise()</code> functions.</p>
+<p><strong>Exercise 9: Calculate the mean vote share for the Golden Dawn for the treated and the untreated units for all the elections. Store this into a new data frame and called <code>plot.parallel</code>. Use tidy to create this new data frame.The syntax and the description of the functions below:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>new.data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(variable_1, variable_2) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">new_variable =</span> <span class="fu">mean</span>(outcome, na,<span class="at">rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">condition =</span> <span class="fu">ifelse</span>(evertr <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Treatment"</span>, <span class="st">"Control"</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<table class="table">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 61%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>new data &lt;- dataframe</code></td>
+<td>Assignment operator where the new data frame will be stored</td>
+</tr>
+<tr class="even">
+<td><code>group_by()</code></td>
+<td>Group observations by a variable or set of variables</td>
+</tr>
+<tr class="odd">
+<td><code>summarise()</code></td>
+<td>Creates a new data frame with one ore more rows of each combination of grouping variables</td>
+</tr>
+<tr class="even">
+<td><code>mutate()</code></td>
+<td>Allows to create new variable or modify existing ones</td>
+</tr>
+</tbody>
+</table>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<p><br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>plot.parallel <span class="ot">&lt;-</span> greekislands <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(evertr, year) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">vote =</span> <span class="fu">mean</span>(gdper)) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">condition =</span> <span class="fu">ifelse</span>(evertr <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Treatment"</span>, <span class="st">"Control"</span>))</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(plot.parallel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can see now that we have the average vote share for treated and untreated for every election year. For example, we can see that the average vote share for the Golden Dawn in untreated islands was <code>5.33</code> for the 2013 election.</p>
+</details>
+<p><br>
+</p>
+<p>Right, so we see that we have the average vote share for treated and untreated units for each election from 2012 to 2016. Now, let’s plot the trends before and after the intervention.</p>
+<p><strong>Exercise 10: Plot the parallel trends. Set vote share for the Golden Dawn in the y axis, year in the x-axis. Connect the data points of the two groups using a line. Place the legend of your plot at the bottom. Change the default colour and use the Wes Anderson Palette. Below you will find all the functions necessary to generate this plot. Remember to use the plus sign between functions.</strong></p>
+<table class="table">
+<colgroup>
+<col style="width: 66%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ggplot(x = , y =, colour = )</code></td>
+<td>map data components into the graph</td>
+</tr>
+<tr class="even">
+<td><code>geom_point()</code></td>
+<td>To generate a scatterplot</td>
+</tr>
+<tr class="odd">
+<td><code>scale_color_manual(values=wes_palette("Royal1"))</code></td>
+<td>Replace the default palette</td>
+</tr>
+<tr class="even">
+<td><code>theme(legend.position = "bottom")</code></td>
+<td>To place the legend at the bottom</td>
+</tr>
+<tr class="odd">
+<td><code>geom_line(aes(x=year,y=vote, color = condition, group = condition))</code></td>
+<td>To connect the dots with lines by group</td>
+</tr>
+</tbody>
+</table>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<p><br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> vote, <span class="at">colour =</span> condition), <span class="at">data =</span> plot.parallel) <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">wes_palette</span>(<span class="st">"Royal1"</span>)) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>year,<span class="at">y=</span>vote, <span class="at">color =</span> condition, <span class="at">group =</span> condition)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The plot suggests that parallel trends assumption would hold in this case. The vote share for the Golden Dawn follows a similar path for treated and untreated units for at least three elections before the intervention.</p>
+</details>
+<p><br>
+</p>
+<p>Now let’s look at the leads to identify any anticipatory effects. Let’s imagine that the Golden Dawn back in 2012 believed that there was going to be a major humanitarian in the future. Then, they thought that they could exploit this situation to increase their electoral gains. In that case, we wouldn’t be able to disentangle whether changes in vote share are due to the previous campaigning efforts on the part of the Golden Dawn or due to the influx of alyssum seekers to Greece. We can use leads to identify if there are any anticipatory effects. If we find systematic differences between treated and untreated units, this would suggest that units in one or both groups are responding to the treatment before receiving it.</p>
+<p><strong>Exercise 11: Create dummy year variables equal to 1 for every year and only for the treated municipality. Call this variable leads, plus the year. For example, the lead2012, will take value 1 only for treated municipalities and only for observations of these municipalities in the year 2012. You can see an example below. use the <code>mutate()</code> function to create these new variables. You can also use the <code>ifelse()</code> function to create these dummy variables. The syntax of the <code>ifelse()</code> function is the following: <code>new variable = ifelse(condition, "value if condition is met", "value if the condition is not met")</code>. Create these dummy variables for the elections in 2012, 2013, and 2015.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>greekislands <span class="ot">&lt;-</span> greekislands <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lead2012 =</span> <span class="fu">ifelse</span>(evertr <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> year <span class="sc">==</span> <span class="dv">2012</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<p><br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(greekislands<span class="sc">$</span>year)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>greekislands <span class="ot">&lt;-</span> greekislands <span class="sc">%&gt;%</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lead2012 =</span> <span class="fu">ifelse</span>(evertr <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> year <span class="sc">==</span> <span class="dv">2012</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">lead2013 =</span> <span class="fu">ifelse</span>(evertr <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> year <span class="sc">==</span> <span class="dv">2013</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">lead2015 =</span> <span class="fu">ifelse</span>(evertr <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> year <span class="sc">==</span> <span class="dv">2015</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+<p><br>
+</p>
+<p>Now that we have created these dummy variables, we can run a two-way fixed effect model and see if they are anticipatory effects.</p>
+<p><strong>Exercise 12: Conduct the same two-way fixed-effect model that we used before, but rather than using the <code>treatment</code> variable, replace this variable with the new leads variables that you created. Ran separate estimations for each lead. Store the outputs of these regressions into different objects. Does the evidence suggest that there are any anticipatory effects? Are the results of these three models statistically significant? You can use the summary() or screenreg() functions to take a look at your results.</strong></p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<p><br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>lead2012 <span class="ot">&lt;-</span> <span class="fu">plm</span>(gdper <span class="sc">~</span> lead2012, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">effect =</span> <span class="st">"twoways"</span>, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"muni"</span>, <span class="st">"year"</span>), <span class="at">data =</span> greekislands)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>lead2013 <span class="ot">&lt;-</span> <span class="fu">plm</span>(gdper <span class="sc">~</span> lead2013, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">effect =</span> <span class="st">"twoways"</span>, </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"muni"</span>, <span class="st">"year"</span>), <span class="at">data =</span> greekislands)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>lead2015 <span class="ot">&lt;-</span> <span class="fu">plm</span>(gdper <span class="sc">~</span> lead2015, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">effect =</span> <span class="st">"twoways"</span>, </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"muni"</span>, <span class="st">"year"</span>), <span class="at">data =</span> greekislands)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lead2015) <span class="co"># as an example. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The evidence gathered from the three models suggests there are no anticipatory effects. We don’t find any statistically significant dynamics between treated and untreated municipalities on vote share for the Golden Dawn before the 2016 election, which is good!</p>
+</details>
+<p><br>
+</p>
+<p>Now, let’s plot all the two-way fixed effects models where we used the <code>plm()</code> function into a single figure.</p>
+<p><strong>Exercise 13: Plot the coefficients from the leads models, plus the two-way fixed model for the 2016 election that you used in Question 7 (“twoway_FE”). Use the <code>plot_coef()</code> function to generate this plot. Add the argument <code>scale</code> and set it equal to <code>TRUE</code>. Also, include the argument <code>robust</code> and set it equal to <code>TRUE</code>. In addition to the <code>plot_coefs()</code> include the <code>coord_flip()</code> function. This function will flip the Cartesian coordinates of the plot, so we have the models (years) in the x-axis and the coefficients in the y axis. Remember to add plus sign operator between two functions. You can also add the <code>xlab("Year")</code> function to a label in the x-axis.</strong></p>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<p><br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_coefs</span>(lead2012, lead2013, lead2015, twoway_FE, <span class="at">scale =</span> <span class="cn">TRUE</span>, <span class="at">robust =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Year"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Again, we can observe that pre-treatment coefficients are nearly zero and they are not statistically significant, but then for the 2015 election, we find that the vote share for Golden Dawn has risen substantially. Thus, we found strong evidence that the increase in vote share is caused by the influx of refugees into the Greek islands.</p>
+</details>
+<p><br>
+</p>
+<section id="placebo-test" class="level2">
+<h2 class="anchored" data-anchor-id="placebo-test">Placebo test</h2>
+<p>We can conduct a placebo test to evaluate whether the parallel trend holds. We are trying to prove that there is no clear difference in trending tendencies between treated and untreated municipalities.</p>
+<p>The steps to conduct are the following:</p>
+<ol type="1">
+<li>Use data for periods that came before the treatment was implemented/happened 2 Create a dummy variable for each before treatment that is equal to 1 only for that specific year and only for treated units. (As we did before)</li>
+<li>Estimate the difference-in-difference using <code>plm()</code> or <code>lm_robust()</code> function.</li>
+<li>If you find statistically significant results, this may suggest a violation of parallel trends.</li>
+</ol>
+<p><strong>Exercise 14: Drop all the observations of the year of the intervention (2016). Do this using the <code>filter()</code> function. Then, create a fake treatment variable and call it <code>post2</code> and set it equal to 1 for all observations in year 2015. This variable would indicate as the hypothetical case that the municipality would received refugees in 2015. You can see an example below.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>greekislands <span class="ot">&lt;-</span> greekislands <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">!=</span> <span class="dv">2016</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(new <span class="at">variable =</span> year variable <span class="sc">==</span> <span class="st">"year"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="do">## or alternatively </span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>greekislands <span class="ot">&lt;-</span> greekislands <span class="sc">%&gt;%</span> </span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">!=</span> <span class="dv">2016</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">new.variable =</span> <span class="fu">ifelse</span>(year variable <span class="sc">==</span> <span class="st">"year"</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<p><br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(greekislands<span class="sc">$</span>year)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>greekislands <span class="ot">&lt;-</span> greekislands <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">!=</span> <span class="dv">2016</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">post2 =</span> <span class="fu">ifelse</span>(year <span class="sc">==</span> <span class="st">"2015"</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Great! Now let’s use this dummy variable to perform the placebo test. We are essentially going to test is that there are no differential trends between treated and untreated, as we did before when we looked at anticipatory trends.</p>
+</details>
+<p><br>
+</p>
+<p><strong>Exercise 15: Conduct the same two-way fixed effect model using the <code>lm()</code> and use the post2 variable. Store all the models in a list and plug this list inside of the <code>modelsummary(list)</code> function to report your results. Did you find statistically significant differences between treated and untreated units pre-treatment?. You can see an example of how to store multiple models in a list <code>list()</code>. Also, subset the data so one model will only conduct the placebo test using the 2012 and 2015 elections, and another model only using the observations from the 2013 and 2015 elections.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>models <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"plm "</span><span class="ot">=</span> <span class="fu">lm</span>(outcome <span class="sc">~</span> treatment, <span class="at">model =</span> <span class="st">"within"</span>, <span class="at">effect =</span> <span class="st">"twoways"</span>, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"muni"</span>, <span class="st">"year"</span>), <span class="at">data =</span> data[data<span class="sc">$</span>year <span class="sc">!=</span> year,]), </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"lm"</span> <span class="ot">=</span> <span class="fu">lm</span>(outcome <span class="sc">~</span> outcome, <span class="at">data =</span> data, <span class="at">subset=</span>(year<span class="sc">!=</span>year)), <span class="co"># set year equal to year that you want to exclude. </span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"lm_robust"</span> <span class="ot">=</span> <span class="fu">lm_robust</span>(outcome <span class="sc">~</span> treatment, <span class="at">data =</span> data[data<span class="sc">$</span>year <span class="sc">!=</span> year,], <span class="at">cluster =</span> unit)) <span class="co"># set year equal to year that you want to exclude. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<br>
+
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<p><br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>models <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>     <span class="st">"1215"</span><span class="ot">=</span><span class="fu">lm_robust</span>(gdper <span class="sc">~</span> evertr <span class="sc">+</span> post2<span class="sc">+</span>evertr<span class="sc">*</span>post2, <span class="at">data =</span> greekislands, <span class="at">subset=</span>(year<span class="sc">!=</span><span class="dv">2013</span>), <span class="at">cluster=</span>muni), <span class="co"># placebo test 2012 and 2015</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"1314"</span> <span class="ot">=</span> <span class="fu">lm_robust</span>(gdper <span class="sc">~</span> evertr <span class="sc">+</span> post2<span class="sc">+</span>evertr<span class="sc">*</span>post2, <span class="at">data =</span> greekislands, <span class="at">subset=</span>(year<span class="sc">!=</span><span class="dv">2012</span>),<span class="at">cluster=</span>muni)) <span class="co"># placeblo test 2013 and 2014</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(models)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We find that there are no systematic differences between treated and untreated municipalities. We find near to zero coefficients.</p>
+</details>
+<p><br>
+</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;"><strong>Pre</strong></th>
+<th style="text-align: center;"><strong>Post</strong></th>
+<th style="text-align: center;">Difference</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Far</strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>Treated</td>
+<td style="text-align: center;">4.18</td>
+<td style="text-align: center;">5.01</td>
+<td style="text-align: center;">0.83</td>
+</tr>
+<tr class="odd">
+<td>Control</td>
+<td style="text-align: center;">5.12</td>
+<td style="text-align: center;">5.68</td>
+<td style="text-align: center;">0.56</td>
+</tr>
+<tr class="even">
+<td>Difference</td>
+<td style="text-align: center;">-0.94</td>
+<td style="text-align: center;">-0.67</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td>Diff-in-Diff</td>
+<td style="text-align: center;"><strong>0.27</strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><strong>0.95</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>Close</strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>Treated</td>
+<td style="text-align: center;">5.87</td>
+<td style="text-align: center;">8.71</td>
+<td style="text-align: center;">2.84</td>
+</tr>
+<tr class="odd">
+<td>Control</td>
+<td style="text-align: center;">3.72</td>
+<td style="text-align: center;">5.34</td>
+<td style="text-align: center;">1.62</td>
+</tr>
+<tr class="even">
+<td>Difference</td>
+<td style="text-align: center;">2.15</td>
+<td style="text-align: center;">3.37</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td>Diff-in-Diff</td>
+<td style="text-align: center;"><strong>1.22</strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

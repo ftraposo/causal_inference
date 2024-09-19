@@ -1,0 +1,1508 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrreprt}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\makeatother
+\makeatletter
+\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{}
+
+\begin{document}
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, boxrule=0pt, interior hidden, enhanced, borderline west={3pt}{0pt}{shadecolor}, frame hidden, sharp corners]}{\end{tcolorbox}}\fi
+
+\hypertarget{regression-discontinuity-design}{%
+\chapter{Regression Discontinuity
+Design}\label{regression-discontinuity-design}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr}\SpecialCharTok{::}\NormalTok{opts\_chunk}\SpecialCharTok{$}\FunctionTok{set}\NormalTok{(}
+    \AttributeTok{echo =} \ConstantTok{TRUE}\NormalTok{,}
+    \AttributeTok{message =} \ConstantTok{FALSE}\NormalTok{,}
+    \AttributeTok{warning =} \ConstantTok{FALSE}\NormalTok{,}
+    \AttributeTok{comment =} \ConstantTok{NA}
+\NormalTok{)}
+
+\FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
+
+\FunctionTok{library}\NormalTok{(readr)}
+\NormalTok{educ }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"islamic\_women.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{lecture-slides-data}{%
+\subsection{Lecture Slides \& Data}\label{lecture-slides-data}}
+
+\hfill\break
+\hfill\break
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#install.packages("downloadthis")}
+\FunctionTok{library}\NormalTok{(downloadthis)}
+
+\FunctionTok{download\_link}\NormalTok{(}
+  \AttributeTok{link =} \StringTok{"https://bayreuth{-}politics.github.io/CI22/data/islamic\_women.csv"}\NormalTok{,}
+  \AttributeTok{output\_name =} \StringTok{"educ"}\NormalTok{,}
+  \AttributeTok{output\_extension =} \StringTok{".rdata"}\NormalTok{,}
+  \AttributeTok{button\_label =} \StringTok{"Lab 8 Data"}\NormalTok{,}
+  \AttributeTok{button\_type =} \StringTok{"success"}\NormalTok{,}
+  \AttributeTok{has\_icon =} \ConstantTok{TRUE}\NormalTok{,}
+  \AttributeTok{self\_contained =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\CommentTok{\#download\_link(}
+\CommentTok{\#  link = "https://github.com/dpir{-}ci/CI22/raw/gh{-}pages/docs/lectures/lecture7.pdf",}
+\CommentTok{\#  output\_name = "week7",}
+\CommentTok{\#  output\_extension = ".pdf",}
+\CommentTok{\#  button\_label = "Lecture Slides",}
+\CommentTok{\#  button\_type = "default",}
+\CommentTok{\#  has\_icon = FALSE,}
+\CommentTok{\#  self\_contained = FALSE}
+\CommentTok{\#)}
+\end{Highlighting}
+\end{Shaded}
+
+\hfill\break
+\hfill\break
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{recap}{%
+\chapter{Recap}\label{recap}}
+
+\hypertarget{sharp-regression-discontinuity}{%
+\subsection{Sharp Regression
+Discontinuity}\label{sharp-regression-discontinuity}}
+
+In RDDs we exploit that treatment assignment is determined by a known
+\textbf{assignment rule} that determines whether units are assigned to
+the treatment. In RDD, all units in the study receive a score, usually
+called \emph{running variable}, \emph{forcing variable} or \emph{index},
+and treatment is assigned to those units whose score is above a known
+cut-off (Cattaneo et al 2019).
+
+In RDD we have three components:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The score
+\item
+  The cutoff
+\item
+  The treatment.
+\end{enumerate}
+
+In the Sharp Regression Discontinuity Design, the score determines -
+deterministically - whether the unit is being assigned to treatment or
+to the control condition. However, we again face the fundamental problem
+of causal inference because we can only observe the untreated outcome
+for those units below the cutoff (control) and the treated outcome for
+those above the cut-off (treated). However, imposing the assumption of
+comparability between units with very similar values of the score but on
+opposite sides of cut-off enables us to calculate the treatment effect
+of the intervention.
+
+Given the continuity assumption, we would expect that observations in a
+small neighbourhood around the cut-off will have very similar potential
+outcomes. Thus, this would justify using observations just below the
+cut-off as a reasonable proxy of what would the average outcome for
+those units just above the cut-off would have had if they had received
+the control condition instead of the treatment (i.e.~counterfactual).
+
+The main goal in RD is to adequately perform an extrapolation of the
+average outcome of treated and untreated units at the cutoff.
+
+\hypertarget{estimation}{%
+\subsection{Estimation}\label{estimation}}
+
+There are different ways that we could estimate the causal effect from
+RDD:
+
+\begin{itemize}
+\tightlist
+\item
+  Linear
+\item
+  Linear with different slopes
+\item
+  High-order polynomial (or non-linear)
+\item
+  Non-parametric
+\end{itemize}
+
+\hypertarget{choice-of-kernel-function-and-polynomial-order}{%
+\subsection{Choice of Kernel function and Polynomial
+Order}\label{choice-of-kernel-function-and-polynomial-order}}
+
+Whenever we conduct RDD we choose the following:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Polynomial order \(p\) function
+\item
+  Kernel function \(K(\dot)\), which determines how observations within
+  a bandwidth would be weighted, and there are different options:
+  ``Uniform'', ``Triangular'', and ``Epanechnikov''.
+\item
+  Bandwidth size: There is a trade-off between bias and efficiency. The
+  closer you get to the cut-off, the less bias in the estimator, but
+  more variance as there are fewer observations.
+\item
+  We conduct weighted least squares and obtain the intercept of the
+  chosen polynomial order above and below the cut-off.
+\item
+  Calculate the sharp point estimate by subtracting the intercepts of
+  these polynomials:
+  \(\hat{\tau_{SRD}} = \alpha_{above} - \alpha_{below}\)
+\end{enumerate}
+
+\hfill\break
+
+\hypertarget{falsification-tests}{%
+\subsection{Falsification tests:}\label{falsification-tests}}
+
+Whenever we conduct RD we choose the following:
+
+We learned that we can conduct multiple sensitivity and falsification
+tests:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Sensitivity: To check that the results of our estimation are robust to
+  different specifications
+\item
+  Continuity: To check whether covariates do not jump at the threshold.
+\item
+  Sorting: To check that units do not sort around the threshold.
+\item
+  Placebo cut-offs: To check that outcomes do not change abruptly at an
+  arbitrary threshold (to test the continuity assumption)
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Before starting this seminar}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Create a folder called ``lab8''
+\item
+  Download the data (you can use the button or the one at the top, or
+  read csv files directly from github):
+\item
+  Open an R script (or Markdown file) and save it in our ``lab8''
+  folder.
+\item
+  Set your working directory using the setwd() function or by clicking
+  on ``More``. For example \emph{setwd(``\textasciitilde/Desktop/Causal
+  Inference/2022/Lab8'')}
+\item
+  Let's install an load packages that we will be using in this lab:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(stargazer) }\CommentTok{\# generate formated regression tables }
+\FunctionTok{library}\NormalTok{(texreg) }\CommentTok{\# generate formatted regression tables}
+\FunctionTok{library}\NormalTok{(tidyverse) }\CommentTok{\# to conduct some tidy operations}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\CommentTok{\#install.packages(c(rdrobust, rddensity))}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\CommentTok{\#install.packages("rdd")}
+\FunctionTok{library}\NormalTok{(rdd) }\CommentTok{\# to conduct McCrary Sorting Test }
+\FunctionTok{library}\NormalTok{(rdrobust) }\CommentTok{\# to conduct non{-}parametric rd estimates }
+\FunctionTok{library}\NormalTok{(rddensity) }\CommentTok{\# to conduct a density test and density plots}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{seminar-overview}{%
+\chapter{Seminar Overview}\label{seminar-overview}}
+
+In this \textbf{seminar}, we will cover the following topics:\\
+1. Conduct regression discontinuity using global polynomial estimation
+using \texttt{lm()} function\\
+2. Calculate LATE using non-parametric estimations using
+\texttt{rdrobust()}.\\
+3. Conduct various robustness/falsification tests such as balance test,
+placebo outcome, density test, and falsification test.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{islamic-rule-and-the-empowerment-of-the-poor-and-pious---meyerson-2014}{%
+\section{Islamic Rule and the Empowerment of the Poor and Pious -
+Meyerson
+(2014)}\label{islamic-rule-and-the-empowerment-of-the-poor-and-pious---meyerson-2014}}
+
+In this
+\href{https://onlinelibrary.wiley.com/doi/abs/10.3982/ECTA9878}{paper},
+Meyerson is interested in the effects of Islamic parties' control of
+local governments on women's rights. He focuses on the educational
+attainment of young women. Meyerson conducts a Sharp RD design, based on
+close elections in Turkey. The challenge here is to compare
+municipalities where the support for Islamic parties is high and win the
+election, versus those that elected a secular mayor.
+
+You would expect that municipalities controlled by Islamic parties would
+systematically differ from those that are controlled by a secular mayor.
+Particularly, if religious conservatism affects the educational outcomes
+of women. However, we can use RDD to isolate the treatment effect of
+interest from all systematic differences between treated and untreated
+units.
+
+We can compare municipalities the Islamic party barely won the election
+versus municipalities where the Islamic party barely lost. This reveals
+the causal (local) effect of Islamic party control on women's
+educational attainment a few years later. One crucial condition to meet
+in this setup is that parties cannot systematically manipulate the vote
+share they obtain.
+
+The data used in this study is from the 2014 mayoral election in Turkey.
+The unit of analysis is the municipality, and the running variable is
+the margin of victory. The outcome of interest is the educational
+attainment of women who attended high school during 1994-2000,
+calculated as a percentage of the cohort of women aged 15 to 20 in 2000
+who had completed high school by 2000.
+
+We will be using the following variables:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.8333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{margin} & This variable represents the margin of victory of
+Islamic parties in the 1994 election. A positive margin means that an
+Islamic party won. \\
+\texttt{school\_men} & secondary school completion rate for men aged
+between 15 and 20 \\
+\texttt{school\_women} & the secondary school completion rate for women
+aged 15-20 \\
+\texttt{log\_pop} & log of the municipality population in 1994 \\
+\texttt{sex\_ratio} & gender ratio of the municipality in 1994 \\
+\texttt{log\_area} & log of the municipality area in 1994 \\
+\end{longtable}
+
+\hfill\break
+
+Now let's load the data. There are two ways to do this:
+
+You can load the dataset from your laptop using the \texttt{read.csv()}
+function. Here the dataset is called \texttt{educ} - but feel free to
+give it a different name if you prefer.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Set your working directory}
+\CommentTok{\#setwd("\textasciitilde{}/Desktop/Causal Inference/2022/Lab8")}
+\CommentTok{\# }
+\FunctionTok{library}\NormalTok{(readr)}
+\CommentTok{\#educ \textless{}{-} read.csv("\textasciitilde{}/islamic\_women.csv")}
+
+\FunctionTok{head}\NormalTok{(educ)}
+\end{Highlighting}
+\end{Shaded}
+
+Let's start by visualising the data. We will use \texttt{plot()}
+function to do this. This is the simplest scatter plot that you can come
+up with.
+
+\textbf{Exercise 1: Generate a plot using the \texttt{plot(X,Y)}
+function. Replace X with \texttt{educ\$margin} and Y with
+\texttt{educ\$school\_women}.}
+
+\hfill\break
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(educ}\SpecialCharTok{$}\NormalTok{margin, educ}\SpecialCharTok{$}\NormalTok{school\_women)}
+\end{Highlighting}
+\end{Shaded}
+
+This is a very simple plot that shows the raw relationship between the
+margin of victory and the outcome variable. However, it conveys some
+important information. For example, the margin of victory is clustered
+around -0.5 and roughly 0.3. Also, the outcome variable, school
+attainment, usually goes from 0 to 40\%. Now let's generate a slightly
+fancier plot.
+
+\hfill\break
+
+\textbf{Exercise 2: Generate a scatter plot using \texttt{ggplot()}
+function. Use the functions below to add some additional features into
+this plot.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ running variable, }\AttributeTok{y =}\NormalTok{ outcome, }\AttributeTok{colour =}\NormalTok{outcome), }\AttributeTok{data =}\NormalTok{ data) }\SpecialCharTok{+}
+  \CommentTok{\# Make points small and semi{-}transparent since there are lots of them}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{position =} \FunctionTok{position\_jitter}\NormalTok{(}\AttributeTok{width =} \DecValTok{0}\NormalTok{, }\AttributeTok{height =} \FloatTok{0.25}\NormalTok{, }\AttributeTok{seed =} \DecValTok{1234}\NormalTok{)) }\SpecialCharTok{+} 
+  \CommentTok{\# Add vertical line}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{0}\NormalTok{) }\SpecialCharTok{+} 
+  \CommentTok{\# Add labels}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Label X"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Label Y"}\NormalTok{) }\SpecialCharTok{+} 
+  \CommentTok{\# Turn off the color legend, since it\textquotesingle{}s redundant}
+  \FunctionTok{guides}\NormalTok{(}\AttributeTok{color =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hfill\break
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Let\textquotesingle{}s check if this is a sharp RD. }
+\FunctionTok{ggplot}\NormalTok{(educ, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ margin, }\AttributeTok{y =}\NormalTok{ school\_women, }\AttributeTok{colour =}\NormalTok{school\_women)) }\SpecialCharTok{+}
+  \CommentTok{\# Make points small and semi{-}transparent since there are lots of them}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{, }
+             \AttributeTok{position =} \FunctionTok{position\_jitter}\NormalTok{(}\AttributeTok{width =} \DecValTok{0}\NormalTok{, }\AttributeTok{height =} \FloatTok{0.25}\NormalTok{, }\AttributeTok{seed =} \DecValTok{1234}\NormalTok{)) }\SpecialCharTok{+} 
+  \CommentTok{\# Add vertical line}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{0}\NormalTok{) }\SpecialCharTok{+} 
+  \CommentTok{\# Add labels}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Vote share"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Womens\textquotesingle{} Educational Attainment (Proportion)"}\NormalTok{) }\SpecialCharTok{+} 
+  \CommentTok{\# Turn off the color legend, since it\textquotesingle{}s redundant}
+  \FunctionTok{guides}\NormalTok{(}\AttributeTok{color =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+We can now see more clearly that most municipalities elected a secular
+mayor. Recall that we are using the margin of victory for the Islamic
+parties - a positive margin of victory is positive means that the
+Islamic parties won the election in that municipality.
+
+\hfill\break
+
+\textbf{Exercise 3: Let's generate a dummy variable that is equal to
+``Treated'' if the margin of victory \emph{is equal or greater than
+zero} and ``Untreated'' otherwise. You can use the \texttt{mutate()}
+function and the \texttt{ifelse()} functions to do this. Remember to use
+the pipeline operator to store the variable into your existing data
+frame. See below the syntax for more information.}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5600}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4400}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Function/argument
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{data\ \textless{}-\ data\ \%\textgreater{}\%} & Pipeline
+operator to assign the new operation into a new data or existing data
+frame \\
+\texttt{mutate(new\ variable\ =\ ifelse(variable\ \textgreater{}=\ "condition",\ "Treated",\ "Untreated")}
+& If the condition is met, the new variable takes value equal to
+``Treated'' and ``Untreated'' otherwise \\
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{newvariable =} \FunctionTok{ifelse}\NormalTok{(variable }\SpecialCharTok{\textgreater{}=} \DecValTok{0}\NormalTok{ , }\StringTok{"Treated"}\NormalTok{, }\StringTok{"Untreated"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\hfill\break
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{educ }\OtherTok{\textless{}{-}}\NormalTok{ educ }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{treat =} \FunctionTok{ifelse}\NormalTok{(margin }\SpecialCharTok{\textgreater{}=} \DecValTok{0}\NormalTok{ , }\StringTok{"Treated"}\NormalTok{, }\StringTok{"Untreated"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Now that we have created our treatment condition variable, let's
+generate an additional plot that conveys information on the distribution
+of the running variable for both treated and untreated municipalities.
+
+\hfill\break
+
+\textbf{Exercise 4: Generate a plot looking at the distribution margin
+of victory variable. Using the \texttt{ggplot()} function, set the
+\texttt{x} argument equal to the margin of victory variable. Set
+\texttt{fill} equal the new treatment variable \texttt{treat}. There is
+no need to add the \texttt{y} argument given that we expect to generate
+a histogram that will give us the number of observations for each value
+in the margin of victory variable. Add the \texttt{geom\_histogram()}
+function. Set the argument \texttt{binwidth} in this function equal to
+0.01 and set \texttt{colour} argument equal to ``dark''. Let's add the
+\texttt{geom\_vline()} function and add a vertical line by setting the
+\texttt{xintercept} argument equal to zero. Add the \texttt{labs()}
+function and set \texttt{x} label equal to ``Margin of victory'' and the
+\texttt{y} label equal to ``count'', and the \texttt{fill} argument
+equal to ``Treatment Status''.}
+
+\hfill\break
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(educ, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ margin, }\AttributeTok{fill =}\NormalTok{ treat)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \FloatTok{0.01}\NormalTok{, }\AttributeTok{color =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{0}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Margin of Victory"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Count"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"Treatment Status"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hfill\break
+
+In this plot, we can see the distribution of the running variable
+(margin of victory). Again, we can see that in the majority of the
+municipalities a secular mayor was elected.
+
+\hfill\break
+
+\hypertarget{global-parametric-estimation}{%
+\section{Global Parametric
+Estimation}\label{global-parametric-estimation}}
+
+As we discussed in the lecture, there are different ways to estimate the
+causal effect using RD. These different approaches differ in the range
+of observations they include as well as how they estimate the average
+outcome for those units just above the cut-off and below the cut-off.
+One way to estimate the effect of the intervention in RDD is using OLS,
+but only using the running variable as the main predictor. In this case,
+we use the running variable measured as the distance from the cut-off.
+Stated formally: \(\tilde{X_l} = X - c\).
+
+In this case, the regression in the left-hand side would be equal to:
+
+\[Y= \alpha_l + \tilde{X} + \epsilon\] Whereas the regression above the
+cut-off is equal to:
+
+\[Y= \alpha_r + \tilde{X} + \epsilon\] It's important to point out that
+for all estimations the treatment effect is equal to the differences of
+the intercepts of the regressions above and below the cut-off.
+
+\[\tau = \alpha_r - \alpha_l\]
+
+Let's do this manually. To do so, subset the data for those observations
+above and below the threshold. Then, regress the outcome on the
+\textbf{running variable}. Finally, subtract the intercepts from each
+regression. Let's do that in the following exercise.
+
+\textbf{Exercise 5: Run a regression using only \texttt{margin} variable
+as the predictor. Set your outcome variable equal to
+\texttt{school\_women} variable. Set the \texttt{data} argument equal to
+\texttt{educ} (unless you called your data frame differently). Add the
+\texttt{subset} function inside of the \texttt{lm()} function and set it
+equal to \texttt{margin\ \textgreater{}=\ 0} for the regression above
+the cut-off and \texttt{margin\ \textless{}\ 0} for the regression below
+the cut-off. Use the \texttt{summary()} function to report your results,
+but also store the output of this function into an object. You can
+retrieve the intercept from the object that you stored the output from
+the \texttt{summary()} function this way:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{object }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(}\FunctionTok{lm}\NormalTok{(outcome }\SpecialCharTok{\textasciitilde{}}\NormalTok{ variable, }\AttributeTok{data =}\NormalTok{ data, }\AttributeTok{subset =}\NormalTok{ variable }\SpecialCharTok{\textgreater{}=}\NormalTok{ condition))}
+
+\CommentTok{\# intercept}
+\NormalTok{object}\SpecialCharTok{$}\NormalTok{coefficient[}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\hfill\break
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# above}
+\NormalTok{above }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(}\FunctionTok{lm}\NormalTok{(school\_women}\SpecialCharTok{\textasciitilde{}}\NormalTok{margin, }\AttributeTok{data =}\NormalTok{ educ, }\AttributeTok{subset =}\NormalTok{ margin }\SpecialCharTok{\textgreater{}=} \DecValTok{0}\NormalTok{))}
+
+\NormalTok{above}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{1}\NormalTok{]}
+
+\CommentTok{\# above}
+\NormalTok{below }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(}\FunctionTok{lm}\NormalTok{(school\_women}\SpecialCharTok{\textasciitilde{}}\NormalTok{margin, }\AttributeTok{data =}\NormalTok{ educ, }\AttributeTok{subset =}\NormalTok{ margin }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{))}
+
+\NormalTok{below}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{1}\NormalTok{]}
+
+\CommentTok{\# 0.156453 {-} 0.162002}
+\NormalTok{tau\_rd }\OtherTok{=}\NormalTok{ above}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ below}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{1}\NormalTok{]}
+\NormalTok{tau\_rd}
+\end{Highlighting}
+\end{Shaded}
+
+Based on this approach the intercepts of the two regressions yield the
+estimated value of the average outcome at the cut-off point for the
+treated and untreated units. This difference of intercepts is the
+estimated effect of an Islamic party being in power (at the municipal
+level) - it suggests there is a 0.5 percentage decrease in women's
+educational attainment.
+
+\hfill\break
+
+A more direct way of estimating the treatment effect is to run a pooled
+regression on both sides of the cut-off point, using the following
+specification: \(Y = \alpha + \tau D + \beta \tilde{X} + \epsilon\)
+
+Where \(\tau\) is the coefficient of interest. Here again LATE is the
+difference between the two intercepts: \(\tau = \alpha_r -\alpha_l\).
+When \(D\) switches off and we are also controlling the different values
+of the forcing variable, \(\tilde{X}\), we get the slope of the
+regression below the threshold. Conversely, for units above the cut-off,
+\(D\) switches on, and we control for different values of the forcing
+variable, we get the slope of the regression above the cut-off. The
+estimated effect of the treatment at \(\tilde{X}\) then provides the
+treatment effect (\(\tau\)).
+
+Note that you are constraining the slope of the regression lines to the
+same on both sides of the cut-off. (\(\beta_l = \beta_r\)) This might
+not be consistent if the data structure varies and the single slope
+fails to appropriately approximating each side to the cutoff.
+
+\textbf{Exercise 6: Calculate the effect of the intervention using a
+regression model including the \texttt{margin} and \texttt{treat}
+variables. Use the\texttt{lm()} function to conduct this analysis. Store
+this regression into an object and call it \texttt{global2}. Use the
+\texttt{summary()} to inspect your results. Interpret the coefficient of
+interest.}
+
+\hfill\break
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# a more direct way is to run a pooled regression on both sides of the cut{-}off (constraining the slopes)}
+
+\NormalTok{global2 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(school\_women}\SpecialCharTok{\textasciitilde{}}\NormalTok{treat}\SpecialCharTok{+}\NormalTok{margin, }\AttributeTok{data =}\NormalTok{ educ)}
+\FunctionTok{summary}\NormalTok{(global2)}
+\end{Highlighting}
+\end{Shaded}
+
+Using this estimation approach, we obtain that, on average, the effect
+of a municipality in control of an Islamic party leads to a 1.7\%-point
+increase in women's educational attainment.
+
+\hfill\break
+
+We can also allow the regression function to differ on both sides of the
+cut-off by including interaction terms between \(D\) and \(\tilde{X}\).
+This would be as follows:
+
+\[Y = \alpha_l + \tau D + \beta_0\tilde{X} + \beta_1 (D \times\tilde{X})+ \epsilon\]
+
+Let's do that in the following exercise.
+
+\textbf{Exercise 7: Calculate the effect of the intervention using a
+regression model including the \texttt{margin} and \texttt{treat}
+variables and the interaction between these two variables. Use
+the\texttt{lm()} function to conduct this analysis. Store this
+regression into an object and call it \texttt{global3}. Use the
+\texttt{summary()} to inspect your results. Interpret the coefficient of
+interest.}
+
+\hfill\break
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# a more direct way is to run a pooled regression on both sides of the cut{-}off (constraining the slopes)}
+
+\NormalTok{global3 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(school\_women}\SpecialCharTok{\textasciitilde{}}\NormalTok{treat}\SpecialCharTok{+}\NormalTok{margin }\SpecialCharTok{+}\NormalTok{ treat}\SpecialCharTok{*}\NormalTok{margin, }\AttributeTok{data =}\NormalTok{ educ)}
+\FunctionTok{summary}\NormalTok{(global3)}
+\end{Highlighting}
+\end{Shaded}
+
+Here, we find that the coefficient of interest is positive
+(\texttt{0.005}) yet insiginifcant. This means that, based on this
+model, the effect of an Islamic party in control of the municipal
+government does not lead to a change in women's educational attainment.
+
+\hfill\break
+
+Global parametric models have a severe shortcoming - they rely upon
+observations that are far away from the cut-off. Indeed, the evidence
+against using a global polynomial approach is quite substantial.
+According to Cattaneo et al (2019), this estimation technique does not
+provide accurate point estimators and inference procedures with good
+statistical properties.
+
+\textbf{Exercise 7 (no coding required): Think about how the global
+polynomial approach weights each observation when it calculates the
+coefficient of interest?}
+
+\hfill\break
+
+\emph{Reveal Answer}
+
+\hfill\break
+
+OLS will estimate \(\tau\) based on all observations across the score.
+This means that the observations' very far from the cut-off weight is
+equal to that of very close ones'. In the worst-case scenario, if the
+observations are clustered far from the cut-off, the estimation of
+\(\tau\) would be heavily influenced by those values rather than those
+close.
+
+\hfill\break
+
+We can also use high-order polynomial to retrieve LATE. However, the
+evidence against using high-order polynomial seems to be quite robust
+\href{https://www.tandfonline.com/doi/abs/10.1080/07350015.2017.1366909}{see
+here for a discussion on high-order polynomials)}. In short, the issues
+with using high-order polynomials is that they leads to noisy estimates,
+they are sensitivity to the degree of the polynomial, and they have poor
+coverage of confidence intervals.
+
+\textbf{Exercise 8: Well - let's give it a try nonetheless. Conduct a
+third-order polynomial regression function. Include in this model the
+\texttt{treat} and the \texttt{margin} variables. Also, add the
+\texttt{margin} variable raised at the power of 2 and then at the power
+of 3. We also need to include the \texttt{I()} function or insulate
+function for the \texttt{margin} variable that is raised at the power of
+2 and 3. The \texttt{I()} function insulates whatever is inside this
+function. It creates a new predictor that is the product of the margin
+variable by itself two and three times. Store this output in an object
+and call that object \texttt{global4}. Then, use the \texttt{summary()}
+to check the results of this specification. Interpret the results. }
+
+\hfill\break
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{global4 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(school\_women}\SpecialCharTok{\textasciitilde{}}\NormalTok{ treat }\SpecialCharTok{+}\NormalTok{ margin}\SpecialCharTok{+}\FunctionTok{I}\NormalTok{(margin}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(margin}\SpecialCharTok{\^{}}\DecValTok{3}\NormalTok{) , }\AttributeTok{data =}\NormalTok{ educ)}
+
+\FunctionTok{summary}\NormalTok{(global4)}
+\end{Highlighting}
+\end{Shaded}
+
+Using a high-order polynomial function, we find that womens' educational
+attainment decreases, on average, by roughly \texttt{2.1} per cent when
+an Islamic party is in power - yet the result is insignificant.
+
+\hfill\break
+
+You might have reason to prefer parametric approaches - or deem them
+more appropriate in some cases. Then, you should not resort to a global
+model. It's more appropriate to only use observations that are close to
+the cut-off (above and below). Let's run the unconstrained model from
+\textbf{Exercise 7}, but this time we only use observations that are
+within 0.5 percentage points above and below the threshold.
+
+\textbf{Exercise 9: Run the same model used in \texttt{Exercise\ 7}, but
+subset your data taking only observations that are above and below 0.5
+points from the threshold. Store the results from this regression into
+an object and call it \texttt{local}. Use the \texttt{summary()} to
+check your results. If you don't remember how to subset data in the
+\texttt{lm()} function. See the syntax below}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{lm}\NormalTok{(outcome }\SpecialCharTok{\textasciitilde{}}\NormalTok{ variable1 }\SpecialCharTok{+}\NormalTok{ variable2 }\SpecialCharTok{+}\NormalTok{ variable1 }\SpecialCharTok{*}\NormalTok{ variable2, }\AttributeTok{data=}\NormalTok{data,}
+           \AttributeTok{subset=}\NormalTok{(running\_variable}\SpecialCharTok{\textgreater{}={-}}\FloatTok{0.5} \SpecialCharTok{\&}\NormalTok{ running\_variable}\SpecialCharTok{\textless{}=}\FloatTok{0.5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\hfill\break
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{local }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(school\_women }\SpecialCharTok{\textasciitilde{}}\NormalTok{ margin }\SpecialCharTok{+}\NormalTok{ treat }\SpecialCharTok{+}\NormalTok{ treat }\SpecialCharTok{*}\NormalTok{ margin, }\AttributeTok{data=}\NormalTok{educ,}
+           \AttributeTok{subset=}\NormalTok{(margin}\SpecialCharTok{\textgreater{}={-}}\FloatTok{0.5} \SpecialCharTok{\&}\NormalTok{ margin}\SpecialCharTok{\textless{}=}\FloatTok{0.5}\NormalTok{))}
+\FunctionTok{summary}\NormalTok{(local)}
+\end{Highlighting}
+\end{Shaded}
+
+We can see that using a local polynomial function, we find that the
+effect of Islamic rule is inconclusive in this case.
+
+\hfill\break
+
+It is important to stress that modern empirical work using RDDs
+empirical work employs local polynomial methods. In this case, we are
+estimating the average outcomes for treated and untreated units using
+observations that are near the cut-off. This approach tends to be more
+robust and less sensitive to boundary and overfitting problems. In local
+polynomial point estimation, we are still using linear regression, but
+within a specific bandwidth near the threshold. In the following
+section, we will look at how to use the approach using a non-parametric
+estimation strategy.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{non-parametric-estimation}{%
+\section{Non-Parametric Estimation}\label{non-parametric-estimation}}
+
+Let's now estimate the LATE using a non-parametric estimator.
+Conveniently, we can easily do so by using the \texttt{rdrobust}
+package. As the name indicates, the package allows us to estimate robust
+measurements of uncertainty such as standard errors and confidence
+intervals. It is based on theoretical and technical work by Calonico,
+Cattaneo and Titiunik. \texttt{rdrobust} estimates robust bias-corrected
+confidence intervals that address the problem of undersmoothing
+conventional confidence intervals face in RDDs. In other words, a small
+bias would be required for them to be valid, which might not be the
+case. Moreover, they also address the poor performance of (non-robust)
+bias-corrected confidence intervals.
+
+As suggested by the authors and somewhat counter-intuitively, we
+therefore use the point estimate provided by the conventional estimator,
+but robust standard errors, confidence intervals and p-values to make
+statistical inferences.
+
+The \texttt{rdrobust} command has the following minimal syntax. You can
+use a uniform bandwidth or specify two different ones. We will work with
+further arguments later. Note that you do not need to specify if the
+running variable is centred on the cut-off as you can manually specify
+the cut-off using the \texttt{c}-argument.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{robust\_model }\OtherTok{=} \FunctionTok{rdrobust}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{running\_var, data}\SpecialCharTok{$}\NormalTok{dependent\_var, }
+                       \AttributeTok{c=}\NormalTok{[cutoff], }\AttributeTok{h=}\NormalTok{[bandwidth])}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Exercise 10: Estimate the LATE using \texttt{rdrobust} with a
+bandwidth of 5\% on either side of the cutoff. Interpret your result.}\\
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{robust\_5}\OtherTok{=}\FunctionTok{rdrobust}\NormalTok{(educ}\SpecialCharTok{$}\NormalTok{school\_women, educ}\SpecialCharTok{$}\NormalTok{margin, }\AttributeTok{c=}\DecValTok{0}\NormalTok{, }\AttributeTok{h=}\FloatTok{0.05}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(robust\_5)}
+\end{Highlighting}
+\end{Shaded}
+
+Our point estimate is \texttt{0.023}. That is, a victory of an Islamic
+party would be associated with an increase in the rate of women who
+complete school by \texttt{2.3\%} - however, the p-value and confidence
+intervals indicate that the estimate is not statistically significant.
+Therefore, based on this model, we would conclude that winning an
+election does \emph{not} have a an effect on women schooling.
+
+\hfill\break
+
+A bandwidth of 5\% seems about reasonable. But we should better check
+different ones, too. Let's see what happens if we halve the bandwidth.
+
+\textbf{Exercise 11: Estimate the same model as before with a bandwidth
+of 2.5\%. Report and interpret your results.}\\
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{robust\_25}\OtherTok{=}\FunctionTok{rdrobust}\NormalTok{(educ}\SpecialCharTok{$}\NormalTok{school\_women, educ}\SpecialCharTok{$}\NormalTok{margin, }\AttributeTok{c=}\DecValTok{0}\NormalTok{, }\AttributeTok{h=}\FloatTok{0.025}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(robust\_25)}
+\end{Highlighting}
+\end{Shaded}
+
+Well, we can see that the number of observations used to estimate the
+effect has been reduced - which is reasonable and we should be aware of.
+The point estimate did not change much and, as before, we find that
+there is in fact no significant effect at the cutoff.
+
+\hfill\break
+
+Bandwidths of 5\% or 2.5\% around the cutoff seem somewhat reasonable in
+this case - but so would several others. How can we know what bandwidth
+we should use to estimate our effect?
+
+Recall the trade-off we are facing when choosing bandwidths that was
+discussed in the lecture: On the one hand we know that more narrow
+bandwidths are associated with less biased estimates - we rely on units
+that are indeed comparable: their distance in the running variable being
+as-if random the closer we get to the cut-off. On the other hand: the
+wider the bandwidths, the smaller the variance. As in several cases
+before, the structure of our data, such as the number of observations,
+plays an important role. Even if small bandwidths are desirable, it can
+be hard {[}impossible{]} to estimate a robust and significant effect if
+the number of observations around the cut-off is very small - even if
+there is a \emph{true} effect.
+
+Luckily, the \texttt{rdrobust} package provides a remedy for this. The
+packages allows us to specify that we want to use bandwidths that are
+optimal given the data input. The \texttt{rdrobust} command then picks
+the bandwidth that optimises the \emph{mean square error} - in other
+words, \emph{MSE-optimal} bandwidths. Note that this is the default
+bandwidth if you don't specify any. Let's try to find out what this
+would be in our case.
+
+\textbf{Exercise 12: Estimate the LATE using \texttt{rdrobust} and
+MSE-optimal bandwidths. To specify the model, replace the \texttt{h}
+argument with \texttt{bwselect="mserd"}.}\\
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{robust\_mserd}\OtherTok{=}\FunctionTok{rdrobust}\NormalTok{(educ}\SpecialCharTok{$}\NormalTok{school\_women, educ}\SpecialCharTok{$}\NormalTok{margin, }\AttributeTok{c=}\DecValTok{0}\NormalTok{, }\AttributeTok{bwselect=}\StringTok{"mserd"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(robust\_mserd)}
+\end{Highlighting}
+\end{Shaded}
+
+This now looks very different. We estimate a LATE of about \texttt{3\%},
+which is significant at the 90\% lvel. Note that the optimal bandwidths
+has been estimated to be \texttt{17.2\%-points} on either side of the
+cut-off, with a separate optimal bandwidth for bias correction. Note
+that the \emph{MSE-optimal} bandwidth is optimal in statistical terms -
+we should always make sure to asses the bandwidths against our theory.
+Here, we'd compare parties' winning margins up to \texttt{17\%-points}.
+
+\hfill\break
+
+Note that, so far, we have used a single bandwidth for data below and
+above the cut-off. We can also specify different ones - both manually
+and in terms of optimal bandwidths. As the structure of our data might
+differ, different bandwidths might be optimal. We can specify two
+different \emph{MSE-optimal} bandwidth selectors by specifying
+\texttt{bwselect="msetwo"}.
+
+\textbf{Exercise 13: Estimate the LATE using \texttt{rdrobust} and two
+MSE-optimal bandwidths. Interpret your results and compare it the model
+with a single optimal bandwidth.}
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{robust\_msetwo}\OtherTok{=}\FunctionTok{rdrobust}\NormalTok{(educ}\SpecialCharTok{$}\NormalTok{school\_women, educ}\SpecialCharTok{$}\NormalTok{margin, }\AttributeTok{c=}\DecValTok{0}\NormalTok{, }\AttributeTok{bwselect=}\StringTok{"msetwo"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(robust\_msetwo)}
+\end{Highlighting}
+\end{Shaded}
+
+This now looks pretty similar to the single optimal bandwidth, which is
+a good sign. In fact, the optimal bandwidth for data points above the
+cut-off remains virtually unchanged. For the ones below the cut-off, the
+bandwidths is slightly extended. The point estimate and measures of
+uncertainty also remain virtually unchanged. If specifying two optimal
+bandwidths alters the results significantly, this is an indicator that
+the data should be inspected closely for the cause of the diverging
+bandwidths.
+
+\hfill\break
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{kernels}{%
+\subsection{Kernels}\label{kernels}}
+
+One of the advantages of the non-parametric RDD is that observations can
+be weighted based on their proximity to the cutoff. This is based on the
+idea that those closer to the cut-off provide better comparisons than
+those further away. Think of victory margins as a running variable: If
+we look at fractions of \%-points around the cut-off, it is fair to say
+that victory is \emph{as-if random}. The farther away we move, the less
+plausible this statement becomes.
+
+As you learned in the lecture, there are different ways to do so. The
+default kernel used by the \texttt{rdrobust} package is a
+\emph{triangular} kernel - which continuously assigns higher weight to
+observations closer to the cut-off. This is the one we have been using
+so far as we didn't explicitly specify the kernel. As the figure below
+shows, other possible options include \emph{epachnechnikov} and
+\emph{uniform} kernels. These can be specified via the \texttt{kernel}
+argument.\\
+
+\includegraphics{kernel.JPG}\\
+
+\textbf{Exercise 14: Estimate the LATE using \texttt{rdrobust} and a
+single MSE-optimal bandwidths but specifying a uniform kernel. Interpret
+your results.}
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{robust\_uniform}\OtherTok{=}\FunctionTok{rdrobust}\NormalTok{(educ}\SpecialCharTok{$}\NormalTok{school\_women, educ}\SpecialCharTok{$}\NormalTok{margin, }\AttributeTok{c=}\DecValTok{0}\NormalTok{, }\AttributeTok{bwselect=}\StringTok{"mserd"}\NormalTok{, }\AttributeTok{kernel=}\StringTok{"uniform"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(robust\_uniform)}
+\end{Highlighting}
+\end{Shaded}
+
+As compared to the \emph{triangular} kernel, our point estimate is
+slightly larger and we find that our robust measures of uncertainty show
+that the effect is significant at the 95\% level. Note that the optimal
+bandwidth is slightly narrower in the model with a \emph{uniform}
+kernel. We have to be aware that this model is less conservative though:
+We assign the same weight to each observation, independent of its
+distance to the cutoff - which introduces growing bias over increasing
+bandwidths.
+
+\hfill\break
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{falsification-checks}{%
+\section{Falsification Checks}\label{falsification-checks}}
+
+\hypertarget{sensitivity}{%
+\subsection{Sensitivity}\label{sensitivity}}
+
+If you apply an RDD, you should always make sure that results are robust
+to different specifications of the model. Importantly, this involves
+\emph{sensitivity checks}. This means you should make sure that results
+are robust across model specifications and, importantly, different
+bandwidths.
+
+While there are packages that help produce useful plots that visualise
+robustness across bandwidths, they can be cumbersome to adjust and are
+not very flexible. Hence, one avenue to create such a plot can be to
+loop \texttt{rdrobust} models over different bandwidths. This solution
+involves somewhat more coding, but gives you a lot of flexibility as to
+what you want to display and highlight.
+
+\hfill\break
+
+\textbf{Exercise 15: Create a plot that shows estimates and confidence
+intervals for estimates of the effect across different bandwidths.}
+
+There are several ways to do this. Feel free to play around a bit and
+try to come up with your own way.
+
+\emph{Reveal Hint}
+
+Hint: You could use the following approach:\\
+- Create a data frame with all variables you need for the plot and a and
+observation for each bandwidth.\\
+- Extract the values from the \texttt{rdrobust} output which you need
+for your plot.\\
+- Loop the regression and the extraction of output over the bandwidths
+indicated in the initial data frame.\\
+- Save the output in your loop to the respective row in the data
+frame.\\
+- Plot the output from the newly created data frame.
+
+\hfill\break
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bandwidth }\OtherTok{\textless{}{-}}  \FunctionTok{seq}\NormalTok{(}\AttributeTok{from =} \FloatTok{0.05}\NormalTok{, }\AttributeTok{to =} \DecValTok{1}\NormalTok{, }\AttributeTok{by =} \FloatTok{0.05}\NormalTok{)  }\CommentTok{\#create a vector with values for each bandwidth you want to estimate}
+
+\NormalTok{coefficient}\OtherTok{\textless{}{-}} \ConstantTok{NA} 
+\NormalTok{se }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\NormalTok{obs }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\NormalTok{bw }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\NormalTok{ci\_u }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\NormalTok{ci\_l }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+
+\NormalTok{data\_extract }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(bandwidth, coefficient, se, obs, bw, ci\_u, ci\_l) }\CommentTok{\# create a data.frame with all variables you want to incldue in your dataset}
+
+\CommentTok{\# create a loop for each bandwidth that is indicated by \textquotesingle{}i\textquotesingle{}}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in}\NormalTok{ bandwidth)\{}
+\NormalTok{ rdbw }\OtherTok{\textless{}{-}} \FunctionTok{rdrobust}\NormalTok{(educ}\SpecialCharTok{$}\NormalTok{school\_women, educ}\SpecialCharTok{$}\NormalTok{margin, }\AttributeTok{c=}\DecValTok{0}\NormalTok{, }\AttributeTok{h=}\NormalTok{i) }\CommentTok{\# run the model}
+                                      
+\CommentTok{\# extract the model output (make sure to extract *robust* statistics)}
+\NormalTok{data\_extract}\SpecialCharTok{$}\NormalTok{coefficient[data\_extract}\SpecialCharTok{$}\NormalTok{bandwidth}\SpecialCharTok{==}\NormalTok{i]  }\OtherTok{\textless{}{-}}\NormalTok{ rdbw}\SpecialCharTok{$}\NormalTok{coef[}\DecValTok{3}\NormalTok{] }
+\NormalTok{data\_extract}\SpecialCharTok{$}\NormalTok{se[data\_extract}\SpecialCharTok{$}\NormalTok{bandwidth}\SpecialCharTok{==}\NormalTok{i]  }\OtherTok{\textless{}{-}}\NormalTok{ rdbw}\SpecialCharTok{$}\NormalTok{se[}\DecValTok{3}\NormalTok{]}
+\NormalTok{data\_extract}\SpecialCharTok{$}\NormalTok{obs[data\_extract}\SpecialCharTok{$}\NormalTok{bandwidth}\SpecialCharTok{==}\NormalTok{i]  }\OtherTok{\textless{}{-}}\NormalTok{ (rdbw}\SpecialCharTok{$}\NormalTok{N\_h[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ rdbw}\SpecialCharTok{$}\NormalTok{N\_h[}\DecValTok{2}\NormalTok{]) }
+\NormalTok{data\_extract}\SpecialCharTok{$}\NormalTok{bw[data\_extract}\SpecialCharTok{$}\NormalTok{bandwidth}\SpecialCharTok{==}\NormalTok{i]  }\OtherTok{\textless{}{-}}\NormalTok{ (rdbw}\SpecialCharTok{$}\NormalTok{bws[}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{]) }
+\NormalTok{data\_extract}\SpecialCharTok{$}\NormalTok{ci\_l[data\_extract}\SpecialCharTok{$}\NormalTok{bandwidth}\SpecialCharTok{==}\NormalTok{i]  }\OtherTok{\textless{}{-}}\NormalTok{ rdbw}\SpecialCharTok{$}\NormalTok{ci[}\DecValTok{3}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{data\_extract}\SpecialCharTok{$}\NormalTok{ci\_u[data\_extract}\SpecialCharTok{$}\NormalTok{bandwidth}\SpecialCharTok{==}\NormalTok{i]  }\OtherTok{\textless{}{-}}\NormalTok{ rdbw}\SpecialCharTok{$}\NormalTok{ci[}\DecValTok{3}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\NormalTok{                   \}}
+
+\CommentTok{\# Make sure the coefficient (and all other values) are numeric}
+\NormalTok{data\_extract}\SpecialCharTok{$}\NormalTok{coefficient  }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(data\_extract}\SpecialCharTok{$}\NormalTok{coefficient)}
+
+\CommentTok{\# Plot the estimates across bandwidths}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ data\_extract,}
+       \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ bandwidth, }\AttributeTok{y =}\NormalTok{ coefficient)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size =} \FloatTok{0.8}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_ribbon}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ ci\_l, }\AttributeTok{ymax =}\NormalTok{ ci\_u), }\AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_hline}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{yintercept =} \DecValTok{0}\NormalTok{), }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{linetype =} \DecValTok{2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{coord\_cartesian}\NormalTok{(}\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{.}\DecValTok{05}\NormalTok{, }\FloatTok{0.15}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"LATE at Discontinuity"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Bandwidths (Vote Margin)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hfill\break
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{sorting}{%
+\subsection{Sorting}\label{sorting}}
+
+The key identification assumption of RDDs is that there is no
+\emph{sorting} on the running variable. That is, the running variable
+must be continuous around the threshold. If this is not the case, we
+have a problem: Then there's a good chance that the observations close
+to the threshold (or on either side of the threshold) are not random. In
+other words: Presence of sorting is usually interpreted as empirical
+evidence of self-selection or non-random sorting of units into control
+and treatment status. Let's check if sorting is problem here. We can do
+this using \emph{density checks}. This means we're looking at the
+density of the running variable.\\
+
+There are several ways to check for sorting. Let's start with
+\emph{McCrary's density test}. We can use the \texttt{DCdenstiy} command
+to conduct both a visual test and statistical test. The syntax is the
+following:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{DCdensity}\NormalTok{(running\_var ,}\AttributeTok{cutpoint=}\NormalTok{ [cutoff] ,}\AttributeTok{plot=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{ext.out =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{title}\NormalTok{(}\AttributeTok{xlab=}\StringTok{"X Lab"}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"Y Lab"}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\DecValTok{0}\NormalTok{, }\AttributeTok{lty=}\DecValTok{1}\NormalTok{) }\CommentTok{\# Adding a vertical line at the cutoff}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Exercise 16: Examine the density of the running variable using
+the \texttt{DCdensity} command.}
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{DCdensity}\NormalTok{(educ}\SpecialCharTok{$}\NormalTok{margin ,}\AttributeTok{cutpoint=} \DecValTok{0}\NormalTok{ ,}\AttributeTok{plot=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{ext.out =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{title}\NormalTok{(}\AttributeTok{xlab=}\StringTok{"Winning Margin"}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"Density"}\NormalTok{) }\CommentTok{\# add labels (always add labels. Really. Always.)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\DecValTok{0}\NormalTok{, }\AttributeTok{lty=}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The test provides relatively clear visual evidence that sorting is not a
+problem in this case. There is a clear overlap of the confidence
+intervals at the cut-off, so the continuity assumption holds. This
+command provides also statistical tests. You can see that information on
+the individual cells - or bins - and the number of observations within
+them is provided. For now, we focus on the inference test for sorting.
+The p-value of about \texttt{0.52} makes clear that we do not reject the
+null hypothesis of continuity at the cut-off.
+
+\hfill\break
+
+Let's further explore the structure of our data and check if sorting
+really isn't a problem here. Recall, we want to make sure the density of
+units should be continuous near the cut-off. We can use the
+\texttt{rddensity} package to do so. This package applies a different
+test than the one we used before. It also is somewhat more powerful and
+provides additional information.
+
+The command is straightforward. You only have to insert the running
+variable as argument and, if different from 0, the cutoff. Note that you
+can optionally specify bandwidths, as above, using the \texttt{h}
+argument. Otherwise, an optimal bandwidth will be specified
+automatically. You can then save this as an object and run the
+\texttt{summary} command to see the output.
+
+\textbf{Exercise 17: Examine the density of the running variable using
+the \texttt{rddensity} command. Interpret your findings. Are they
+equivalent to those in the previous exercise?}\\
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rdd }\OtherTok{\textless{}{-}} \FunctionTok{rddensity}\NormalTok{(educ}\SpecialCharTok{$}\NormalTok{margin, }\AttributeTok{c=}\DecValTok{0}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(rdd)}
+\end{Highlighting}
+\end{Shaded}
+
+This output looks clearer. Note that the test is based on
+\emph{quadratic} local polynomial functions. We also get a different
+bandwidth - recall that we are solely looking at the density of the
+running variable here.
+
+Importantly, the test reveals a p-value of \texttt{0.357}. We again do
+not reject the null hypothesis of continuity around the cut-off. Both
+tests indicating the same result gives us confidence in doing so.
+
+The second part of the output indicates the results of binomial tests
+for the allocation of observations around the cut-off for different
+windows. The number of observations is indicated as well as individual
+p-values for significance tests, with the null hypothesis being equal
+distribution on either side of the cut-off. Note that this can give us
+an indication, but modest unbalance - at such disaggregate level - is
+not evidence for sorting.
+
+\hfill\break
+
+Let's now plot this density test, too. The \texttt{rdplotdensity}
+function allows us to do so easily. It uses the results of the test
+conducted in \texttt{rddensity}. The syntax is simple:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rdplotdensity}\NormalTok{([rdd\_object] ,[running\_var])}
+\end{Highlighting}
+\end{Shaded}
+
+\hfill\break
+We can also add some useful arguments. Feel free to adjust your plot:\\
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5600}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4400}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Argument
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{plotRange} & Indicates starting and end point of plot \\
+\texttt{plotN} & Number of grid points used on either side of the
+cutoff \\
+\texttt{CIuniform} & True or False. If true, CI are displayed as
+continuous bands \\
+\end{longtable}
+
+\hfill\break
+
+\textbf{Exercise 18: Use the \texttt{rplotdensity} to conduct a visual
+density check in a data range from \texttt{-0.2} to \texttt{0.2}. }\\
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot\_rdd }\OtherTok{\textless{}{-}} \FunctionTok{rdplotdensity}\NormalTok{(rdd,educ}\SpecialCharTok{$}\NormalTok{margin, }\AttributeTok{plotRange =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{.}\DecValTok{2}\NormalTok{, }\FloatTok{0.2}\NormalTok{),  }\AttributeTok{CIuniform =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hfill\break
+
+Again, we find visual evidence for continuity around the cutoff. Now we
+can be confident about sorting not being a problem with this data set.
+
+\hfill\break
+
+\hypertarget{balance}{%
+\subsection{Balance}\label{balance}}
+
+One important falsification test is examining whether near the cut-off
+treated units are similar to control units in terms of observable
+characteristics. The logic of this test is to identify that if units
+cannot manipulate the score they receive, there should not be systematic
+differences between untreated and treated units with similar values of
+the score.
+
+\textbf{Exercise 19: Let's check for balance around the cutoff. Use the
+\texttt{rdrobust()} function. Set the cut-off argument \texttt{c} equal
+to 0, and the \texttt{bwselect} argument equal to ``mserd''. In this
+case, the outcome variables are the covariates that we want to check for
+balance. Check if there is balance for the following covariates:
+\texttt{log\_pop}, \texttt{school\_men}, \texttt{sex\_ratio},
+\texttt{log\_area}. Remember to use the \texttt{summary()}.}
+
+\hfill\break
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{rdrobust}\NormalTok{(educ}\SpecialCharTok{$}\NormalTok{log\_pop, educ}\SpecialCharTok{$}\NormalTok{margin, }\AttributeTok{c=}\DecValTok{0}\NormalTok{, }\AttributeTok{bwselect=}\StringTok{"mserd"}\NormalTok{))}
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{rdrobust}\NormalTok{(educ}\SpecialCharTok{$}\NormalTok{school\_men, educ}\SpecialCharTok{$}\NormalTok{margin, }\AttributeTok{c=}\DecValTok{0}\NormalTok{, }\AttributeTok{bwselect=}\StringTok{"mserd"}\NormalTok{))}
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{rdrobust}\NormalTok{(educ}\SpecialCharTok{$}\NormalTok{sex\_ratio, educ}\SpecialCharTok{$}\NormalTok{margin, }\AttributeTok{c=}\DecValTok{0}\NormalTok{, }\AttributeTok{bwselect=}\StringTok{"mserd"}\NormalTok{))}
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{rdrobust}\NormalTok{(educ}\SpecialCharTok{$}\NormalTok{log\_area, educ}\SpecialCharTok{$}\NormalTok{margin, }\AttributeTok{c=}\DecValTok{0}\NormalTok{, }\AttributeTok{bwselect=}\StringTok{"mserd"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+We observe that there is balance across all the covariates of interest.
+
+\hfill\break
+
+\hypertarget{placebo-cut-offs}{%
+\subsection{Placebo cut-offs}\label{placebo-cut-offs}}
+
+Another falsification test is to identify treatment effects at
+artificial or placebo cut-off values. Recall from the lecture that one
+of the identifying assumptions is the continuity (or lack of abrupt
+changes) of the regression functions for the treated and control units
+around the cut-off. While we cannot empirically test this assumption, we
+can test continuity apart from the threshold. Although this does not
+imply the continuity assumption hold at the cut-off, it helps to rule
+out discontinuities other than the cut-off.
+
+This test implies looking at the outcome variable but using different
+cut-offs where we should not expect changes in the outcome. Thus, the
+estimates from this test should be near zero (and not statistically
+significant). One \textbf{important} step to conduct this test is that
+you need to split the sample for those observations that are above the
+cut-off and those that are below. We do this to avoid ``contamination''
+due to the real treatment effects. It also ensures that the analysis of
+each placebo cut-off is conducted using only observations with the same
+treatment status.
+
+\textbf{Exercise 20: Conduct placebo cut-off test using the following
+placebo values: -0.2 and -0.25 for the placebo tests below the cut-off.
+Conduct the same test above the cut-off using the following placebo
+values: 0.20, and 0.25. Use the \texttt{rdrobust()} function to perform
+this test. Set the argument \texttt{bwselect} equal to ``mserd''.
+Replace the cut-off argument \texttt{c} with the values listed before.
+Use the \texttt{summary()} to report the results. Remember to create two
+new data frames. You can use the filter function from tidyverse to do
+this.}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5600}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4400}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Function/argument
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{new\_data\ \textless{}-\ data} & Creates a new data frame using
+the conditions set before the pipeline operator
+\texttt{\%\textgreater{}\textgreater{}\%} \\
+\texttt{filter(variable\ ==\ "condition")} & Subset the data based on a
+logical operation \\
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{new\_data }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(variable }\SpecialCharTok{\textgreater{}=} \DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hfill\break
+
+\emph{Reveal Answer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{educ\_above }\OtherTok{\textless{}{-}}\NormalTok{ educ }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(margin }\SpecialCharTok{\textgreater{}=} \DecValTok{0}\NormalTok{)}
+
+\NormalTok{educ\_below }\OtherTok{\textless{}{-}}\NormalTok{ educ }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(margin }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{)}
+
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{rdrobust}\NormalTok{(educ\_above}\SpecialCharTok{$}\NormalTok{school\_women, educ\_above}\SpecialCharTok{$}\NormalTok{margin, }\AttributeTok{c=}\FloatTok{0.2}\NormalTok{, }\AttributeTok{bwselect =} \StringTok{"mserd"}\NormalTok{)) }\CommentTok{\# {-}0.044}
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{rdrobust}\NormalTok{(educ\_above}\SpecialCharTok{$}\NormalTok{school\_women, educ\_above}\SpecialCharTok{$}\NormalTok{margin, }\AttributeTok{c=}\FloatTok{0.25}\NormalTok{, }\AttributeTok{bwselect=}\StringTok{"mserd"}\NormalTok{)) }\CommentTok{\#{-}0.025}
+
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{rdrobust}\NormalTok{(educ\_below}\SpecialCharTok{$}\NormalTok{school\_women, educ\_below}\SpecialCharTok{$}\NormalTok{margin, }\AttributeTok{c=}\SpecialCharTok{{-}}\FloatTok{0.2}\NormalTok{, }\AttributeTok{bwselect=}\StringTok{"mserd"}\NormalTok{)) }\CommentTok{\# 0.063}
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{rdrobust}\NormalTok{(educ\_below}\SpecialCharTok{$}\NormalTok{school\_women, educ\_below}\SpecialCharTok{$}\NormalTok{margin, }\AttributeTok{c=}\SpecialCharTok{{-}}\FloatTok{0.25}\NormalTok{, }\AttributeTok{bwselect=}\StringTok{"mserd"}\NormalTok{)) }\CommentTok{\# {-}0.008}
+\end{Highlighting}
+\end{Shaded}
+
+We find that for almost all the placebo cut-off values, the coefficients
+are all nearly zero and not statistically significant (with the
+exception of -0.2, which we would want to investigate further). This
+evidence suggests that the assumption of continuity is likely to hold in
+this case.
+
+\hfill\break
+
+
+
+\end{document}
