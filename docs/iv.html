@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Causal Inference - 4&nbsp; Instrumental Variables</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./diff.html" rel="next">
+<link href="./matching.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./iv.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Causal Inference</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Potential Outcomes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./experiments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Experiments</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matching</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./iv.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Difference-in-difference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./panel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Panel Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./rdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regression Discontinuity Design</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./frdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Fuzzy Regression Discontinuity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#lecture-slides-data" id="toc-lecture-slides-data" class="nav-link active" data-scroll-target="#lecture-slides-data"><span class="header-section-number">4.1</span> Lecture Slides &amp; Data</a></li>
+  <li><a href="#recap" id="toc-recap" class="nav-link" data-scroll-target="#recap"><span class="header-section-number">4.2</span> Recap</a></li>
+  <li><a href="#instrumental-variables" id="toc-instrumental-variables" class="nav-link" data-scroll-target="#instrumental-variables"><span class="header-section-number">4.3</span> Instrumental Variables</a></li>
+  <li><a href="#two-stages-least-squares-2sls" id="toc-two-stages-least-squares-2sls" class="nav-link" data-scroll-target="#two-stages-least-squares-2sls"><span class="header-section-number">4.4</span> Two Stages Least Squares (2SLS)</a></li>
+  <li><a href="#iv-assumptions" id="toc-iv-assumptions" class="nav-link" data-scroll-target="#iv-assumptions"><span class="header-section-number">4.5</span> IV Assumptions</a></li>
+  <li><a href="#seminar-overview" id="toc-seminar-overview" class="nav-link" data-scroll-target="#seminar-overview"><span class="header-section-number">5</span> Seminar Overview</a>
+  <ul class="collapse">
+  <li><a href="#does-choice-bring-loyalty" id="toc-does-choice-bring-loyalty" class="nav-link" data-scroll-target="#does-choice-bring-loyalty"><span class="header-section-number">5.1</span> Does Choice Bring Loyalty?</a></li>
+  <li><a href="#iv-regression-2sls" id="toc-iv-regression-2sls" class="nav-link" data-scroll-target="#iv-regression-2sls"><span class="header-section-number">5.2</span> IV Regression: 2SLS</a></li>
+  </ul></li>
+  <li><a href="#homework-answers-will-be-provided-next-week" id="toc-homework-answers-will-be-provided-next-week" class="nav-link" data-scroll-target="#homework-answers-will-be-provided-next-week"><span class="header-section-number">6</span> HOMEWORK (Answers will be provided next week)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">echo =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">message =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">warning =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">comment =</span> <span class="cn">NA</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>dinas <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"dinas.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="lecture-slides-data" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="lecture-slides-data"><span class="header-section-number">4.1</span> Lecture Slides &amp; Data</h2>
+<p><br>
+<br>
+</p>
+<center>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("downloadthis")</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(downloadthis)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">download_link</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">link =</span> <span class="st">"https://bayreuth-politics.github.io/CI22/data/dinas.csv"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_name =</span> <span class="st">"dinas"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_extension =</span> <span class="st">".csv"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">button_label =</span> <span class="st">"Lab 7 Data"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">button_type =</span> <span class="st">"success"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">has_icon =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">self_contained =</span> <span class="cn">TRUE</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#download_link(</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a> <span class="co"># link = "https://github.com/bayreuth-politics/CI22/raw/gh-pages/docs/lectures/lecture6.pdf",</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#  output_name = "week6",</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#  output_extension = ".pdf",</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#  button_label = "Lecture Slides",</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#  button_type = "default",</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">#  has_icon = FALSE,</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a> <span class="co"># self_contained = FALSE</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">#)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</center>
+<p><br>
+</p>
+<hr>
+</section>
+<section id="recap" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="recap"><span class="header-section-number">4.2</span> Recap</h2>
+<p>The Problem of Unobservables</p>
+<p>So far, we discussed randomised experiments and selection on observables. But what about cases in which we do not (cannot) observe covariates? In such case, the <em>conditional independence assumption</em> does not hold. Take, for example, the following scenario: We would like to estimate the effect of <em>D</em> on <em>Y</em>, but are not able to observe the confounding variable <em>U</em>. Since <em>U</em> affects both the independent and dependent variable of interest, any naive estimate of the effect of <em>D</em> will be biased.<br>
+</p>
+</section>
+<section id="instrumental-variables" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="instrumental-variables"><span class="header-section-number">4.3</span> Instrumental Variables</h2>
+<p>An instrumental variable (IV) design helps us circumvent this problem. If <em>D</em> is partly determined by <em>Z</em>, our instrument, we can estimate the effect of <em>D</em> on <em>Y</em>, <strong>despite being unable to observe U.</strong> To do so, <em>Z</em> must be determined as-if random and only affect <em>Y</em> through <em>D</em>, i.e.&nbsp;affect the outcome only through the treatment. Thus, we can take advantage of the variance randomly introduced by <em>Z</em>. In other words, IVs only allow us to estimate the effect for compliers - that is, those units whose <em>D</em> is affected by <em>Z</em>. The <strong>local average treatment effect</strong> - or <strong>complier average causal effect</strong> is then as follows:</p>
+<p><span class="math display">\[ LATE = \frac{E[Y_i|Z_i=1] - E[Y_i|Z_i=0]}{E[D_i|Z_i=1] - E[D_i|Z_i=0]} = \frac{ITT_Y}{ITT_D} \]</span><br>
+</p>
+</section>
+<section id="two-stages-least-squares-2sls" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="two-stages-least-squares-2sls"><span class="header-section-number">4.4</span> Two Stages Least Squares (2SLS)</h2>
+<p>In practice, IV designs are often estimated using 2SLS regressions. As opposed to manual calculations of the treatment effect, these estimators provide correct and robust measures of uncertainty and allow for the inclusion of covariates. The principle is simple: In the first stage, the treatment is regressed on the instrument and, possibly, covariates. The predicted values are then used in the second stage to fit the model. Importantly, both stages <strong>always</strong> need to include exactly the same covariates.</p>
+<p>First Stage : <span class="math display">\[ D_i = \alpha_1 + \phi Z_i + \beta_1 X_{1i} + \gamma_1 X_{2i} + e_{1i} \]</span></p>
+<p>Second Stage: <span class="math display">\[ Y_i = \alpha_2 + \lambda  \hat{D}_i   + \beta_2 X_{1i} + \gamma_2 X_{2i} + e_{2i} \]</span></p>
+<p><br>
+</p>
+</section>
+<section id="iv-assumptions" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="iv-assumptions"><span class="header-section-number">4.5</span> IV Assumptions</h2>
+<p>For an IV design to be valid, several assumptions have to be met. In practice, this can be very hard to achieve. The five assumptions are:<br>
+</p>
+<ol type="1">
+<li><strong>Monotonicity</strong>: There are no defiers<br>
+</li>
+<li><strong>Exclusion Restriction</strong>: The instrument affects the outcome <strong>only</strong> through the treatment<br>
+</li>
+<li><strong>Non-Zero Complier Proportion</strong>: The instrument affects the treatment<br>
+</li>
+<li><strong>Random Assignment of Z</strong>: The instrument is unrelated to potential outcomes<br>
+</li>
+<li><strong>SUTVA</strong></li>
+</ol>
+<p>To satisfy these assumptions, usually good knowledge of context and the particular mechanisms is required. This is particularly the case for the <em>exclusion restriction</em>, which cannot be tested statistically. Accordingly, we must be able to make a convincing case for the assumption to hold. If there are good reasons to believe that the assumption does not hold, the IV design is likely invalid.<br>
+</p>
+<hr>
+<p><strong>Before starting this seminar</strong></p>
+<ol type="1">
+<li><p>Create a folder called “lab7”</p></li>
+<li><p>Download the data (you can use the button or the one at the top, or read csv files directly from github):</p></li>
+<li><p>Open an R script (or Markdown file) and save it in our “lab7” folder.</p></li>
+<li><p>Set your working directory using the setwd() function or by clicking on “More“. For example <em>setwd(“~/Desktop/Causal Inference/2022/Lab7”)</em></p></li>
+<li><p>Let’s install an load packages that we will be using in this lab:</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stargazer) <span class="co"># generate formated regression tables </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(texreg) <span class="co"># generate formatted regression tables</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># to conduct some tidy operations</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plm) <span class="co"># conduct one-way and two-way fixed effects </span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr) <span class="co">#  to conduct ols and provides robust standard errors</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest) <span class="co"># calculates the variance-covariance matrix to be clustered by group.</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multiwayvcov) <span class="co"># To cluster SEs</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ivpack) <span class="co"># Calculates IV models</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ivreg)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fixest) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+<section id="seminar-overview" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Seminar Overview</h1>
+<p>In this <strong>seminar</strong>, we will cover the following topics:<br>
+1. Manually estimate the treatment effect using an instrumental variable and the <code>lm()</code> function<br>
+2. Run an IV regression using <code>ivreg()</code>, <code>iv_robust()</code> and <code>iv_feols()</code><br>
+3. Present the output of 2SLS regressions<br>
+4. Manually calculate the <em>Wald estimator</em><br>
+5. Use Placebo tests to support the validity of the IV design.<br>
+6. Check for weak instruments</p>
+<hr>
+<section id="does-choice-bring-loyalty" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="does-choice-bring-loyalty"><span class="header-section-number">5.1</span> Does Choice Bring Loyalty?</h2>
+<p>Today will work with data from Elias Dinas’ work on <a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/ajps.12044"><em>Does Choice Bring Loyalty?</em></a>. In this paper, the author seeks to understand the foundation of partisan strength. There is a general debate over party identification (PID) in the literature. Some scholars claim that party identification strengthens with age. Others, including the author, suggest that voting for a party brings about loyalty and strengthens political attachment. A straightforward but naive empirical strategy would be to estimate the effect of having voted in one election on the strength of party identification a couple of years further down the line. However, both PID and vote choices are predicted by similar confounders - such research design would inevitably face the problem of unobserved covariates.<br>
+</p>
+<p>To address the research question without uing such naive design, the author takes advantage of a comprehensive panel dataset. The original data include four waves - 1965/1973/1982/1997 -, of which the author uses two (1965 and 1973). In a smart move, Dinas then makes use of the timing of elections and the characteristics of participants in the panel: Elections took place in 1968 and in 1972. To be able to use the effect of voting, Dinas exploited the age of respondents. Importantly, respondents who were born in 1947 (76% of the sample) share a very important characteristic. What is it? They turned 21 - which was the voting age at the time - in 1968. Those who turned 21 before election day were able to vote in 1968, those who did not were only eligible to vote in 1972. This allows the author to exploit respondents’ birthdays - which are random - to causally estimate the effect of voting on the strength of party identification. Obviously, however, not everyone who was eligible to vote in 1968 did vote.<br>
+</p>
+<p><br>
+</p>
+<p><br>
+Besides various covariates, we will be using the following key variables:</p>
+<table class="table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 83%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>eligible68</code></td>
+<td>Dummy for eligibility to vote in 1968 election <em>(Instrument)</em>.</td>
+</tr>
+<tr class="even">
+<td><code>voted68</code></td>
+<td>Dummy indicating whether participant voted in 1968 election <em>(Treatment)</em></td>
+</tr>
+<tr class="odd">
+<td><code>strngpid73</code></td>
+<td>Strength of party identification in 1973 on an ordinal scale <em>(Outcome)</em></td>
+</tr>
+<tr class="even">
+<td><code>knowledge65</code></td>
+<td>Political knowledge in 1965</td>
+</tr>
+<tr class="odd">
+<td><code>strngpid65</code></td>
+<td>Strength of party identification in 1965</td>
+</tr>
+<tr class="even">
+<td><code>elig2false</code></td>
+<td>Dummy variable for placebo tests: 0 for young eligible and 1 for old eligible participants</td>
+</tr>
+<tr class="odd">
+<td><code>v7</code></td>
+<td>Numerical code for school (which we’ll use for clustering SEs)</td>
+</tr>
+</tbody>
+</table>
+<p><br>
+</p>
+<p>Now let’s load the data. There are two ways to do this:</p>
+<p>You can load the brands dataset from your laptop using the <code>read.csv()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set your working directory</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd("~/Desktop/Causal Inference/2022/Lab7")</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#dinas &lt;- read.csv("~/dinas.csv")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Or you can download the data from the course website from following url: https://bayreuth-politics.github.io/CI22/data/dinas.csv.</p>
+<hr>
+<p><strong>Exercise 1: Use the <code>head()</code> function to familiarise yourself with the data set.</strong><br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dinas)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This looks wild. The data set includes various variables which are not labeled really well. For now, let’s focus on the key variables presented above.</p>
+</details>
+<p><br>
+</p>
+<p><strong>Exercise 2: Regress the outcome (<code>strngpid73</code>) on the treatment (<code>voted68</code>) using <code>lm()</code>. Does the OLS provide a causal estimate?</strong><br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ols <span class="ot">&lt;-</span> <span class="fu">lm</span>(strngpid73 <span class="sc">~</span>  voted68, <span class="at">data=</span> dinas)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<p>The naive OLS provides an estimate of <code>0.19</code>, which means that having voted in the 1968 election is associated with an increase of party identification of <code>0.19</code> on the PID scale. However, this does not provide a causal estimate: As we know, there are various factors that are likely to affect both the outcome and treatment. All we can say based on the OLS is the size of the bivariate correlation between these two variables.</p>
+<p>Let’s also look at the visual relationship between these two variables:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using ggplot</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dinas, <span class="fu">aes</span>(<span class="at">x=</span>voted68, <span class="at">y=</span>strngpid73)) <span class="sc">+</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Voted in 1968"</span>) <span class="sc">+</span> </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"PID Strength in 1973"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can actually see a slight but significant increase in PID strength for those who voted in 1968. The decisive question is: Can we causally say that having voted is the reason for this?</p>
+</details>
+<p><br>
+</p>
+<hr>
+</section>
+<section id="iv-regression-2sls" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="iv-regression-2sls"><span class="header-section-number">5.2</span> IV Regression: 2SLS</h2>
+<p>We now know that a simple OLS doen’t provide any causal estimate. Let us now try to estimate the true treatment effect using an instrumental variable design. Following the author, we will be using the eligibility of respondents to vote in the 1968 election (<code>eligible68</code>) as instrument: That is, we exploit the randomness of respondents’ birthdays that determine their eligibility to vote in 1968. To do so, let’s separately look at the first and second stage.<br>
+</p>
+<p><strong>Exercise 3: Investigate the relationship between treatment (<code>voted68</code>) and instrument (<code>eligible68</code>)</strong></p>
+<p>There are several ways to do this. Feel free to pick the option you deem most appropriate.<br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dinas<span class="sc">$</span>eligible68, dinas<span class="sc">$</span>voted68)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+This looks ok. Of the 623 respondents who were eligible to vote in 1968, 373 did so. 250 decided not to vote. 25 respondents indicated that they voted although they were not eligible. How can that be? Most likely, they simply reported they voted even though they did not. They might have done so intentionally or misremembered the election - which might happen in such a long panel. It’s a bit annoying, but there’s not much we can do about it.
+</details>
+<p><br>
+</p>
+<p>Let’s now calculate the first stage.<br>
+</p>
+<p><strong>Exercise 4: Regress the treatment on the instrument and extract the predicted values</strong><br>
+</p>
+<p><em>Note: Make sure to add the argument <code>na.action=na.exclude</code> to your <code>lm()</code> function in order to deal with missing values. You can use <code>predicted_values &lt;- predict(OLS_model)</code> to extract the predicted values.</em></p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculating the first stage. Note `na.action=na.exclude` deals with NAs so we can use the predicted values for the second stage</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>first<span class="ot">=</span><span class="fu">lm</span>(voted68<span class="sc">~</span>eligible68, <span class="at">data=</span>dinas, <span class="at">na.action=</span>na.exclude)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting predicted values</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>vote_pred<span class="ot">=</span><span class="fu">predict</span>(first)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Displaying regression output</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(first)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<p>We can see that the instrument (<code>eligible68</code>) is indeed a strong and significant predictor of the treatment. That is what we expect and hope for. It’s also convincing to think that eligibility - i.e.&nbsp;respondents’ birthdays - is fully random.<br>
+</p>
+<p>Unfortunately, the first stage cannot tell you whether an instrument is appropriate. However, it can tell you something about inappropriate instruments. A common problem in IV designs are <strong>weak instruments</strong>. That is, if your instrument is only weakly correlated with the endogenous variable (i.e.&nbsp;the treatment), it is likely to render biased results. The <em>F-Statistic</em> of the first stage can be used to identify weak instruments. As a rule of thumb, your instrument is likely to be problematic if the <em>F-Statistic</em> of your first stage regression is below 10.</p>
+<p>Going back to the regression output, we see that our F-Statistic here is about <code>110</code> - so nowhere near the conventional threshold. Our instrument is strongly correlated with the treatment as it should be - but note that this does not necessarily mean that it is a valid instrument.</p>
+</details>
+<p><br>
+</p>
+<p>Let’s now proceed to test the exclusion restriction.</p>
+<p><strong>Exercise 5: Test the exclusion restriction for the instrument.</strong><br>
+</p>
+<p><em>Hint: Show that the instrument affects the outcome only through the treatment.</em></p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<p><br>
+</p>
+<p>If you have regressed the outcome on the instrument (and the treatment), this might help familiarise yourself with the data - but it does not provide a test of the <em>exclusion restriction</em>. In fact, it is impossible to statistically test the exclusion restriction. All we can do is rely on theory and build a convincing case for alternative effects not taking place. The problem with a regression of <em>Y</em> on <em>Z</em> (and <em>D</em>) is that we still cannot observe further confounders and account for their effects. We can’t know if their effect does not come into play in such a regression.</p>
+<p>Let’s plot the relationship between the outcome and the instrument nonetheless. As stated above, we can’t tell whether the assumption holds, but we could find that the exclusion restriction is likely to be violated.<br>
+</p>
+<p><strong>Exercise 6: Plot the relationship between the outcome and instrument.</strong></p>
+<p>There are several ways to do this. Feel free to pick the option you deem most appropriate.</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using ggplot</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dinas, <span class="fu">aes</span>(<span class="at">x=</span>eligible68, <span class="at">y=</span>strngpid73)) <span class="sc">+</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Elegibility in 1968"</span>) <span class="sc">+</span> </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"PID Strength in 1973"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<p>This looks as expected. There is no clear and significant association between the two variables. Recall that eligibility itself should not affect party identification strength unless respondents have voted in 1968 as only voting should affect the outcome.</p>
+</details>
+<p><br>
+</p>
+</details>
+<p><br>
+</p>
+<p>Let’s now return to our IV model by calculating the second stage of our 2SLS model.<br>
+</p>
+<p><strong>Exercise 7: Regress the outcome on the predicted values from the first stage</strong><br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculating the first stage</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>second_wrongSE<span class="ot">=</span><span class="fu">lm</span>(strngpid73<span class="sc">~</span>vote_pred, <span class="at">data=</span>dinas)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Displaying regression output</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(second_wrongSE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<p>The second stage uses the predicted values for the treatment from the first stage. Calculating the second stage, the output indicates that - once we instrument for voting in 1968 - the decision to cast a vote in 1968 does not have a significant effect on party identification.</p>
+<p>However, calculating the two stages separately we have not adjusted standard errors and measures of uncertainty. Accordingly, hypothesis testing is likely to provide false results if we rely on such biased measures.</p>
+</details>
+<p><br>
+</p>
+<p><strong>2 IV Regression using 2SL2 in one step</strong></p>
+<p><br>
+There are several packages that we could use to retrieve a two-stage least squares instrumental variables estimator. Let’s now conduct 2SLS using the <code>ivreg()</code>, <code>iv_robust()</code>, <code>iv_feols()</code>. See the below the syntax for each of these functions below:</p>
+<p><strong>Exercise 8: Conduct a two-stage least squares instrumental variable using <code>strngpid73</code> as the outcome. <code>voted68</code> as the endogenous predictor and <code>eligible68</code> as the instrument. Use the <code>ivreg()</code>, <code>iv_robust()</code> functions. Store these models in a list (<code>list()</code>) and report them in a table. Interpret the results.</strong></p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>O</code></td>
+<td>Outcome variable</td>
+</tr>
+<tr class="even">
+<td><code>E</code></td>
+<td>Endogenous variable.</td>
+</tr>
+<tr class="odd">
+<td><code>I</code></td>
+<td>Instrument variable.</td>
+</tr>
+<tr class="even">
+<td><code>FE</code></td>
+<td>Fixed Effect variable</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ivreg</span>(O <span class="sc">~</span> E <span class="sc">|</span> I, <span class="at">data =</span> data ) <span class="co"># ivreg package</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">iv_robust</span>(O <span class="sc">~</span> E <span class="sc">|</span> I, <span class="at">data =</span> data) <span class="co"># estimatr package</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">iv_feols</span>(O  <span class="sc">~</span> E <span class="sc">|</span> FE <span class="sc">|</span> I, <span class="at">data =</span> data) <span class="co"># </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ivreg ## </span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>ivreg_model <span class="ot">&lt;-</span> <span class="fu">ivreg</span>(strngpid73 <span class="sc">~</span> voted68 <span class="sc">|</span> eligible68, <span class="at">data =</span> dinas)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>ivreg_model_clustered <span class="ot">&lt;-</span> <span class="fu">cluster.vcov</span>(ivreg_model, dinas<span class="sc">$</span>v7) <span class="co">#This restimates the model and uses clustered SEs.</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>iv_clustered <span class="ot">&lt;-</span> <span class="fu">coeftest</span>(ivreg_model, ivreg_model_clustered)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="do">## iv_robust ## </span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>iv_robust_model <span class="ot">&lt;-</span> <span class="fu">iv_robust</span>(strngpid73 <span class="sc">~</span> voted68 <span class="sc">|</span> eligible68, <span class="at">data =</span> dinas, <span class="at">cluster =</span> v7) <span class="co"># cluster by </span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>ivmodels <span class="ot">&lt;-</span> <span class="fu">list</span>(ivreg_model, iv_robust_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>rows <span class="ot">&lt;-</span> <span class="fu">tribble</span>(<span class="sc">~</span>term,  <span class="sc">~</span> OLS1,  <span class="sc">~</span>OLS2,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">'Covariates'</span>, <span class="st">'No'</span>, <span class="st">'No'</span>) <span class="co"># add one row reporting covariates</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(rows, <span class="st">'position'</span>) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>)  <span class="do">### Change location accordingly  </span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>title <span class="ot">&lt;-</span> <span class="st">'Two-stage Least Squares Models'</span> <span class="co"># add the title to your model</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>coeffs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'(Intercept)'</span><span class="ot">=</span> <span class="st">'Intercept'</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'voted68'</span> <span class="ot">=</span> <span class="st">'Voted'</span>) <span class="co"># rename coefficients </span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co"># regression table </span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(ivmodels, <span class="at">estimate =</span> <span class="st">"{estimate}{stars}"</span>,<span class="at">coef_map =</span> coeffs, <span class="at">gof_omit =</span> <span class="st">'DF|se_type'</span>, <span class="at">add_rows =</span> rows, <span class="at">title =</span> title)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We find that both functions generate the same results - note that SEs vary as the first model indicates the unclustered regression output for comparison. Note how the difference is not incredibly large - yet can impact make a difference for hyptohesis testing. The Local Average Treatment Effect is <code>0.319</code>. [Note that <code>modelsummary</code> struggles to process manually clustered regression output - feel free to use <code>stargazer</code> <code>screenreg</code> instead.]</p>
+</details>
+<p><br>
+</p>
+<p>In 2SLS we can include covariates to capture the covariate-adjusted LATE. Let’s include some covariates to the 2SLS. We can also add additional instruments to our model.</p>
+<p><strong>Exercise 9: Use the <code>ivreg()</code> function and include the following covariates: <code>col1</code> and <code>col2</code>. Use the same endogenous treatment variable <code>voted68</code>. Include <code>eligible68</code> and <code>as.factor(knowledge1965)</code> as instruments. Report the results of this estimation using the <code>summary()</code> function. Include the arguments in the table below to the summary function. Report what is the F-Statistics for this specification. Are the instruments that we using strong or weak instruments?</strong></p>
+<table class="table">
+<colgroup>
+<col style="width: 56%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function/argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Summary()</code></td>
+<td>Generic function to produce results summaries of fitting functions</td>
+</tr>
+<tr class="even">
+<td><code>diagnostics</code></td>
+<td>Set equal to TRUE it provides a number of diagnostic test.</td>
+</tr>
+</tbody>
+</table>
+<p><br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ivreg_covariates <span class="ot">&lt;-</span> <span class="fu">ivreg</span>(strngpid73 <span class="sc">~</span> col1 <span class="sc">+</span> col2 <span class="sc">+</span> voted68 <span class="sc">|</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>             col1 <span class="sc">+</span> col2 <span class="sc">+</span> <span class="fu">as.factor</span>(knowledge65) <span class="sc">+</span> eligible68, <span class="at">data =</span> dinas)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>summary_ivreg <span class="ot">&lt;-</span> <span class="fu">summary</span>(ivreg_covariates, <span class="at">diagnostics =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>summary_ivreg</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Add clustered robust standard errors</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>ivreg_covariates_clustered <span class="ot">&lt;-</span> <span class="fu">cluster.vcov</span>(ivreg_covariates, dinas<span class="sc">$</span>v7)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(ivreg_covariates, ivreg_covariates_clustered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Based on the modified speification, we observed that voting in 1968 has a positive and statistically significant effect on partisanship strength. Also from the summary function, we see several diagnostic tests generated once we set diagnostic argument equal to TRUE.</p>
+<p>If the are more instruments than causal parameters the model is <em>overidentified</em>. If there are as many instruments as causal parameters, the model is <em>just identified</em>. However, if we include more instruments, it is harder to meet the exclusion restriction. One test that we can conduct is the <em>Sagan-Hausman test</em>. This test compares the overidentified model versus a model with a subset of instruments (under the assumption that at least one instrument is valid). The null hypothesis here is that all instruments are valid. In our case, we do not reject this - and conclude that all instruments are valid.</p>
+<p>The weak instruments test means that the instrument has a low correlation with the endogenous explanatory variable - which would be problematic for the IV design. The null hypothesis is that the instrument insufficiently predicts treatment - which can be rejected in this case. The Wu-Hausman test performs an efficiency test that reports whether the IV estimation is just as consistent as OLS. Therefore the null hypothesis is that OLS estimates are consistent. In this case, we do not reject the null hypothesis. Therefore, we claim that our IV model is as good as OLS - and the latter being preferable as it is more efficient.</p>
+</details>
+<p><br>
+</p>
+<p>Besides 2SLS, we can also obtain the Local Average Treatment Effect (LATE) by computing the difference of the conditional expectations of the outcome on the instrument (reduced form) divided by the difference of the conditional expectations of the treatment take-up on the instrument (first stage). Put simply, calculating the difference in the mean of the outcome between units assigned to the treatment minus those units not assigned to the treatment. Then, we divide this number by the difference in the share of received treatment in those two groups (i.e.&nbsp;compliance rates).</p>
+<table class="table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 83%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable/Average</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Y</code></td>
+<td>Outcome</td>
+</tr>
+<tr class="even">
+<td><code>Z</code></td>
+<td>Instrument</td>
+</tr>
+<tr class="odd">
+<td><code>D</code></td>
+<td>Endogenous treatment</td>
+</tr>
+<tr class="even">
+<td><code>Y[Z=1]</code></td>
+<td>Average outcome conditional for units offered the treatment</td>
+</tr>
+<tr class="odd">
+<td><code>Y[Z=0]</code></td>
+<td>Average outcome conditional for unit not offered the treatment</td>
+</tr>
+<tr class="even">
+<td><code>D[Z=1]</code></td>
+<td>Proportion of units receiving the treatment for those assigned to the treatment</td>
+</tr>
+<tr class="odd">
+<td><code>D[Z=0]</code></td>
+<td>Proportion of units receiving the treatment for those not offered the treatment</td>
+</tr>
+</tbody>
+</table>
+<p>The Wald Estimator is then:</p>
+<p><span class="math display">\[\tau=\frac{Y[Z=1]-Y[Z=0]}{D[Z=1]-D[Z=0]}\]</span></p>
+<p><strong>Exercise 10: Manually calculate the Wald Estimator. Use the <code>mean(x, na.rm = T)</code> to calculate the means of each group. You can use the following syntax to obtain the conditional means.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(data<span class="sc">$</span>outcome[data<span class="sc">$</span>instrument <span class="sc">==</span> <span class="dv">1</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="co"># 1 for those that voted, 0 for those that didn't vote </span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(data<span class="sc">$</span>endongeous_variable[data<span class="sc">$</span>instrument <span class="sc">==</span> <span class="dv">1</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)  <span class="co"># 1 for those that were eligible, 0 for those that were not eligible. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Numerator</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dinas<span class="sc">$</span>strngpid73[dinas<span class="sc">$</span>eligible68<span class="sc">==</span><span class="dv">1</span>], <span class="at">na.rm=</span>T)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dinas<span class="sc">$</span>strngpid73[dinas<span class="sc">$</span>eligible68<span class="sc">==</span><span class="dv">0</span>], <span class="at">na.rm=</span>T)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Denominator</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dinas<span class="sc">$</span>voted68[dinas<span class="sc">$</span>eligible68<span class="sc">==</span><span class="dv">1</span>], <span class="at">na.rm=</span>T)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dinas<span class="sc">$</span>voted68[dinas<span class="sc">$</span>eligible68<span class="sc">==</span><span class="dv">0</span>], <span class="at">na.rm=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then, <span class="math inline">\(\tau=\)</span> is equal to:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mean</span>(dinas<span class="sc">$</span>strngpid73[dinas<span class="sc">$</span>eligible68<span class="sc">==</span><span class="dv">1</span>], <span class="at">na.rm=</span>T) <span class="sc">-</span> <span class="fu">mean</span>(dinas<span class="sc">$</span>strngpid73[dinas<span class="sc">$</span>eligible68<span class="sc">==</span><span class="dv">0</span>], <span class="at">na.rm=</span>T)) <span class="sc">/</span> (<span class="fu">mean</span>(dinas<span class="sc">$</span>voted68[dinas<span class="sc">$</span>eligible68<span class="sc">==</span><span class="dv">1</span>], <span class="at">na.rm=</span>T) <span class="sc">-</span> <span class="fu">mean</span>(dinas<span class="sc">$</span>voted68[dinas<span class="sc">$</span>eligible68<span class="sc">==</span><span class="dv">0</span>], <span class="at">na.rm=</span>T))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We see that the estimate of the Wald estimator is 0.32, which is pretty close to the estimate obtained from the <code>ivreg()</code> function.</p>
+</details>
+<p><br>
+</p>
+<p>How would you compute the Wald estimator for a binary endogenous variable and a binary instrument, but that includes covariates - or for non-binary instruments or endogenous variables?</p>
+<p><br>
+</p>
+<details>
+<summary>
+<em>Reveal Hint 1</em>
+</summary>
+<p>Remember that the beta coefficient of your variable of interest (let’s call it <span class="math inline">\(X_{1i}\)</span>) and the control variable <span class="math inline">\(X_{2i}\)</span> is equal to:</p>
+<span class="math display">\[\beta_1 = \frac{Cov(Y_i, \tilde{X_{1i}})}{V(\tilde{X_{1i}})}\]</span>
+</details>
+<p><br>
+</p>
+<p><br>
+</p>
+<details>
+<summary>
+<em>Reveal Hint 2</em>
+</summary>
+<p>The 2SLS estimator is the ratio of the reduced form divided by the first stage, where <span class="math inline">\(\tilde{Z_i}\)</span> is the residual from the regression of <span class="math inline">\(Z_i\)</span> on the covariate(s). (The variances are the same, thus they cancel out).</p>
+<p><span class="math display">\[\lambda_{\text{2SLS}} = \frac{Cov(Y_i, \tilde{Z_i})}{Cov(D_i, \tilde{Z_i})}\]</span> Here we can use the <code>cov()</code> function. You can see the arguments of this function below:</p>
+<table class="table">
+<colgroup>
+<col style="width: 56%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function/argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cov(x, y)</code></td>
+<td>Calculates the covariance between two variables x and y</td>
+</tr>
+<tr class="even">
+<td><code>use</code></td>
+<td>character indicating how missing values should be treated</td>
+</tr>
+<tr class="odd">
+<td><code>pairwise.complete.obs</code></td>
+<td>Determines how the parameters of the covariance function are computed. More details below</td>
+</tr>
+</tbody>
+</table>
+<p>Setting use equal to <em>pairwise.complete.obs</em> computes the mean and variance of x and y using all the non-missing observations. In other words, the correlation between the two variables is calculated using only those observations that both variables have non-missing values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tau_cov <span class="ot">=</span><span class="fu">cov</span>(dinas<span class="sc">$</span>eligible68,dinas<span class="sc">$</span>strngpid73, <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>)<span class="sc">/</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cov</span>(dinas<span class="sc">$</span>eligible68,dinas<span class="sc">$</span>voted68, <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>tau_cov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+<p><br>
+</p>
+<p><strong>Keep in mind that using IV we can ‘only’ estimate the Local Average Treatment Effect. This means that we are estimating the causal effect for one particular group of treated units, which are the compliers.</strong><br>
+</p>
+<p><strong>Exercise 11: Calculate the proportions of compliers, defiers, always-takers, and never takers. Give some labels to the variables, so we can easily identify each group. You can use the <code>factor()</code> function. You can see a description of the syntax below. Assign the following labels to the <code>eligible68</code> variable: “Not eligible” and “Eligible”. For the <code>voted68</code> variable “Not voted”, “Voted”. Lastly: why do we actually impose the monotonicity assumption on IV?</strong>*</p>
+<table class="table">
+<colgroup>
+<col style="width: 56%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function/argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>factor</code></td>
+<td>To encode a vector as a factor</td>
+</tr>
+<tr class="even">
+<td><code>levels</code></td>
+<td>An optional vector of the unique values</td>
+</tr>
+<tr class="odd">
+<td><code>labels</code></td>
+<td>An optional character vector of labels for the levels</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>variable <span class="ot">=</span> <span class="fu">factor</span>(data<span class="sc">$</span>variable, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>,..,<span class="dv">5</span>), </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"One"</span>, <span class="st">"Two"</span>, <span class="st">"Three"</span>...<span class="st">"Five"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dinas<span class="sc">$</span>eligible68n<span class="ot">=</span><span class="fu">factor</span>(dinas<span class="sc">$</span>eligible68,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">labels=</span><span class="fu">c</span>( <span class="st">"Not Eligible"</span>, <span class="st">"Eligible"</span>))</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>dinas<span class="sc">$</span>voted68n<span class="ot">=</span><span class="fu">factor</span>(dinas<span class="sc">$</span>voted68,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Not Voted"</span>,<span class="st">"Voted"</span>))</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dinas<span class="sc">$</span>eligible68n, dinas<span class="sc">$</span>voted68n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>From the table above, we can see that the number of respondents that were not eligible and didn’t vote is 132, this group is composed of never-takers and compliers. The 25 subjects are respondents that were not eligible and voted anyway. This group is comprised of always takers and defiers. The 250 are respondents that were eligible but didn’t vote nonetheless. This group is composed of never takers, plus defiers. Finally, we have 373 respondents that were eligible and indeed voted. This group is composed of always takers and compliers.</p>
+<p>By imposing the monotonicity assumption, we rule out the existence of defiers. This means that 25 respondents that were <strong>not</strong> eligible to vote and voted anyway are indeed always takers (25/157=0.16). Similarly, there are 250 respondents who are never takers (250/(373+250) = 0.40). Finally, the proportion of compliers in the control group is 1-0.16 = 0.84 and in the treatment group are 1-0.4=0.6. If you remember from the Wald estimator, the proportion of compliers (in the denominator) was 0.44, which is equivalent to 0.6-0.16 = 0.44.</p>
+</details>
+<p><br>
+</p>
+<p>There are several diagnostics that we could conduct in order to the validity of an instrument. In particular, we can conduct what is called a placebo test. To test whether the difference in partisan strength is driven by the age gap, the author of this study suggests the following: They split all eligible voters into two groups: the “young” eligibles and the “old” eligibles. The young voters are the ones that were born before May 1947 and the old voters are those that were born since June 1947. It is important to stress that both groups are eligible to vote - so there should not be any difference. Then, the younger group is treated as placebo control group.</p>
+<p><strong>Exercise 12: Conduct a placebo test. Use the <code>lm()</code> function and as the main outcome the partisan strength measured in 1973, <code>strngpid73</code>, as well as in 1965, <code>strngpid65</code>. Use <code>elig2false</code> as the placebo treatment variable. Remember to cluster the standard errors. What’s your interpretation of the findings?</strong></p>
+<p><br>
+</p>
+<details>
+<summary>
+<em>Reveal Answer</em>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>plac <span class="ot">&lt;-</span> <span class="fu">lm</span>(strngpid73 <span class="sc">~</span> elig2false, <span class="at">data=</span>dinas)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster standard errors</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>plac.vcovCL <span class="ot">&lt;-</span> <span class="fu">cluster.vcov</span>(plac, dinas<span class="sc">$</span>v7)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(plac, plac.vcovCL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>plac2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(strngpid65 <span class="sc">~</span> eligible68, <span class="at">data=</span>dinas)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>plac2.vcovCL <span class="ot">&lt;-</span> <span class="fu">cluster.vcov</span>(plac2, dinas<span class="sc">$</span>v7)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(plac2, plac2.vcovCL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We see that there is no statistically significant difference between young and old eligible voters. Thus, this suggests that age does not drive the differences in partisanship strength we unravelled earlier.</p>
+</details>
+<p><br>
+</p>
+<p><strong>Exercise 13: Try to think of possible ways how the exclusion restriction could be violated in this setting. Through Which other paths could the instrument affect the outcome, apart from the endogenous treatment?</strong></p>
+<hr>
+</section>
+</section>
+<section id="homework-answers-will-be-provided-next-week" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> HOMEWORK (Answers will be provided next week)</h1>
+<ol type="1">
+<li>Should you include all non-endogenous covariates in the first state? Why or why not?</li>
+<li>What is the main identification assumption of instrumental variable estimation? How can you test it?</li>
+<li>Can you use more than one exogenous variable (multiple <code>Z</code>s) for one endogeneous variable (<code>D</code>)?</li>
+<li>What’s the difference between the ITT and LATE from IV? Discuss with reference to compliers.</li>
+<li>What’s the forbidden regression? Why is it forbidden?</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./matching.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matching</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./diff.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Difference-in-difference</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

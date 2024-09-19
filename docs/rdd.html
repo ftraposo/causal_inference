@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-<head>
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
 
-<meta charset="utf-8" />
-<meta name="generator" content="quarto-1.3.450" />
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>rdd</title>
+<title>Causal Inference - 7&nbsp; Regression Discontinuity Design</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,7 +56,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-<!-- htmldependencies:E3FAD763 -->
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./frdd.html" rel="next">
+<link href="./panel.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -85,25 +101,165 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body>
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./rdd.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regression Discontinuity Design</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Causal Inference</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Potential Outcomes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./experiments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Experiments</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matching</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./iv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Difference-in-difference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./panel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Panel Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./rdd.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regression Discontinuity Design</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./frdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Fuzzy Regression Discontinuity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <div id="quarto-toc-target"></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#lecture-slides-data" id="toc-lecture-slides-data" class="nav-link active" data-scroll-target="#lecture-slides-data"><span class="header-section-number">7.0.1</span> Lecture Slides &amp; Data</a></li>
+  <li><a href="#recap" id="toc-recap" class="nav-link" data-scroll-target="#recap"><span class="header-section-number">8</span> Recap</a>
+  <ul class="collapse">
+  <li><a href="#sharp-regression-discontinuity" id="toc-sharp-regression-discontinuity" class="nav-link" data-scroll-target="#sharp-regression-discontinuity"><span class="header-section-number">8.0.1</span> Sharp Regression Discontinuity</a></li>
+  <li><a href="#estimation" id="toc-estimation" class="nav-link" data-scroll-target="#estimation"><span class="header-section-number">8.0.2</span> Estimation</a></li>
+  <li><a href="#choice-of-kernel-function-and-polynomial-order" id="toc-choice-of-kernel-function-and-polynomial-order" class="nav-link" data-scroll-target="#choice-of-kernel-function-and-polynomial-order"><span class="header-section-number">8.0.3</span> Choice of Kernel function and Polynomial Order</a></li>
+  <li><a href="#falsification-tests" id="toc-falsification-tests" class="nav-link" data-scroll-target="#falsification-tests"><span class="header-section-number">8.0.4</span> Falsification tests:</a></li>
+  </ul></li>
+  <li><a href="#seminar-overview" id="toc-seminar-overview" class="nav-link" data-scroll-target="#seminar-overview"><span class="header-section-number">9</span> Seminar Overview</a>
+  <ul class="collapse">
+  <li><a href="#islamic-rule-and-the-empowerment-of-the-poor-and-pious---meyerson-2014" id="toc-islamic-rule-and-the-empowerment-of-the-poor-and-pious---meyerson-2014" class="nav-link" data-scroll-target="#islamic-rule-and-the-empowerment-of-the-poor-and-pious---meyerson-2014"><span class="header-section-number">9.1</span> Islamic Rule and the Empowerment of the Poor and Pious - Meyerson (2014)</a></li>
+  <li><a href="#global-parametric-estimation" id="toc-global-parametric-estimation" class="nav-link" data-scroll-target="#global-parametric-estimation"><span class="header-section-number">9.2</span> Global Parametric Estimation</a></li>
+  <li><a href="#non-parametric-estimation" id="toc-non-parametric-estimation" class="nav-link" data-scroll-target="#non-parametric-estimation"><span class="header-section-number">9.3</span> Non-Parametric Estimation</a>
+  <ul class="collapse">
+  <li><a href="#kernels" id="toc-kernels" class="nav-link" data-scroll-target="#kernels"><span class="header-section-number">9.3.1</span> Kernels</a></li>
+  </ul></li>
+  <li><a href="#falsification-checks" id="toc-falsification-checks" class="nav-link" data-scroll-target="#falsification-checks"><span class="header-section-number">9.4</span> Falsification Checks</a>
+  <ul class="collapse">
+  <li><a href="#sensitivity" id="toc-sensitivity" class="nav-link" data-scroll-target="#sensitivity"><span class="header-section-number">9.4.1</span> Sensitivity</a></li>
+  <li><a href="#sorting" id="toc-sorting" class="nav-link" data-scroll-target="#sorting"><span class="header-section-number">9.4.2</span> Sorting</a></li>
+  <li><a href="#balance" id="toc-balance" class="nav-link" data-scroll-target="#balance"><span class="header-section-number">9.4.3</span> Balance</a></li>
+  <li><a href="#placebo-cut-offs" id="toc-placebo-cut-offs" class="nav-link" data-scroll-target="#placebo-cut-offs"><span class="header-section-number">9.4.4</span> Placebo cut-offs</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regression Discontinuity Design</span></h1>
+</div>
 
 
-<section id="regression-discontinuity-design" class="level1">
-<h1>Regression Discontinuity Design</h1>
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">echo =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">message =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">warning =</span> <span class="cn">FALSE</span>,</span>
@@ -113,47 +269,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>educ <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;islamic_women.csv&quot;</span>)</span></code></pre></div>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>educ <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"islamic_women.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="lecture-slides-data" class="level3">
-<h3>Lecture Slides &amp; Data</h3>
-<p><br />
-<br />
+<section id="lecture-slides-data" class="level3" data-number="7.0.1">
+<h3 data-number="7.0.1" class="anchored" data-anchor-id="lecture-slides-data"><span class="header-section-number">7.0.1</span> Lecture Slides &amp; Data</h3>
+<p><br>
+<br>
 </p>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;downloadthis&quot;)</span></span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("downloadthis")</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(downloadthis)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">download_link</span>(</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">link =</span> <span class="st">&quot;https://bayreuth-politics.github.io/CI22/data/islamic_women.csv&quot;</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_name =</span> <span class="st">&quot;educ&quot;</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_extension =</span> <span class="st">&quot;.rdata&quot;</span>,</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">button_label =</span> <span class="st">&quot;Lab 8 Data&quot;</span>,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">button_type =</span> <span class="st">&quot;success&quot;</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">link =</span> <span class="st">"https://bayreuth-politics.github.io/CI22/data/islamic_women.csv"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_name =</span> <span class="st">"educ"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_extension =</span> <span class="st">".rdata"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">button_label =</span> <span class="st">"Lab 8 Data"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">button_type =</span> <span class="st">"success"</span>,</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">has_icon =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">self_contained =</span> <span class="cn">TRUE</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#download_link(</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#  link = &quot;https://github.com/dpir-ci/CI22/raw/gh-pages/docs/lectures/lecture7.pdf&quot;,</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#  output_name = &quot;week7&quot;,</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#  output_extension = &quot;.pdf&quot;,</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#  button_label = &quot;Lecture Slides&quot;,</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#  button_type = &quot;default&quot;,</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#  link = "https://github.com/dpir-ci/CI22/raw/gh-pages/docs/lectures/lecture7.pdf",</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#  output_name = "week7",</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#  output_extension = ".pdf",</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#  button_label = "Lecture Slides",</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#  button_type = "default",</span></span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">#  has_icon = FALSE,</span></span>
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">#  self_contained = FALSE</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">#)</span></span></code></pre></div>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">#)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><br />
-<br />
+<p><br>
+<br>
 </p>
-<hr />
+<hr>
 </section>
-</section>
-<section id="recap" class="level1">
-<h1>Recap</h1>
-<section id="sharp-regression-discontinuity" class="level3">
-<h3>Sharp Regression Discontinuity</h3>
+<section id="recap" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Recap</h1>
+<section id="sharp-regression-discontinuity" class="level3" data-number="8.0.1">
+<h3 data-number="8.0.1" class="anchored" data-anchor-id="sharp-regression-discontinuity"><span class="header-section-number">8.0.1</span> Sharp Regression Discontinuity</h3>
 <p>In RDDs we exploit that treatment assignment is determined by a known <strong>assignment rule</strong> that determines whether units are assigned to the treatment. In RDD, all units in the study receive a score, usually called <em>running variable</em>, <em>forcing variable</em> or <em>index</em>, and treatment is assigned to those units whose score is above a known cut-off (Cattaneo et al 2019).</p>
 <p>In RDD we have three components:</p>
 <ol type="1">
@@ -162,11 +317,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>The treatment.</li>
 </ol>
 <p>In the Sharp Regression Discontinuity Design, the score determines - deterministically - whether the unit is being assigned to treatment or to the control condition. However, we again face the fundamental problem of causal inference because we can only observe the untreated outcome for those units below the cutoff (control) and the treated outcome for those above the cut-off (treated). However, imposing the assumption of comparability between units with very similar values of the score but on opposite sides of cut-off enables us to calculate the treatment effect of the intervention.</p>
-<p>Given the continuity assumption, we would expect that observations in a small neighbourhood around the cut-off will have very similar potential outcomes. Thus, this would justify using observations just below the cut-off as a reasonable proxy of what would the average outcome for those units just above the cut-off would have had if they had received the control condition instead of the treatment (i.e. counterfactual).</p>
+<p>Given the continuity assumption, we would expect that observations in a small neighbourhood around the cut-off will have very similar potential outcomes. Thus, this would justify using observations just below the cut-off as a reasonable proxy of what would the average outcome for those units just above the cut-off would have had if they had received the control condition instead of the treatment (i.e.&nbsp;counterfactual).</p>
 <p>The main goal in RD is to adequately perform an extrapolation of the average outcome of treated and untreated units at the cutoff.</p>
 </section>
-<section id="estimation" class="level3">
-<h3>Estimation</h3>
+<section id="estimation" class="level3" data-number="8.0.2">
+<h3 data-number="8.0.2" class="anchored" data-anchor-id="estimation"><span class="header-section-number">8.0.2</span> Estimation</h3>
 <p>There are different ways that we could estimate the causal effect from RDD:</p>
 <ul>
 <li>Linear</li>
@@ -175,8 +330,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Non-parametric</li>
 </ul>
 </section>
-<section id="choice-of-kernel-function-and-polynomial-order" class="level3">
-<h3>Choice of Kernel function and Polynomial Order</h3>
+<section id="choice-of-kernel-function-and-polynomial-order" class="level3" data-number="8.0.3">
+<h3 data-number="8.0.3" class="anchored" data-anchor-id="choice-of-kernel-function-and-polynomial-order"><span class="header-section-number">8.0.3</span> Choice of Kernel function and Polynomial Order</h3>
 <p>Whenever we conduct RDD we choose the following:</p>
 <ol type="1">
 <li>Polynomial order <span class="math inline">\(p\)</span> function</li>
@@ -185,11 +340,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>We conduct weighted least squares and obtain the intercept of the chosen polynomial order above and below the cut-off.</li>
 <li>Calculate the sharp point estimate by subtracting the intercepts of these polynomials: <span class="math inline">\(\hat{\tau_{SRD}} = \alpha_{above} - \alpha_{below}\)</span></li>
 </ol>
-<p><br />
+<p><br>
 </p>
 </section>
-<section id="falsification-tests" class="level3">
-<h3>Falsification tests:</h3>
+<section id="falsification-tests" class="level3" data-number="8.0.4">
+<h3 data-number="8.0.4" class="anchored" data-anchor-id="falsification-tests"><span class="header-section-number">8.0.4</span> Falsification tests:</h3>
 <p>Whenever we conduct RD we choose the following:</p>
 <p>We learned that we can conduct multiple sensitivity and falsification tests:</p>
 <ol type="1">
@@ -198,7 +353,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Sorting: To check that units do not sort around the threshold.</li>
 <li>Placebo cut-offs: To check that outcomes do not change abruptly at an arbitrary threshold (to test the continuity assumption)</li>
 </ol>
-<hr />
+<hr>
 <p><strong>Before starting this seminar</strong></p>
 <ol type="1">
 <li><p>Create a folder called “lab8”</p></li>
@@ -208,38 +363,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Let’s install an load packages that we will be using in this lab:</p></li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stargazer) <span class="co"># generate formated regression tables </span></span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stargazer) <span class="co"># generate formated regression tables </span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(texreg) <span class="co"># generate formatted regression tables</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># to conduct some tidy operations</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(c(rdrobust, rddensity))</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;rdd&quot;)</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("rdd")</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rdd) <span class="co"># to conduct McCrary Sorting Test </span></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rdrobust) <span class="co"># to conduct non-parametric rd estimates </span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rddensity) <span class="co"># to conduct a density test and density plots</span></span></code></pre></div>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rddensity) <span class="co"># to conduct a density test and density plots</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<hr />
+<hr>
 </section>
 </section>
-<section id="seminar-overview" class="level1">
-<h1>Seminar Overview</h1>
-<p>In this <strong>seminar</strong>, we will cover the following topics:<br />
-1. Conduct regression discontinuity using global polynomial estimation using <code>lm()</code> function<br />
-2. Calculate LATE using non-parametric estimations using <code>rdrobust()</code>.<br />
+<section id="seminar-overview" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Seminar Overview</h1>
+<p>In this <strong>seminar</strong>, we will cover the following topics:<br>
+1. Conduct regression discontinuity using global polynomial estimation using <code>lm()</code> function<br>
+2. Calculate LATE using non-parametric estimations using <code>rdrobust()</code>.<br>
 3. Conduct various robustness/falsification tests such as balance test, placebo outcome, density test, and falsification test.</p>
-<hr />
-<section id="islamic-rule-and-the-empowerment-of-the-poor-and-pious---meyerson-2014" class="level2">
-<h2>Islamic Rule and the Empowerment of the Poor and Pious - Meyerson (2014)</h2>
+<hr>
+<section id="islamic-rule-and-the-empowerment-of-the-poor-and-pious---meyerson-2014" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="islamic-rule-and-the-empowerment-of-the-poor-and-pious---meyerson-2014"><span class="header-section-number">9.1</span> Islamic Rule and the Empowerment of the Poor and Pious - Meyerson (2014)</h2>
 <p>In this <a href="https://onlinelibrary.wiley.com/doi/abs/10.3982/ECTA9878">paper</a>, Meyerson is interested in the effects of Islamic parties’ control of local governments on women’s rights. He focuses on the educational attainment of young women. Meyerson conducts a Sharp RD design, based on close elections in Turkey. The challenge here is to compare municipalities where the support for Islamic parties is high and win the election, versus those that elected a secular mayor.</p>
 <p>You would expect that municipalities controlled by Islamic parties would systematically differ from those that are controlled by a secular mayor. Particularly, if religious conservatism affects the educational outcomes of women. However, we can use RDD to isolate the treatment effect of interest from all systematic differences between treated and untreated units.</p>
 <p>We can compare municipalities the Islamic party barely won the election versus municipalities where the Islamic party barely lost. This reveals the causal (local) effect of Islamic party control on women’s educational attainment a few years later. One crucial condition to meet in this setup is that parties cannot systematically manipulate the vote share they obtain.</p>
 <p>The data used in this study is from the 2014 mayoral election in Turkey. The unit of analysis is the municipality, and the running variable is the margin of victory. The outcome of interest is the educational attainment of women who attended high school during 1994-2000, calculated as a percentage of the cohort of women aged 15 to 20 in 2000 who had completed high school by 2000.</p>
 <p>We will be using the following variables:</p>
-<table>
+<table class="table">
 <colgroup>
-<col style="width: 16%" />
-<col style="width: 83%" />
+<col style="width: 16%">
+<col style="width: 83%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -274,54 +429,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p><br />
+<p><br>
 </p>
 <p>Now let’s load the data. There are two ways to do this:</p>
 <p>You can load the dataset from your laptop using the <code>read.csv()</code> function. Here the dataset is called <code>educ</code> - but feel free to give it a different name if you prefer.</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set your working directory</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd(&quot;~/Desktop/Causal Inference/2022/Lab8&quot;)</span></span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set your working directory</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd("~/Desktop/Causal Inference/2022/Lab8")</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#educ &lt;- read.csv(&quot;~/islamic_women.csv&quot;)</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#educ &lt;- read.csv("~/islamic_women.csv")</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(educ)</span></code></pre></div>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(educ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s start by visualising the data. We will use <code>plot()</code> function to do this. This is the simplest scatter plot that you can come up with.</p>
 <p><strong>Exercise 1: Generate a plot using the <code>plot(X,Y)</code> function. Replace X with <code>educ$margin</code> and Y with <code>educ$school_women</code>.</strong></p>
-<p><br />
+<p><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(educ<span class="sc">$</span>margin, educ<span class="sc">$</span>school_women)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(educ<span class="sc">$</span>margin, educ<span class="sc">$</span>school_women)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is a very simple plot that shows the raw relationship between the margin of victory and the outcome variable. However, it conveys some important information. For example, the margin of victory is clustered around -0.5 and roughly 0.3. Also, the outcome variable, school attainment, usually goes from 0 to 40%. Now let’s generate a slightly fancier plot.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 <p><strong>Exercise 2: Generate a scatter plot using <code>ggplot()</code> function. Use the functions below to add some additional features into this plot.</strong></p>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> running variable, <span class="at">y =</span> outcome, <span class="at">colour =</span>outcome), <span class="at">data =</span> data) <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> running variable, <span class="at">y =</span> outcome, <span class="at">colour =</span>outcome), <span class="at">data =</span> data) <span class="sc">+</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Make points small and semi-transparent since there are lots of them</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> <span class="dv">0</span>, <span class="at">height =</span> <span class="fl">0.25</span>, <span class="at">seed =</span> <span class="dv">1234</span>)) <span class="sc">+</span> </span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add vertical line</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span> </span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add labels</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Label X&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Label Y&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Turn off the color legend, since it&#39;s redundant</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Label X"</span>, <span class="at">y =</span> <span class="st">"Label Y"</span>) <span class="sc">+</span> </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Turn off the color legend, since it's redundant</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><br />
+<p><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s check if this is a sharp RD. </span></span>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's check if this is a sharp RD. </span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(educ, <span class="fu">aes</span>(<span class="at">x =</span> margin, <span class="at">y =</span> school_women, <span class="at">colour =</span>school_women)) <span class="sc">+</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Make points small and semi-transparent since there are lots of them</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, </span>
@@ -329,19 +484,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add vertical line</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span> </span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add labels</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Vote share&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Womens&#39; Educational Attainment (Proportion)&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Turn off the color legend, since it&#39;s redundant</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Vote share"</span>, <span class="at">y =</span> <span class="st">"Womens' Educational Attainment (Proportion)"</span>) <span class="sc">+</span> </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Turn off the color legend, since it's redundant</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now see more clearly that most municipalities elected a secular mayor. Recall that we are using the margin of victory for the Islamic parties - a positive margin of victory is positive means that the Islamic parties won the election in that municipality.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 <p><strong>Exercise 3: Let’s generate a dummy variable that is equal to “Treated” if the margin of victory <em>is equal or greater than zero</em> and “Untreated” otherwise. You can use the <code>mutate()</code> function and the <code>ifelse()</code> functions to do this. Remember to use the pipeline operator to store the variable into your existing data frame. See below the syntax for more information.</strong></p>
-<table>
+<table class="table">
 <colgroup>
-<col style="width: 56%" />
-<col style="width: 44%" />
+<col style="width: 56%">
+<col style="width: 44%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -361,45 +516,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">newvariable =</span> <span class="fu">ifelse</span>(variable <span class="sc">&gt;=</span> <span class="dv">0</span> , <span class="st">&quot;Treated&quot;</span>, <span class="st">&quot;Untreated&quot;</span>))</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">newvariable =</span> <span class="fu">ifelse</span>(variable <span class="sc">&gt;=</span> <span class="dv">0</span> , <span class="st">"Treated"</span>, <span class="st">"Untreated"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><br />
+<p><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>educ <span class="ot">&lt;-</span> educ <span class="sc">%&gt;%</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">treat =</span> <span class="fu">ifelse</span>(margin <span class="sc">&gt;=</span> <span class="dv">0</span> , <span class="st">&quot;Treated&quot;</span>, <span class="st">&quot;Untreated&quot;</span>))</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>educ <span class="ot">&lt;-</span> educ <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">treat =</span> <span class="fu">ifelse</span>(margin <span class="sc">&gt;=</span> <span class="dv">0</span> , <span class="st">"Treated"</span>, <span class="st">"Untreated"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now that we have created our treatment condition variable, let’s generate an additional plot that conveys information on the distribution of the running variable for both treated and untreated municipalities.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 <p><strong>Exercise 4: Generate a plot looking at the distribution margin of victory variable. Using the <code>ggplot()</code> function, set the <code>x</code> argument equal to the margin of victory variable. Set <code>fill</code> equal the new treatment variable <code>treat</code>. There is no need to add the <code>y</code> argument given that we expect to generate a histogram that will give us the number of observations for each value in the margin of victory variable. Add the <code>geom_histogram()</code> function. Set the argument <code>binwidth</code> in this function equal to 0.01 and set <code>colour</code> argument equal to “dark”. Let’s add the <code>geom_vline()</code> function and add a vertical line by setting the <code>xintercept</code> argument equal to zero. Add the <code>labs()</code> function and set <code>x</code> label equal to “Margin of victory” and the <code>y</code> label equal to “count”, and the <code>fill</code> argument equal to “Treatment Status”.</strong></p>
-<p><br />
+<p><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(educ, <span class="fu">aes</span>(<span class="at">x =</span> margin, <span class="at">fill =</span> treat)) <span class="sc">+</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.01</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span> </span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(educ, <span class="fu">aes</span>(<span class="at">x =</span> margin, <span class="at">fill =</span> treat)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.01</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span> </span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span> </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Margin of Victory&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;Treatment Status&quot;</span>)</span></code></pre></div>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Margin of Victory"</span>, <span class="at">y =</span> <span class="st">"Count"</span>, <span class="at">fill =</span> <span class="st">"Treatment Status"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><br />
+<p><br>
 </p>
 <p>In this plot, we can see the distribution of the running variable (margin of victory). Again, we can see that in the majority of the municipalities a secular mayor was elected.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 </section>
-<section id="global-parametric-estimation" class="level2">
-<h2>Global Parametric Estimation</h2>
+<section id="global-parametric-estimation" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="global-parametric-estimation"><span class="header-section-number">9.2</span> Global Parametric Estimation</h2>
 <p>As we discussed in the lecture, there are different ways to estimate the causal effect using RD. These different approaches differ in the range of observations they include as well as how they estimate the average outcome for those units just above the cut-off and below the cut-off. One way to estimate the effect of the intervention in RDD is using OLS, but only using the running variable as the main predictor. In this case, we use the running variable measured as the distance from the cut-off. Stated formally: <span class="math inline">\(\tilde{X_l} = X - c\)</span>.</p>
 <p>In this case, the regression in the left-hand side would be equal to:</p>
 <p><span class="math display">\[Y= \alpha_l + \tilde{X} + \epsilon\]</span> Whereas the regression above the cut-off is equal to:</p>
@@ -408,19 +563,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Let’s do this manually. To do so, subset the data for those observations above and below the threshold. Then, regress the outcome on the <strong>running variable</strong>. Finally, subtract the intercepts from each regression. Let’s do that in the following exercise.</p>
 <p><strong>Exercise 5: Run a regression using only <code>margin</code> variable as the predictor. Set your outcome variable equal to <code>school_women</code> variable. Set the <code>data</code> argument equal to <code>educ</code> (unless you called your data frame differently). Add the <code>subset</code> function inside of the <code>lm()</code> function and set it equal to <code>margin &gt;= 0</code> for the regression above the cut-off and <code>margin &lt; 0</code> for the regression below the cut-off. Use the <code>summary()</code> function to report your results, but also store the output of this function into an object. You can retrieve the intercept from the object that you stored the output from the <code>summary()</code> function this way:</strong></p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>object <span class="ot">&lt;-</span> <span class="fu">summary</span>(<span class="fu">lm</span>(outcome <span class="sc">~</span> variable, <span class="at">data =</span> data, <span class="at">subset =</span> variable <span class="sc">&gt;=</span> condition))</span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>object <span class="ot">&lt;-</span> <span class="fu">summary</span>(<span class="fu">lm</span>(outcome <span class="sc">~</span> variable, <span class="at">data =</span> data, <span class="at">subset =</span> variable <span class="sc">&gt;=</span> condition))</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># intercept</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>object<span class="sc">$</span>coefficient[<span class="dv">1</span>]</span></code></pre></div>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>object<span class="sc">$</span>coefficient[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><br />
+<p><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># above</span></span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># above</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>above <span class="ot">&lt;-</span> <span class="fu">summary</span>(<span class="fu">lm</span>(school_women<span class="sc">~</span>margin, <span class="at">data =</span> educ, <span class="at">subset =</span> margin <span class="sc">&gt;=</span> <span class="dv">0</span>))</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>above<span class="sc">$</span>coefficients[<span class="dv">1</span>]</span>
@@ -432,161 +587,161 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.156453 - 0.162002</span></span>
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>tau_rd <span class="ot">=</span> above<span class="sc">$</span>coefficients[<span class="dv">1</span>] <span class="sc">-</span> below<span class="sc">$</span>coefficients[<span class="dv">1</span>]</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>tau_rd</span></code></pre></div>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>tau_rd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Based on this approach the intercepts of the two regressions yield the estimated value of the average outcome at the cut-off point for the treated and untreated units. This difference of intercepts is the estimated effect of an Islamic party being in power (at the municipal level) - it suggests there is a 0.5 percentage decrease in women’s educational attainment.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 <p>A more direct way of estimating the treatment effect is to run a pooled regression on both sides of the cut-off point, using the following specification: <span class="math inline">\(Y = \alpha + \tau D + \beta \tilde{X} + \epsilon\)</span></p>
 <p>Where <span class="math inline">\(\tau\)</span> is the coefficient of interest. Here again LATE is the difference between the two intercepts: <span class="math inline">\(\tau = \alpha_r -\alpha_l\)</span>. When <span class="math inline">\(D\)</span> switches off and we are also controlling the different values of the forcing variable, <span class="math inline">\(\tilde{X}\)</span>, we get the slope of the regression below the threshold. Conversely, for units above the cut-off, <span class="math inline">\(D\)</span> switches on, and we control for different values of the forcing variable, we get the slope of the regression above the cut-off. The estimated effect of the treatment at <span class="math inline">\(\tilde{X}\)</span> then provides the treatment effect (<span class="math inline">\(\tau\)</span>).</p>
 <p>Note that you are constraining the slope of the regression lines to the same on both sides of the cut-off. (<span class="math inline">\(\beta_l = \beta_r\)</span>) This might not be consistent if the data structure varies and the single slope fails to appropriately approximating each side to the cutoff.</p>
 <p><strong>Exercise 6: Calculate the effect of the intervention using a regression model including the <code>margin</code> and <code>treat</code> variables. Use the<code>lm()</code> function to conduct this analysis. Store this regression into an object and call it <code>global2</code>. Use the <code>summary()</code> to inspect your results. Interpret the coefficient of interest.</strong></p>
-<p><br />
+<p><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a more direct way is to run a pooled regression on both sides of the cut-off (constraining the slopes)</span></span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a more direct way is to run a pooled regression on both sides of the cut-off (constraining the slopes)</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>global2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(school_women<span class="sc">~</span>treat<span class="sc">+</span>margin, <span class="at">data =</span> educ)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(global2)</span></code></pre></div>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(global2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Using this estimation approach, we obtain that, on average, the effect of a municipality in control of an Islamic party leads to a 1.7%-point increase in women’s educational attainment.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 <p>We can also allow the regression function to differ on both sides of the cut-off by including interaction terms between <span class="math inline">\(D\)</span> and <span class="math inline">\(\tilde{X}\)</span>. This would be as follows:</p>
 <p><span class="math display">\[Y = \alpha_l + \tau D + \beta_0\tilde{X} + \beta_1 (D \times\tilde{X})+ \epsilon\]</span></p>
 <p>Let’s do that in the following exercise.</p>
 <p><strong>Exercise 7: Calculate the effect of the intervention using a regression model including the <code>margin</code> and <code>treat</code> variables and the interaction between these two variables. Use the<code>lm()</code> function to conduct this analysis. Store this regression into an object and call it <code>global3</code>. Use the <code>summary()</code> to inspect your results. Interpret the coefficient of interest.</strong></p>
-<p><br />
+<p><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a more direct way is to run a pooled regression on both sides of the cut-off (constraining the slopes)</span></span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a more direct way is to run a pooled regression on both sides of the cut-off (constraining the slopes)</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>global3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(school_women<span class="sc">~</span>treat<span class="sc">+</span>margin <span class="sc">+</span> treat<span class="sc">*</span>margin, <span class="at">data =</span> educ)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(global3)</span></code></pre></div>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(global3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here, we find that the coefficient of interest is positive (<code>0.005</code>) yet insiginifcant. This means that, based on this model, the effect of an Islamic party in control of the municipal government does not lead to a change in women’s educational attainment.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 <p>Global parametric models have a severe shortcoming - they rely upon observations that are far away from the cut-off. Indeed, the evidence against using a global polynomial approach is quite substantial. According to Cattaneo et al (2019), this estimation technique does not provide accurate point estimators and inference procedures with good statistical properties.</p>
 <p><strong>Exercise 7 (no coding required): Think about how the global polynomial approach weights each observation when it calculates the coefficient of interest?</strong></p>
-<p><br />
+<p><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
-<p><br />
+<p><br>
 </p>
 <p>OLS will estimate <span class="math inline">\(\tau\)</span> based on all observations across the score. This means that the observations’ very far from the cut-off weight is equal to that of very close ones’. In the worst-case scenario, if the observations are clustered far from the cut-off, the estimation of <span class="math inline">\(\tau\)</span> would be heavily influenced by those values rather than those close.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 <p>We can also use high-order polynomial to retrieve LATE. However, the evidence against using high-order polynomial seems to be quite robust <a href="https://www.tandfonline.com/doi/abs/10.1080/07350015.2017.1366909">see here for a discussion on high-order polynomials)</a>. In short, the issues with using high-order polynomials is that they leads to noisy estimates, they are sensitivity to the degree of the polynomial, and they have poor coverage of confidence intervals.</p>
 <p><strong>Exercise 8: Well - let’s give it a try nonetheless. Conduct a third-order polynomial regression function. Include in this model the <code>treat</code> and the <code>margin</code> variables. Also, add the <code>margin</code> variable raised at the power of 2 and then at the power of 3. We also need to include the <code>I()</code> function or insulate function for the <code>margin</code> variable that is raised at the power of 2 and 3. The <code>I()</code> function insulates whatever is inside this function. It creates a new predictor that is the product of the margin variable by itself two and three times. Store this output in an object and call that object <code>global4</code>. Then, use the <code>summary()</code> to check the results of this specification. Interpret the results. </strong></p>
-<p><br />
+<p><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>global4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(school_women<span class="sc">~</span> treat <span class="sc">+</span> margin<span class="sc">+</span><span class="fu">I</span>(margin<span class="sc">^</span><span class="dv">2</span>)<span class="sc">+</span> <span class="fu">I</span>(margin<span class="sc">^</span><span class="dv">3</span>) , <span class="at">data =</span> educ)</span>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>global4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(school_women<span class="sc">~</span> treat <span class="sc">+</span> margin<span class="sc">+</span><span class="fu">I</span>(margin<span class="sc">^</span><span class="dv">2</span>)<span class="sc">+</span> <span class="fu">I</span>(margin<span class="sc">^</span><span class="dv">3</span>) , <span class="at">data =</span> educ)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(global4)</span></code></pre></div>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(global4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Using a high-order polynomial function, we find that womens’ educational attainment decreases, on average, by roughly <code>2.1</code> per cent when an Islamic party is in power - yet the result is insignificant.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 <p>You might have reason to prefer parametric approaches - or deem them more appropriate in some cases. Then, you should not resort to a global model. It’s more appropriate to only use observations that are close to the cut-off (above and below). Let’s run the unconstrained model from <strong>Exercise 7</strong>, but this time we only use observations that are within 0.5 percentage points above and below the threshold.</p>
 <p><strong>Exercise 9: Run the same model used in <code>Exercise 7</code>, but subset your data taking only observations that are above and below 0.5 points from the threshold. Store the results from this regression into an object and call it <code>local</code>. Use the <code>summary()</code> to check your results. If you don’t remember how to subset data in the <code>lm()</code> function. See the syntax below</strong></p>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(outcome <span class="sc">~</span> variable1 <span class="sc">+</span> variable2 <span class="sc">+</span> variable1 <span class="sc">*</span> variable2, <span class="at">data=</span>data,</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">subset=</span>(running_variable<span class="sc">&gt;=-</span><span class="fl">0.5</span> <span class="sc">&amp;</span> running_variable<span class="sc">&lt;=</span><span class="fl">0.5</span>))</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(outcome <span class="sc">~</span> variable1 <span class="sc">+</span> variable2 <span class="sc">+</span> variable1 <span class="sc">*</span> variable2, <span class="at">data=</span>data,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">subset=</span>(running_variable<span class="sc">&gt;=-</span><span class="fl">0.5</span> <span class="sc">&amp;</span> running_variable<span class="sc">&lt;=</span><span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><br />
+<p><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>local <span class="ot">&lt;-</span> <span class="fu">lm</span>(school_women <span class="sc">~</span> margin <span class="sc">+</span> treat <span class="sc">+</span> treat <span class="sc">*</span> margin, <span class="at">data=</span>educ,</span>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>local <span class="ot">&lt;-</span> <span class="fu">lm</span>(school_women <span class="sc">~</span> margin <span class="sc">+</span> treat <span class="sc">+</span> treat <span class="sc">*</span> margin, <span class="at">data=</span>educ,</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">subset=</span>(margin<span class="sc">&gt;=-</span><span class="fl">0.5</span> <span class="sc">&amp;</span> margin<span class="sc">&lt;=</span><span class="fl">0.5</span>))</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(local)</span></code></pre></div>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(local)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can see that using a local polynomial function, we find that the effect of Islamic rule is inconclusive in this case.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 <p>It is important to stress that modern empirical work using RDDs empirical work employs local polynomial methods. In this case, we are estimating the average outcomes for treated and untreated units using observations that are near the cut-off. This approach tends to be more robust and less sensitive to boundary and overfitting problems. In local polynomial point estimation, we are still using linear regression, but within a specific bandwidth near the threshold. In the following section, we will look at how to use the approach using a non-parametric estimation strategy.</p>
-<hr />
+<hr>
 </section>
-<section id="non-parametric-estimation" class="level2">
-<h2>Non-Parametric Estimation</h2>
+<section id="non-parametric-estimation" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="non-parametric-estimation"><span class="header-section-number">9.3</span> Non-Parametric Estimation</h2>
 <p>Let’s now estimate the LATE using a non-parametric estimator. Conveniently, we can easily do so by using the <code>rdrobust</code> package. As the name indicates, the package allows us to estimate robust measurements of uncertainty such as standard errors and confidence intervals. It is based on theoretical and technical work by Calonico, Cattaneo and Titiunik. <code>rdrobust</code> estimates robust bias-corrected confidence intervals that address the problem of undersmoothing conventional confidence intervals face in RDDs. In other words, a small bias would be required for them to be valid, which might not be the case. Moreover, they also address the poor performance of (non-robust) bias-corrected confidence intervals.</p>
 <p>As suggested by the authors and somewhat counter-intuitively, we therefore use the point estimate provided by the conventional estimator, but robust standard errors, confidence intervals and p-values to make statistical inferences.</p>
 <p>The <code>rdrobust</code> command has the following minimal syntax. You can use a uniform bandwidth or specify two different ones. We will work with further arguments later. Note that you do not need to specify if the running variable is centred on the cut-off as you can manually specify the cut-off using the <code>c</code>-argument.</p>
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>robust_model <span class="ot">=</span> <span class="fu">rdrobust</span>(data<span class="sc">$</span>running_var, data<span class="sc">$</span>dependent_var, </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">c=</span>[cutoff], <span class="at">h=</span>[bandwidth])</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>robust_model <span class="ot">=</span> <span class="fu">rdrobust</span>(data<span class="sc">$</span>running_var, data<span class="sc">$</span>dependent_var, </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">c=</span>[cutoff], <span class="at">h=</span>[bandwidth])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Exercise 10: Estimate the LATE using <code>rdrobust</code> with a bandwidth of 5% on either side of the cutoff. Interpret your result.</strong><br />
+<p><strong>Exercise 10: Estimate the LATE using <code>rdrobust</code> with a bandwidth of 5% on either side of the cutoff. Interpret your result.</strong><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>robust_5<span class="ot">=</span><span class="fu">rdrobust</span>(educ<span class="sc">$</span>school_women, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">h=</span><span class="fl">0.05</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(robust_5)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>robust_5<span class="ot">=</span><span class="fu">rdrobust</span>(educ<span class="sc">$</span>school_women, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">h=</span><span class="fl">0.05</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(robust_5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Our point estimate is <code>0.023</code>. That is, a victory of an Islamic party would be associated with an increase in the rate of women who complete school by <code>2.3%</code> - however, the p-value and confidence intervals indicate that the estimate is not statistically significant. Therefore, based on this model, we would conclude that winning an election does <em>not</em> have a an effect on women schooling.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 <p>A bandwidth of 5% seems about reasonable. But we should better check different ones, too. Let’s see what happens if we halve the bandwidth.</p>
-<p><strong>Exercise 11: Estimate the same model as before with a bandwidth of 2.5%. Report and interpret your results.</strong><br />
+<p><strong>Exercise 11: Estimate the same model as before with a bandwidth of 2.5%. Report and interpret your results.</strong><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>robust_25<span class="ot">=</span><span class="fu">rdrobust</span>(educ<span class="sc">$</span>school_women, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">h=</span><span class="fl">0.025</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(robust_25)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>robust_25<span class="ot">=</span><span class="fu">rdrobust</span>(educ<span class="sc">$</span>school_women, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">h=</span><span class="fl">0.025</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(robust_25)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Well, we can see that the number of observations used to estimate the effect has been reduced - which is reasonable and we should be aware of. The point estimate did not change much and, as before, we find that there is in fact no significant effect at the cutoff.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 <p>Bandwidths of 5% or 2.5% around the cutoff seem somewhat reasonable in this case - but so would several others. How can we know what bandwidth we should use to estimate our effect?</p>
 <p>Recall the trade-off we are facing when choosing bandwidths that was discussed in the lecture: On the one hand we know that more narrow bandwidths are associated with less biased estimates - we rely on units that are indeed comparable: their distance in the running variable being as-if random the closer we get to the cut-off. On the other hand: the wider the bandwidths, the smaller the variance. As in several cases before, the structure of our data, such as the number of observations, plays an important role. Even if small bandwidths are desirable, it can be hard [impossible] to estimate a robust and significant effect if the number of observations around the cut-off is very small - even if there is a <em>true</em> effect.</p>
 <p>Luckily, the <code>rdrobust</code> package provides a remedy for this. The packages allows us to specify that we want to use bandwidths that are optimal given the data input. The <code>rdrobust</code> command then picks the bandwidth that optimises the <em>mean square error</em> - in other words, <em>MSE-optimal</em> bandwidths. Note that this is the default bandwidth if you don’t specify any. Let’s try to find out what this would be in our case.</p>
-<p><strong>Exercise 12: Estimate the LATE using <code>rdrobust</code> and MSE-optimal bandwidths. To specify the model, replace the <code>h</code> argument with <code>bwselect="mserd"</code>.</strong><br />
+<p><strong>Exercise 12: Estimate the LATE using <code>rdrobust</code> and MSE-optimal bandwidths. To specify the model, replace the <code>h</code> argument with <code>bwselect="mserd"</code>.</strong><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>robust_mserd<span class="ot">=</span><span class="fu">rdrobust</span>(educ<span class="sc">$</span>school_women, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">bwselect=</span><span class="st">&quot;mserd&quot;</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(robust_mserd)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>robust_mserd<span class="ot">=</span><span class="fu">rdrobust</span>(educ<span class="sc">$</span>school_women, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">bwselect=</span><span class="st">"mserd"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(robust_mserd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This now looks very different. We estimate a LATE of about <code>3%</code>, which is significant at the 90% lvel. Note that the optimal bandwidths has been estimated to be <code>17.2%-points</code> on either side of the cut-off, with a separate optimal bandwidth for bias correction. Note that the <em>MSE-optimal</em> bandwidth is optimal in statistical terms - we should always make sure to asses the bandwidths against our theory. Here, we’d compare parties’ winning margins up to <code>17%-points</code>.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 <p>Note that, so far, we have used a single bandwidth for data below and above the cut-off. We can also specify different ones - both manually and in terms of optimal bandwidths. As the structure of our data might differ, different bandwidths might be optimal. We can specify two different <em>MSE-optimal</em> bandwidth selectors by specifying <code>bwselect="msetwo"</code>.</p>
 <p><strong>Exercise 13: Estimate the LATE using <code>rdrobust</code> and two MSE-optimal bandwidths. Interpret your results and compare it the model with a single optimal bandwidth.</strong></p>
@@ -595,20 +750,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>robust_msetwo<span class="ot">=</span><span class="fu">rdrobust</span>(educ<span class="sc">$</span>school_women, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">bwselect=</span><span class="st">&quot;msetwo&quot;</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(robust_msetwo)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>robust_msetwo<span class="ot">=</span><span class="fu">rdrobust</span>(educ<span class="sc">$</span>school_women, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">bwselect=</span><span class="st">"msetwo"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(robust_msetwo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This now looks pretty similar to the single optimal bandwidth, which is a good sign. In fact, the optimal bandwidth for data points above the cut-off remains virtually unchanged. For the ones below the cut-off, the bandwidths is slightly extended. The point estimate and measures of uncertainty also remain virtually unchanged. If specifying two optimal bandwidths alters the results significantly, this is an indicator that the data should be inspected closely for the cause of the diverging bandwidths.</p>
 </details>
-<p><br />
+<p><br>
 </p>
-<hr />
-<section id="kernels" class="level3">
-<h3>Kernels</h3>
+<hr>
+<section id="kernels" class="level3" data-number="9.3.1">
+<h3 data-number="9.3.1" class="anchored" data-anchor-id="kernels"><span class="header-section-number">9.3.1</span> Kernels</h3>
 <p>One of the advantages of the non-parametric RDD is that observations can be weighted based on their proximity to the cutoff. This is based on the idea that those closer to the cut-off provide better comparisons than those further away. Think of victory margins as a running variable: If we look at fractions of %-points around the cut-off, it is fair to say that victory is <em>as-if random</em>. The farther away we move, the less plausible this statement becomes.</p>
-<p>As you learned in the lecture, there are different ways to do so. The default kernel used by the <code>rdrobust</code> package is a <em>triangular</em> kernel - which continuously assigns higher weight to observations closer to the cut-off. This is the one we have been using so far as we didn’t explicitly specify the kernel. As the figure below shows, other possible options include <em>epachnechnikov</em> and <em>uniform</em> kernels. These can be specified via the <code>kernel</code> argument.<br />
+<p>As you learned in the lecture, there are different ways to do so. The default kernel used by the <code>rdrobust</code> package is a <em>triangular</em> kernel - which continuously assigns higher weight to observations closer to the cut-off. This is the one we have been using so far as we didn’t explicitly specify the kernel. As the figure below shows, other possible options include <em>epachnechnikov</em> and <em>uniform</em> kernels. These can be specified via the <code>kernel</code> argument.<br>
 </p>
-<p><img src="kernel.JPG" class="img-fluid" /><br />
+<p><img src="kernel.JPG" class="img-fluid"><br>
 </p>
 <p><strong>Exercise 14: Estimate the LATE using <code>rdrobust</code> and a single MSE-optimal bandwidths but specifying a uniform kernel. Interpret your results.</strong></p>
 <details>
@@ -616,23 +771,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb23"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>robust_uniform<span class="ot">=</span><span class="fu">rdrobust</span>(educ<span class="sc">$</span>school_women, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">bwselect=</span><span class="st">&quot;mserd&quot;</span>, <span class="at">kernel=</span><span class="st">&quot;uniform&quot;</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(robust_uniform)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>robust_uniform<span class="ot">=</span><span class="fu">rdrobust</span>(educ<span class="sc">$</span>school_women, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">bwselect=</span><span class="st">"mserd"</span>, <span class="at">kernel=</span><span class="st">"uniform"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(robust_uniform)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As compared to the <em>triangular</em> kernel, our point estimate is slightly larger and we find that our robust measures of uncertainty show that the effect is significant at the 95% level. Note that the optimal bandwidth is slightly narrower in the model with a <em>uniform</em> kernel. We have to be aware that this model is less conservative though: We assign the same weight to each observation, independent of its distance to the cutoff - which introduces growing bias over increasing bandwidths.</p>
 </details>
-<p><br />
+<p><br>
 </p>
-<hr />
+<hr>
 </section>
 </section>
-<section id="falsification-checks" class="level2">
-<h2>Falsification Checks</h2>
-<section id="sensitivity" class="level3">
-<h3>Sensitivity</h3>
+<section id="falsification-checks" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="falsification-checks"><span class="header-section-number">9.4</span> Falsification Checks</h2>
+<section id="sensitivity" class="level3" data-number="9.4.1">
+<h3 data-number="9.4.1" class="anchored" data-anchor-id="sensitivity"><span class="header-section-number">9.4.1</span> Sensitivity</h3>
 <p>If you apply an RDD, you should always make sure that results are robust to different specifications of the model. Importantly, this involves <em>sensitivity checks</em>. This means you should make sure that results are robust across model specifications and, importantly, different bandwidths.</p>
 <p>While there are packages that help produce useful plots that visualise robustness across bandwidths, they can be cumbersome to adjust and are not very flexible. Hence, one avenue to create such a plot can be to loop <code>rdrobust</code> models over different bandwidths. This solution involves somewhat more coding, but gives you a lot of flexibility as to what you want to display and highlight.</p>
-<p><br />
+<p><br>
 </p>
 <p><strong>Exercise 15: Create a plot that shows estimates and confidence intervals for estimates of the effect across different bandwidths.</strong></p>
 <p>There are several ways to do this. Feel free to play around a bit and try to come up with your own way.</p>
@@ -640,21 +795,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <summary>
 <em>Reveal Hint</em>
 </summary>
-<p>Hint: You could use the following approach:<br />
-- Create a data frame with all variables you need for the plot and a and observation for each bandwidth.<br />
-- Extract the values from the <code>rdrobust</code> output which you need for your plot.<br />
-- Loop the regression and the extraction of output over the bandwidths indicated in the initial data frame.<br />
-- Save the output in your loop to the respective row in the data frame.<br />
+<p>Hint: You could use the following approach:<br>
+- Create a data frame with all variables you need for the plot and a and observation for each bandwidth.<br>
+- Extract the values from the <code>rdrobust</code> output which you need for your plot.<br>
+- Loop the regression and the extraction of output over the bandwidths indicated in the initial data frame.<br>
+- Save the output in your loop to the respective row in the data frame.<br>
 - Plot the output from the newly created data frame.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>bandwidth <span class="ot">&lt;-</span>  <span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">0.05</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.05</span>)  <span class="co">#create a vector with values for each bandwidth you want to estimate</span></span>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>bandwidth <span class="ot">&lt;-</span>  <span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">0.05</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.05</span>)  <span class="co">#create a vector with values for each bandwidth you want to estimate</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>coefficient<span class="ot">&lt;-</span> <span class="cn">NA</span> </span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
@@ -665,7 +820,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>data_extract <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(bandwidth, coefficient, se, obs, bw, ci_u, ci_l) <span class="co"># create a data.frame with all variables you want to incldue in your dataset</span></span>
 <span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co"># create a loop for each bandwidth that is indicated by &#39;i&#39;</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co"># create a loop for each bandwidth that is indicated by 'i'</span></span>
 <span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> bandwidth){</span>
 <span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a> rdbw <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(educ<span class="sc">$</span>school_women, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">h=</span>i) <span class="co"># run the model</span></span>
 <span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>                                      </span>
@@ -686,25 +841,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> bandwidth, <span class="at">y =</span> coefficient)) <span class="sc">+</span></span>
 <span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
 <span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> ci_l, <span class="at">ymax =</span> ci_u), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept =</span> <span class="dv">0</span>), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept =</span> <span class="dv">0</span>), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
 <span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">05</span>, <span class="fl">0.15</span>)) <span class="sc">+</span></span>
 <span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;LATE at Discontinuity&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Bandwidths (Vote Margin)&quot;</span>)</span></code></pre></div>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"LATE at Discontinuity"</span>, <span class="at">x =</span> <span class="st">"Bandwidths (Vote Margin)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </details>
-<p><br />
+<p><br>
 </p>
-<hr />
+<hr>
 </section>
-<section id="sorting" class="level3">
-<h3>Sorting</h3>
-<p>The key identification assumption of RDDs is that there is no <em>sorting</em> on the running variable. That is, the running variable must be continuous around the threshold. If this is not the case, we have a problem: Then there’s a good chance that the observations close to the threshold (or on either side of the threshold) are not random. In other words: Presence of sorting is usually interpreted as empirical evidence of self-selection or non-random sorting of units into control and treatment status. Let’s check if sorting is problem here. We can do this using <em>density checks</em>. This means we’re looking at the density of the running variable.<br />
+<section id="sorting" class="level3" data-number="9.4.2">
+<h3 data-number="9.4.2" class="anchored" data-anchor-id="sorting"><span class="header-section-number">9.4.2</span> Sorting</h3>
+<p>The key identification assumption of RDDs is that there is no <em>sorting</em> on the running variable. That is, the running variable must be continuous around the threshold. If this is not the case, we have a problem: Then there’s a good chance that the observations close to the threshold (or on either side of the threshold) are not random. In other words: Presence of sorting is usually interpreted as empirical evidence of self-selection or non-random sorting of units into control and treatment status. Let’s check if sorting is problem here. We can do this using <em>density checks</em>. This means we’re looking at the density of the running variable.<br>
 </p>
 <p>There are several ways to check for sorting. Let’s start with <em>McCrary’s density test</em>. We can use the <code>DCdenstiy</code> command to conduct both a visual test and statistical test. The syntax is the following:</p>
 <div class="cell">
-<div class="sourceCode" id="cb25"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">DCdensity</span>(running_var ,<span class="at">cutpoint=</span> [cutoff] ,<span class="at">plot=</span><span class="cn">TRUE</span>, <span class="at">ext.out =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="at">xlab=</span><span class="st">&quot;X Lab&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;Y Lab&quot;</span>)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">1</span>) <span class="co"># Adding a vertical line at the cutoff</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">DCdensity</span>(running_var ,<span class="at">cutpoint=</span> [cutoff] ,<span class="at">plot=</span><span class="cn">TRUE</span>, <span class="at">ext.out =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="at">xlab=</span><span class="st">"X Lab"</span>,<span class="at">ylab=</span><span class="st">"Y Lab"</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">1</span>) <span class="co"># Adding a vertical line at the cutoff</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Exercise 16: Examine the density of the running variable using the <code>DCdensity</code> command.</strong></p>
 <details>
@@ -712,43 +867,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb26"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">DCdensity</span>(educ<span class="sc">$</span>margin ,<span class="at">cutpoint=</span> <span class="dv">0</span> ,<span class="at">plot=</span><span class="cn">TRUE</span>, <span class="at">ext.out =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="at">xlab=</span><span class="st">&quot;Winning Margin&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;Density&quot;</span>) <span class="co"># add labels (always add labels. Really. Always.)</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">DCdensity</span>(educ<span class="sc">$</span>margin ,<span class="at">cutpoint=</span> <span class="dv">0</span> ,<span class="at">plot=</span><span class="cn">TRUE</span>, <span class="at">ext.out =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="at">xlab=</span><span class="st">"Winning Margin"</span>,<span class="at">ylab=</span><span class="st">"Density"</span>) <span class="co"># add labels (always add labels. Really. Always.)</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The test provides relatively clear visual evidence that sorting is not a problem in this case. There is a clear overlap of the confidence intervals at the cut-off, so the continuity assumption holds. This command provides also statistical tests. You can see that information on the individual cells - or bins - and the number of observations within them is provided. For now, we focus on the inference test for sorting. The p-value of about <code>0.52</code> makes clear that we do not reject the null hypothesis of continuity at the cut-off.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 <p>Let’s further explore the structure of our data and check if sorting really isn’t a problem here. Recall, we want to make sure the density of units should be continuous near the cut-off. We can use the <code>rddensity</code> package to do so. This package applies a different test than the one we used before. It also is somewhat more powerful and provides additional information.</p>
 <p>The command is straightforward. You only have to insert the running variable as argument and, if different from 0, the cutoff. Note that you can optionally specify bandwidths, as above, using the <code>h</code> argument. Otherwise, an optimal bandwidth will be specified automatically. You can then save this as an object and run the <code>summary</code> command to see the output.</p>
-<p><strong>Exercise 17: Examine the density of the running variable using the <code>rddensity</code> command. Interpret your findings. Are they equivalent to those in the previous exercise?</strong><br />
+<p><strong>Exercise 17: Examine the density of the running variable using the <code>rddensity</code> command. Interpret your findings. Are they equivalent to those in the previous exercise?</strong><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb27"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>rdd <span class="ot">&lt;-</span> <span class="fu">rddensity</span>(educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rdd)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>rdd <span class="ot">&lt;-</span> <span class="fu">rddensity</span>(educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rdd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This output looks clearer. Note that the test is based on <em>quadratic</em> local polynomial functions. We also get a different bandwidth - recall that we are solely looking at the density of the running variable here.</p>
 <p>Importantly, the test reveals a p-value of <code>0.357</code>. We again do not reject the null hypothesis of continuity around the cut-off. Both tests indicating the same result gives us confidence in doing so.</p>
 <p>The second part of the output indicates the results of binomial tests for the allocation of observations around the cut-off for different windows. The number of observations is indicated as well as individual p-values for significance tests, with the null hypothesis being equal distribution on either side of the cut-off. Note that this can give us an indication, but modest unbalance - at such disaggregate level - is not evidence for sorting.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 <p>Let’s now plot this density test, too. The <code>rdplotdensity</code> function allows us to do so easily. It uses the results of the test conducted in <code>rddensity</code>. The syntax is simple:</p>
 <div class="cell">
-<div class="sourceCode" id="cb28"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rdplotdensity</span>([rdd_object] ,[running_var])</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rdplotdensity</span>([rdd_object] ,[running_var])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><br />
-We can also add some useful arguments. Feel free to adjust your plot:<br />
+<p><br>
+We can also add some useful arguments. Feel free to adjust your plot:<br>
 </p>
-<table>
+<table class="table">
 <colgroup>
-<col style="width: 56%" />
-<col style="width: 44%" />
+<col style="width: 56%">
+<col style="width: 44%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -771,54 +926,54 @@ We can also add some useful arguments. Feel free to adjust your plot:<br />
 </tr>
 </tbody>
 </table>
-<p><br />
+<p><br>
 </p>
-<p><strong>Exercise 18: Use the <code>rplotdensity</code> to conduct a visual density check in a data range from <code>-0.2</code> to <code>0.2</code>. </strong><br />
+<p><strong>Exercise 18: Use the <code>rplotdensity</code> to conduct a visual density check in a data range from <code>-0.2</code> to <code>0.2</code>. </strong><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb29"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>plot_rdd <span class="ot">&lt;-</span> <span class="fu">rdplotdensity</span>(rdd,educ<span class="sc">$</span>margin, <span class="at">plotRange =</span> <span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">2</span>, <span class="fl">0.2</span>),  <span class="at">CIuniform =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>plot_rdd <span class="ot">&lt;-</span> <span class="fu">rdplotdensity</span>(rdd,educ<span class="sc">$</span>margin, <span class="at">plotRange =</span> <span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">2</span>, <span class="fl">0.2</span>),  <span class="at">CIuniform =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><br />
+<p><br>
 </p>
 <p>Again, we find visual evidence for continuity around the cutoff. Now we can be confident about sorting not being a problem with this data set.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 </section>
-<section id="balance" class="level3">
-<h3>Balance</h3>
+<section id="balance" class="level3" data-number="9.4.3">
+<h3 data-number="9.4.3" class="anchored" data-anchor-id="balance"><span class="header-section-number">9.4.3</span> Balance</h3>
 <p>One important falsification test is examining whether near the cut-off treated units are similar to control units in terms of observable characteristics. The logic of this test is to identify that if units cannot manipulate the score they receive, there should not be systematic differences between untreated and treated units with similar values of the score.</p>
 <p><strong>Exercise 19: Let’s check for balance around the cutoff. Use the <code>rdrobust()</code> function. Set the cut-off argument <code>c</code> equal to 0, and the <code>bwselect</code> argument equal to “mserd”. In this case, the outcome variables are the covariates that we want to check for balance. Check if there is balance for the following covariates: <code>log_pop</code>, <code>school_men</code>, <code>sex_ratio</code>, <code>log_area</code>. Remember to use the <code>summary()</code>.</strong></p>
-<p><br />
+<p><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb30"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rdrobust</span>(educ<span class="sc">$</span>log_pop, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">bwselect=</span><span class="st">&quot;mserd&quot;</span>))</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rdrobust</span>(educ<span class="sc">$</span>school_men, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">bwselect=</span><span class="st">&quot;mserd&quot;</span>))</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rdrobust</span>(educ<span class="sc">$</span>sex_ratio, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">bwselect=</span><span class="st">&quot;mserd&quot;</span>))</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rdrobust</span>(educ<span class="sc">$</span>log_area, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">bwselect=</span><span class="st">&quot;mserd&quot;</span>))</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rdrobust</span>(educ<span class="sc">$</span>log_pop, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">bwselect=</span><span class="st">"mserd"</span>))</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rdrobust</span>(educ<span class="sc">$</span>school_men, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">bwselect=</span><span class="st">"mserd"</span>))</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rdrobust</span>(educ<span class="sc">$</span>sex_ratio, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">bwselect=</span><span class="st">"mserd"</span>))</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rdrobust</span>(educ<span class="sc">$</span>log_area, educ<span class="sc">$</span>margin, <span class="at">c=</span><span class="dv">0</span>, <span class="at">bwselect=</span><span class="st">"mserd"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We observe that there is balance across all the covariates of interest.</p>
 </details>
-<p><br />
+<p><br>
 </p>
 </section>
-<section id="placebo-cut-offs" class="level3">
-<h3>Placebo cut-offs</h3>
+<section id="placebo-cut-offs" class="level3" data-number="9.4.4">
+<h3 data-number="9.4.4" class="anchored" data-anchor-id="placebo-cut-offs"><span class="header-section-number">9.4.4</span> Placebo cut-offs</h3>
 <p>Another falsification test is to identify treatment effects at artificial or placebo cut-off values. Recall from the lecture that one of the identifying assumptions is the continuity (or lack of abrupt changes) of the regression functions for the treated and control units around the cut-off. While we cannot empirically test this assumption, we can test continuity apart from the threshold. Although this does not imply the continuity assumption hold at the cut-off, it helps to rule out discontinuities other than the cut-off.</p>
 <p>This test implies looking at the outcome variable but using different cut-offs where we should not expect changes in the outcome. Thus, the estimates from this test should be near zero (and not statistically significant). One <strong>important</strong> step to conduct this test is that you need to split the sample for those observations that are above the cut-off and those that are below. We do this to avoid “contamination” due to the real treatment effects. It also ensures that the analysis of each placebo cut-off is conducted using only observations with the same treatment status.</p>
 <p><strong>Exercise 20: Conduct placebo cut-off test using the following placebo values: -0.2 and -0.25 for the placebo tests below the cut-off. Conduct the same test above the cut-off using the following placebo values: 0.20, and 0.25. Use the <code>rdrobust()</code> function to perform this test. Set the argument <code>bwselect</code> equal to “mserd”. Replace the cut-off argument <code>c</code> with the values listed before. Use the <code>summary()</code> to report the results. Remember to create two new data frames. You can use the filter function from tidyverse to do this.</strong></p>
-<table>
+<table class="table">
 <colgroup>
-<col style="width: 56%" />
-<col style="width: 44%" />
+<col style="width: 56%">
+<col style="width: 44%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -838,44 +993,40 @@ We can also add some useful arguments. Feel free to adjust your plot:<br />
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode" id="cb31"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">&gt;=</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">&gt;=</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><br />
+<p><br>
 </p>
 <details>
 <summary>
 <em>Reveal Answer</em>
 </summary>
 <div class="cell">
-<div class="sourceCode" id="cb32"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>educ_above <span class="ot">&lt;-</span> educ <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>educ_above <span class="ot">&lt;-</span> educ <span class="sc">%&gt;%</span> </span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(margin <span class="sc">&gt;=</span> <span class="dv">0</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>educ_below <span class="ot">&lt;-</span> educ <span class="sc">%&gt;%</span> </span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(margin <span class="sc">&lt;</span> <span class="dv">0</span>)</span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rdrobust</span>(educ_above<span class="sc">$</span>school_women, educ_above<span class="sc">$</span>margin, <span class="at">c=</span><span class="fl">0.2</span>, <span class="at">bwselect =</span> <span class="st">&quot;mserd&quot;</span>)) <span class="co"># -0.044</span></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rdrobust</span>(educ_above<span class="sc">$</span>school_women, educ_above<span class="sc">$</span>margin, <span class="at">c=</span><span class="fl">0.25</span>, <span class="at">bwselect=</span><span class="st">&quot;mserd&quot;</span>)) <span class="co">#-0.025</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rdrobust</span>(educ_above<span class="sc">$</span>school_women, educ_above<span class="sc">$</span>margin, <span class="at">c=</span><span class="fl">0.2</span>, <span class="at">bwselect =</span> <span class="st">"mserd"</span>)) <span class="co"># -0.044</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rdrobust</span>(educ_above<span class="sc">$</span>school_women, educ_above<span class="sc">$</span>margin, <span class="at">c=</span><span class="fl">0.25</span>, <span class="at">bwselect=</span><span class="st">"mserd"</span>)) <span class="co">#-0.025</span></span>
 <span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rdrobust</span>(educ_below<span class="sc">$</span>school_women, educ_below<span class="sc">$</span>margin, <span class="at">c=</span><span class="sc">-</span><span class="fl">0.2</span>, <span class="at">bwselect=</span><span class="st">&quot;mserd&quot;</span>)) <span class="co"># 0.063</span></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rdrobust</span>(educ_below<span class="sc">$</span>school_women, educ_below<span class="sc">$</span>margin, <span class="at">c=</span><span class="sc">-</span><span class="fl">0.25</span>, <span class="at">bwselect=</span><span class="st">&quot;mserd&quot;</span>)) <span class="co"># -0.008</span></span></code></pre></div>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rdrobust</span>(educ_below<span class="sc">$</span>school_women, educ_below<span class="sc">$</span>margin, <span class="at">c=</span><span class="sc">-</span><span class="fl">0.2</span>, <span class="at">bwselect=</span><span class="st">"mserd"</span>)) <span class="co"># 0.063</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rdrobust</span>(educ_below<span class="sc">$</span>school_women, educ_below<span class="sc">$</span>margin, <span class="at">c=</span><span class="sc">-</span><span class="fl">0.25</span>, <span class="at">bwselect=</span><span class="st">"mserd"</span>)) <span class="co"># -0.008</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We find that for almost all the placebo cut-off values, the coefficients are all nearly zero and not statistically significant (with the exception of -0.2, which we would want to investigate further). This evidence suggests that the assumption of continuity is likely to hold in this case.</p>
 </details>
-<p><br />
+<p><br>
 </p>
-<div id="quarto-navigation-envelope" class="hidden">
 
-</div>
-<div id="quarto-meta-markdown" class="hidden">
-<p><span class="hidden" data-render-id="quarto-twittercardtitle"></span> <span class="hidden" data-render-id="quarto-ogcardtitle"></span> <span class="hidden" data-render-id="quarto-twittercarddesc"></span> <span class="hidden" data-render-id="quarto-ogcardddesc"></span></p>
-</div>
+
 </section>
 </section>
 </section>
 
 </main> <!-- /main -->
-<script id = "quarto-html-after-body" type="application/javascript">
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -1108,8 +1259,20 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./panel.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Panel Data</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./frdd.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Fuzzy Regression Discontinuity</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
-</body>
 
-</html>
+
+</body></html>

@@ -3,7 +3,7 @@
     "path": "~/Library/CloudStorage/Dropbox/Quarto Books/Causal Inference Oxford/Causal Inference/_quarto.yml",
     "project_path": "_quarto.yml",
     "type": "yaml",
-    "hash": "0",
+    "hash": "518813534",
     "contents": "",
     "dirty": false,
     "created": 1726646056373.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "13,12",
+        "cursorPosition": "2,3",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1726739833,
+    "lastKnownWriteTime": 1726742295,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1726739833586,
+    "last_content_update": 1726742295451,
     "read_only": false,
     "read_only_alternatives": []
 }

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>frdd</title>
+<title>Causal Inference - 8&nbsp; Fuzzy Regression Discontinuity</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,11 +58,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./summary.html" rel="next">
+<link href="./rdd.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -98,25 +101,161 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body>
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./frdd.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Fuzzy Regression Discontinuity</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Causal Inference</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Potential Outcomes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./experiments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Experiments</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matching</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./iv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Difference-in-difference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./panel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Panel Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./rdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regression Discontinuity Design</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./frdd.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Fuzzy Regression Discontinuity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="frdd.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data"><span class="header-section-number">8.0.1</span> Data</a></li>
+  <li><a href="#recap" id="toc-recap" class="nav-link" data-scroll-target="#recap"><span class="header-section-number">9</span> Recap</a>
+  <ul class="collapse">
+  <li><a href="#sharp-rdd" id="toc-sharp-rdd" class="nav-link" data-scroll-target="#sharp-rdd"><span class="header-section-number">9.0.1</span> Sharp RDD</a></li>
+  <li><a href="#fuzzy-rdd" id="toc-fuzzy-rdd" class="nav-link" data-scroll-target="#fuzzy-rdd"><span class="header-section-number">9.0.2</span> Fuzzy RDD</a></li>
+  </ul></li>
+  <li><a href="#seminar-overview" id="toc-seminar-overview" class="nav-link" data-scroll-target="#seminar-overview"><span class="header-section-number">10</span> Seminar Overview</a></li>
+  <li><a href="#staying-in-the-first-league-parliamentary-representation-and-the-electoral-success-of-small-parties" id="toc-staying-in-the-first-league-parliamentary-representation-and-the-electoral-success-of-small-parties" class="nav-link" data-scroll-target="#staying-in-the-first-league-parliamentary-representation-and-the-electoral-success-of-small-parties"><span class="header-section-number">11</span> Staying in the First League: Parliamentary Representation and the Electoral Success of Small Parties</a>
+  <ul class="collapse">
+  <li><a href="#fuzzy-rdd-parametric-estimation" id="toc-fuzzy-rdd-parametric-estimation" class="nav-link" data-scroll-target="#fuzzy-rdd-parametric-estimation"><span class="header-section-number">11.0.1</span> Fuzzy RDD: Parametric Estimation</a></li>
+  <li><a href="#non-parametric-fuzzy-rdd-estimation" id="toc-non-parametric-fuzzy-rdd-estimation" class="nav-link" data-scroll-target="#non-parametric-fuzzy-rdd-estimation"><span class="header-section-number">11.0.2</span> Non-Parametric Fuzzy RDD Estimation</a></li>
+  <li><a href="#sensitivity-to-bandwidth" id="toc-sensitivity-to-bandwidth" class="nav-link" data-scroll-target="#sensitivity-to-bandwidth"><span class="header-section-number">11.0.3</span> Sensitivity to Bandwidth</a></li>
+  <li><a href="#falsification-tests" id="toc-falsification-tests" class="nav-link" data-scroll-target="#falsification-tests"><span class="header-section-number">11.1</span> Falsification tests:</a></li>
+  <li><a href="#placebo-outcomes" id="toc-placebo-outcomes" class="nav-link" data-scroll-target="#placebo-outcomes"><span class="header-section-number">11.2</span> Placebo outcomes:</a>
+  <ul class="collapse">
+  <li><a href="#placebo-cut-offs" id="toc-placebo-cut-offs" class="nav-link" data-scroll-target="#placebo-cut-offs"><span class="header-section-number">11.2.1</span> Placebo cut-offs</a></li>
+  <li><a href="#sorting" id="toc-sorting" class="nav-link" data-scroll-target="#sorting"><span class="header-section-number">11.2.2</span> Sorting</a></li>
+  </ul></li>
+  <li><a href="#balance" id="toc-balance" class="nav-link" data-scroll-target="#balance"><span class="header-section-number">11.3</span> Balance</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Fuzzy Regression Discontinuity</span></h1>
+</div>
 
 
-<section id="fuzzy-regression-discontinuity" class="level1">
-<h1>Fuzzy Regression Discontinuity</h1>
-<section id="data" class="level3">
-<h3 class="anchored" data-anchor-id="data">Data</h3>
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="data" class="level3" data-number="8.0.1">
+<h3 data-number="8.0.1" class="anchored" data-anchor-id="data"><span class="header-section-number">8.0.1</span> Data</h3>
 <p><br>
 <br>
 </p>
@@ -149,11 +288,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </p>
 <hr>
 </section>
-</section>
-<section id="recap" class="level1">
-<h1>Recap</h1>
-<section id="sharp-rdd" class="level3">
-<h3 class="anchored" data-anchor-id="sharp-rdd">Sharp RDD</h3>
+<section id="recap" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Recap</h1>
+<section id="sharp-rdd" class="level3" data-number="9.0.1">
+<h3 data-number="9.0.1" class="anchored" data-anchor-id="sharp-rdd"><span class="header-section-number">9.0.1</span> Sharp RDD</h3>
 <p>Last week we discussed sharp regression discontinuity designs, in which a cut-off perfectly determines the treatment status of units. In simple words: all units on one side of the cut-off are treated, while all units on the other side are not:</p>
 <p><span class="math display">\[
 \operatorname{Pr}\left(D_{i}=1\right)=p\left(X_{i}\right)
@@ -162,8 +300,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 p\left(X_{i}\right)= \begin{cases}1 &amp; \text { if } X_{i} \geq X_{0} \\ 0 &amp; \text { if } X_{i}&lt;X_{0}\end{cases}
 \]</span></p>
 </section>
-<section id="fuzzy-rdd" class="level3">
-<h3 class="anchored" data-anchor-id="fuzzy-rdd">Fuzzy RDD</h3>
+<section id="fuzzy-rdd" class="level3" data-number="9.0.2">
+<h3 data-number="9.0.2" class="anchored" data-anchor-id="fuzzy-rdd"><span class="header-section-number">9.0.2</span> Fuzzy RDD</h3>
 <p>While sharp RDDs are only a special case of regression discontinuity, RDDs are more powerful than that. <strong>Fuzzy RDDs</strong> allow us to estimate causal effects in settings where treatment assignment is not deterministic. The cut-off may not perfectly determine treatment exposure, but it creates a <em>discontinuity in the probability</em> of treatment exposure. The cut-off therefore does not perfectly predict treatment status. Still, we can use a fuzzy RDD as long as it introduces a meaningful as-if random discontinuity that we can take advantage of.</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -207,8 +345,8 @@ p\left(X_{i}\right)= \begin{cases}1 &amp; \text { if } X_{i} \geq X_{0} \\ 0 &am
 <hr>
 </section>
 </section>
-<section id="seminar-overview" class="level1">
-<h1>Seminar Overview</h1>
+<section id="seminar-overview" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Seminar Overview</h1>
 <p>In this <strong>seminar</strong>, we will cover the following topics:<br>
 1. Familiarise ourselves with the data structure of fuzzy RDD and the substantive interpretation of the estimator.<br>
 2. Visualise discontinuities in terms of treatment and outcome at the cut-off.<br>
@@ -217,8 +355,8 @@ p\left(X_{i}\right)= \begin{cases}1 &amp; \text { if } X_{i} \geq X_{0} \\ 0 &am
 5. Conduct the following robustness/falsification tests such as balance test, placebo outcome and density test.</p>
 <hr>
 </section>
-<section id="staying-in-the-first-league-parliamentary-representation-and-the-electoral-success-of-small-parties" class="level1">
-<h1>Staying in the First League: Parliamentary Representation and the Electoral Success of Small Parties</h1>
+<section id="staying-in-the-first-league-parliamentary-representation-and-the-electoral-success-of-small-parties" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Staying in the First League: Parliamentary Representation and the Electoral Success of Small Parties</h1>
 <p>To familiarize ourselves with fuzzy RDDs, we will be analysing data from the paper <a href="https://core.ac.uk/download/pdf/71804766.pdf">Staying in the First League: Parliamentary Representation and the Electoral Success of Small Parties</a> authored by Elias Dinas, Pedro Riera and Nasos Roussias.</p>
 <p>In this paper, the authors seek to contribute to answering one of the most essential research questions in party politics: Why are some small parties successful whereas other whither away? What accounts for the variation in the trajectories of small parties?</p>
 <p>The authors theorise an organisational mechanism that contributes to parties’ success. According to their expectations, <em>entering parliament</em> should lead to an increase in a party’s vote share in the subsequent election. This is because being represented in parliament usually comes with a lot of benefits, which are not experienced by parties that are not represented: influence on policy-making, public funding, media visibility, an increase in organisational capacity (staff, etc.) as well as reduced uncertainty about electoral viability and ideological profiles. Conversely, parties that fail to enter parliament do not gain these benefits and might even be abandoned by promising personnel. As you notice, there might be a lot of reasons which make it difficult to isolate a causal effect without an appropriate identification strategy.</p>
@@ -490,8 +628,8 @@ From a quick visual inspection, we can see that we are dealing with a case of on
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>enter<span class="ot">=</span>enter[enter<span class="sc">$</span>performance<span class="sc">&lt;</span><span class="fl">3.51</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<section id="fuzzy-rdd-parametric-estimation" class="level3">
-<h3 class="anchored" data-anchor-id="fuzzy-rdd-parametric-estimation">Fuzzy RDD: Parametric Estimation</h3>
+<section id="fuzzy-rdd-parametric-estimation" class="level3" data-number="11.0.1">
+<h3 data-number="11.0.1" class="anchored" data-anchor-id="fuzzy-rdd-parametric-estimation"><span class="header-section-number">11.0.1</span> Fuzzy RDD: Parametric Estimation</h3>
 <p>As last week, let’s estimate a parametric fuzzy RDD first to make sure we understand the underlying logic - which is based on the instrumental variables design. Remember that in the case of <em>fuzzy RDDs</em> we have ‘two events’ of interest. First, <strong>‘treatment assignment’</strong> which is defined by the running variable exceeding the cut-off, and, secondly, actual <strong>treatment status</strong>. Let formally state that <span class="math inline">\(Z_i\)</span> is an indicator for when <span class="math inline">\(X_{i,\text{centered}}\)</span> exceeds the cut-off. We can then use this variable to instrument for the endogenous treatment variable <span class="math inline">\(D_{i}\)</span>.<br>
 </p>
 <p>The principle is the same as in the IV design: We have an instrument, <span class="math inline">\(Z_i\)</span>, that describes assignment to treatment based on an observation’s position relative to the cut-off. We know that the instrument is a strong predictor - as it should be - of the treatment status, <span class="math inline">\(D_i\)</span>. We can therefore exploit the random variation (close to the cut-off) introduced by the instrument to predict treatment status in our <em>first stage</em> - which you can think of as indicating compliance with the treatment assignment or describing the discontinuity in the probability of receiving treatment:</p>
@@ -546,8 +684,8 @@ Is this estimate robust though? The global parametric estimation has significant
 </p>
 <hr>
 </section>
-<section id="non-parametric-fuzzy-rdd-estimation" class="level3">
-<h3 class="anchored" data-anchor-id="non-parametric-fuzzy-rdd-estimation">Non-Parametric Fuzzy RDD Estimation</h3>
+<section id="non-parametric-fuzzy-rdd-estimation" class="level3" data-number="11.0.2">
+<h3 data-number="11.0.2" class="anchored" data-anchor-id="non-parametric-fuzzy-rdd-estimation"><span class="header-section-number">11.0.2</span> Non-Parametric Fuzzy RDD Estimation</h3>
 <p>In a first step, let’s ‘emulate’ the parametric model we just specified - this time estimating a non-parametric model.<br>
 </p>
 <p>Fuzzy estimation with <code>rdrobust</code> is - thankfully - relatively straightforward. The syntax is essentially the same as in the case of sharp RDDs, obviously with the exception that we need to specify that our model is supposed to estimate a fuzzy RDD. We can do so using the <code>fuzzy=</code> argument to specify the treatment status (<code>treated</code> in our case). Importantly, you do not need to specify an instrument (or even create one!). All you need to specify is the column that indicates treatment status, the running variable and the cut-off — <code>rdrobust</code> will do all the above/below-the-cut-off instrument stuff behind the scenes for you.</p>
@@ -611,8 +749,8 @@ This again looks interesting - the optimal bandwidth hasn’t changed much, nor 
 </p>
 <hr>
 </section>
-<section id="sensitivity-to-bandwidth" class="level3">
-<h3 class="anchored" data-anchor-id="sensitivity-to-bandwidth">Sensitivity to Bandwidth</h3>
+<section id="sensitivity-to-bandwidth" class="level3" data-number="11.0.3">
+<h3 data-number="11.0.3" class="anchored" data-anchor-id="sensitivity-to-bandwidth"><span class="header-section-number">11.0.3</span> Sensitivity to Bandwidth</h3>
 <p>Can we be sure our estimated effect is robust to changing the bandwidth? Let’s see if the estimated effect varies meaningfully. As last week, let’s plot the effect over changing bandwidths.</p>
 <p><strong>Exercise 10: Plot the estimated effect and 95% confidence intervals for the model specification from the previous exercise over bandwidths ranging from <code>0.1</code> to <code>3.5</code> in <code>0.1%-points</code> intervals. </strong><br>
 </p>
@@ -702,11 +840,11 @@ This again looks interesting - the optimal bandwidth hasn’t changed much, nor 
 </p>
 <hr>
 </section>
-<section id="falsification-tests" class="level2">
-<h2 class="anchored" data-anchor-id="falsification-tests">Falsification tests:</h2>
+<section id="falsification-tests" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="falsification-tests"><span class="header-section-number">11.1</span> Falsification tests:</h2>
 </section>
-<section id="placebo-outcomes" class="level2">
-<h2 class="anchored" data-anchor-id="placebo-outcomes">Placebo outcomes:</h2>
+<section id="placebo-outcomes" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="placebo-outcomes"><span class="header-section-number">11.2</span> Placebo outcomes:</h2>
 <p>We can conduct multiple tests to find evidence that there is no manipulation of the score around the cut-off. If units cannot precisely manipulate their scores, therefore we should expect no differences in terms of covariates for units above and below the threshold (we will test this later). We should also expect that there should not be differences in outcomes that should not be affected by the treatment. These outcomes are sometimes called ‘pseudo-outcome’ in the RDD literature.</p>
 <p>One pseudo-outcome that we can use in this study is electoral success (standardised vote share) in the previous election (<span class="math inline">\(t_{-1}\)</span>). The idea here is that current parliamentary representation in period (<span class="math inline">\(t_0\)</span>) would not affect electoral performance in <span class="math inline">\(t_{-1}\)</span>. Let’s see if this is true.</p>
 <p><strong>Exercise 12: Conduct a placebo outcome test using the placebo outcome variable <code>oldsuccess</code>. Use the <code>rdrobust()</code> function to perform this test. Set the argument <code>bwselect</code> equal to “mserd”. Set the cut-off argument <code>c</code> equal to zero. Use the <code>summary()</code> command to report the results. What can you conclude based on this test? Does the evidence support the continuity assumption?</strong></p>
@@ -723,8 +861,8 @@ This again looks interesting - the optimal bandwidth hasn’t changed much, nor 
 </details>
 <p><br>
 </p>
-<section id="placebo-cut-offs" class="level3">
-<h3 class="anchored" data-anchor-id="placebo-cut-offs">Placebo cut-offs</h3>
+<section id="placebo-cut-offs" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="placebo-cut-offs"><span class="header-section-number">11.2.1</span> Placebo cut-offs</h3>
 <p>As we did last week, we can conduct a placebo cut-off test. This test implies looking at the outcome variable but using different cut-offs where we should not expect changes in the outcome. Thus, the estimates from this test should be near zero (and not statistically significant). Again, one <strong>important</strong> step to conduct this test is subsetting the sample for those observations that are above the cut-off and those that are below. We do this to avoid ‘contamination’ due to the real treatment effect. It also ensures that the analysis of each placebo cut-off is conducted using only observations with the same treatment status.</p>
 <p>Rather than subsetting the data and creating a new data frame, let’s use the <code>subset</code> argument in the <code>rdrobust()</code> function.</p>
 <p><strong>Exercise 13: Conduct a placebo cut-off test using <code>-2.95</code> for the placebo tests below the cut-off. Use the <code>rdrobust()</code> function to perform this test. Set the argument <code>bwselect</code> equal to “mserd”. Replace the cut-off argument <code>c</code> with the value of the placebo cut-off. Add the <code>subset</code> argument and set it equal to <code>data$performance &lt; 0 &amp; data$performance &gt;-3.51.  Use the</code>summary()` command to report the results. What can you conclude based on this test? Does the evidence support the continuity assumption?</strong></p>
@@ -743,8 +881,8 @@ This again looks interesting - the optimal bandwidth hasn’t changed much, nor 
 <p><br>
 </p>
 </section>
-<section id="sorting" class="level3">
-<h3 class="anchored" data-anchor-id="sorting">Sorting</h3>
+<section id="sorting" class="level3" data-number="11.2.2">
+<h3 data-number="11.2.2" class="anchored" data-anchor-id="sorting"><span class="header-section-number">11.2.2</span> Sorting</h3>
 <p>As we covered last week, the key identification assumption of RDDs is that there is no <em>sorting</em> on the running variable. That is, the running variable must be continuous around the threshold. We can do this using <em>density checks</em>. This means we’re looking at the density of the running variable. Let’s again use the <code>rddensity</code> package to do so.</p>
 <p><strong>Exercise 14: Examine the density of the running variable using the <code>rddensity</code> command. Interpret your findings. See an example of the syntax below: </strong></p>
 <p>Doing this is pretty straightforward. You only have to insert the running variable as an argument and, if different from 0, the cut-off. Note that you can optionally specify bandwidths, as above, using the <code>h</code> argument. Otherwise, an optimal bandwidth will be specified automatically. You can then save this as an object and run the <code>summary</code> command to see the output.</p>
@@ -820,8 +958,8 @@ And these the arguments that you can use.<br>
 </p>
 </section>
 </section>
-<section id="balance" class="level2">
-<h2 class="anchored" data-anchor-id="balance">Balance</h2>
+<section id="balance" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="balance"><span class="header-section-number">11.3</span> Balance</h2>
 <p>Let’s finally conduct a balance test to examine whether near the cut-off treated units are similar to control units in terms of observable characteristics. Ideally, we should get an RD estimate, <span class="math inline">\(\tau_{RD}\)</span>, which is equal to zero.</p>
 <p><strong>Exercise 16: Let’s check for balance around the cut-off. Use the <code>rdrobust()</code> function. Set the cut-off argument <code>c</code> equal to 0, and the <code>bwselect</code> argument equal to “mserd”. In this case, the outcome variables are the covariates that we want to check for balance. Check if there is balance for the covariate <code>oldparty</code>, which is the ‘age’ of the party in terms of previously contested elections. Remember to use the <code>summary()</code> command.</strong></p>
 <p><br>
@@ -1076,6 +1214,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./rdd.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regression Discontinuity Design</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./summary.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

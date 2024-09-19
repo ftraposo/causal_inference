@@ -14,3 +14,7 @@
 [1,"\u001B[31m  /KS_Example.png (404: Not Found)\u001B[39m\n\u001B[31m  /KS_Example.png (404: Not Found)\u001B[39m\n"]
 [1,"\u001B[32mGET: /matching.html\u001B[39m\n"]
 [1,"\u001B[32mGET: /iv.html\u001B[39m\n"]
+[1,"\u001B[91mERROR: YAMLException: bad indentation of a mapping entry (_quarto.yml, 3:3)\n2: \u001B[34m   type: book\u001B[91m\n3: \u001B[34m  output-dir: docs\u001B[91m\n    ~~\u001B[39m\n"]
+[1,"\u001B[91mERROR: YAMLException: bad indentation of a mapping entry (_quarto.yml, 3:3)\n2: \u001B[34m   type: book\u001B[91m\n3: \u001B[34m  output-dir: docs\u001B[91m\n    ~~\u001B[39m\n"]
+[1,"\u001B[91mERROR: YAMLException: bad indentation of a mapping entry (_quarto.yml, 3:3)\n2: \u001B[34m   type: book\u001B[91m\n3: \u001B[34m  output-dir: docs\u001B[91m\n    ~~\u001B[39m\n"]
+[1,"\u001B[91mERROR: YAMLException: bad indentation of a mapping entry (_quarto.yml, 3:3)\n2: \u001B[34m   type: book\u001B[91m\n3: \u001B[34m  output-dir: docs\u001B[91m\n    ~~\u001B[39m\n"]

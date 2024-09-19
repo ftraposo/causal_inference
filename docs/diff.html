@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>diff</title>
+<title>Causal Inference - 5&nbsp; Difference-in-difference</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,11 +58,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./panel.html" rel="next">
+<link href="./iv.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -98,23 +101,152 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body>
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./diff.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Difference-in-difference</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Causal Inference</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Potential Outcomes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./experiments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Experiments</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matching</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./iv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diff.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Difference-in-difference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./panel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Panel Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./rdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Regression Discontinuity Design</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./frdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Fuzzy Regression Discontinuity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="diff.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data"><span class="header-section-number">5.1</span> Data</a></li>
+  <li><a href="#recap" id="toc-recap" class="nav-link" data-scroll-target="#recap"><span class="header-section-number">5.2</span> Recap</a></li>
+  <li><a href="#seminar-overview" id="toc-seminar-overview" class="nav-link" data-scroll-target="#seminar-overview"><span class="header-section-number">5.3</span> Seminar Overview</a></li>
+  <li><a href="#waking-up-the-golden-dawn-does-exposure-to-the-refugee-crisis-increase-support-for-extreme-right-parties-dinas-et-al-2018" id="toc-waking-up-the-golden-dawn-does-exposure-to-the-refugee-crisis-increase-support-for-extreme-right-parties-dinas-et-al-2018" class="nav-link" data-scroll-target="#waking-up-the-golden-dawn-does-exposure-to-the-refugee-crisis-increase-support-for-extreme-right-parties-dinas-et-al-2018"><span class="header-section-number">5.4</span> Waking Up the Golden Dawn: Does Exposure to the Refugee Crisis Increase Support for Extreme-Right Parties? (Dinas et al, 2018)</a>
+  <ul class="collapse">
+  <li><a href="#timing" id="toc-timing" class="nav-link" data-scroll-target="#timing"><span class="header-section-number">5.4.1</span> Timing</a></li>
+  </ul></li>
+  <li><a href="#differences-in-differences" id="toc-differences-in-differences" class="nav-link" data-scroll-target="#differences-in-differences"><span class="header-section-number">5.5</span> Differences-in-Differences</a></li>
+  <li><a href="#generalised-diff-in-diff" id="toc-generalised-diff-in-diff" class="nav-link" data-scroll-target="#generalised-diff-in-diff"><span class="header-section-number">5.6</span> Generalised Diff-in-Diff</a></li>
+  <li><a href="#pararell-trends" id="toc-pararell-trends" class="nav-link" data-scroll-target="#pararell-trends"><span class="header-section-number">6</span> Pararell trends</a>
+  <ul class="collapse">
+  <li><a href="#placebo-test" id="toc-placebo-test" class="nav-link" data-scroll-target="#placebo-test"><span class="header-section-number">6.1</span> Placebo test</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Difference-in-difference</span></h1>
+</div>
 
 
-<section id="difference-in-difference" class="level1">
-<h1>Difference-in-difference</h1>
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
@@ -127,8 +259,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>greekislands <span class="ot">&lt;-</span> greekislands <span class="sc">%&gt;%</span> </span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">evertr =</span> treat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="data" class="level2">
-<h2 class="anchored" data-anchor-id="data">Data</h2>
+<section id="data" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="data"><span class="header-section-number">5.1</span> Data</h2>
 <p><br>
 </p>
 <div class="cell">
@@ -158,8 +290,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><br>
 </p>
 </section>
-<section id="recap" class="level2">
-<h2 class="anchored" data-anchor-id="recap">Recap</h2>
+<section id="recap" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="recap"><span class="header-section-number">5.2</span> Recap</h2>
 <p>The intuition of the DD strategy is to combine two simpler approaches. The first difference (before and after) eliminates unit-specific fixed effects. Then, the second difference eliminates time fixed effects. With this approach, we get an unbiased estimate of a (policy) intervention.</p>
 <p>We learned that we can break down the difference between treated units and untreated units in post-treatment as the Average Treatment Effect Amongst the Treated (ATT), different time trends and selection bias. However, we can impose additional estimation assumptions to retrieve a credible estimate of the effect of treatment. The key assumption in diff-in-diff studies is the so-called <strong>Parallel Trends</strong> or <strong>Common Trends</strong> assumption. This assumption states that in the absence of the treatment/policy, we should expect to see that treated units would follow similar trends to the untreated ones. Unfortunately, we cannot test whether this assumption holds, but we can at least conduct some tests that would be indicated that the <strong>Parallel Trends</strong> holds.</p>
 <p>We also learned that we can calculate the ATT in different ways. We learned that we can manually calculate the difference-in-difference estimator.</p>
@@ -229,8 +361,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="seminar-overview" class="level2">
-<h2 class="anchored" data-anchor-id="seminar-overview">Seminar Overview</h2>
+<section id="seminar-overview" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="seminar-overview"><span class="header-section-number">5.3</span> Seminar Overview</h2>
 <p>In this <strong>seminar</strong>, we will cover the following topics:<br>
 1. “Manually” calculate the difference-in-difference estimator”<br>
 2. Obtaining the difference in difference estimator using the <code>lm()</code> function<br>
@@ -239,13 +371,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 4. Conduct a placebo test<br>
 </p>
 </section>
-<section id="waking-up-the-golden-dawn-does-exposure-to-the-refugee-crisis-increase-support-for-extreme-right-parties-dinas-et-al-2018" class="level2">
-<h2 class="anchored" data-anchor-id="waking-up-the-golden-dawn-does-exposure-to-the-refugee-crisis-increase-support-for-extreme-right-parties-dinas-et-al-2018">Waking Up the Golden Dawn: Does Exposure to the Refugee Crisis Increase Support for Extreme-Right Parties? (Dinas et al, 2018)</h2>
+<section id="waking-up-the-golden-dawn-does-exposure-to-the-refugee-crisis-increase-support-for-extreme-right-parties-dinas-et-al-2018" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="waking-up-the-golden-dawn-does-exposure-to-the-refugee-crisis-increase-support-for-extreme-right-parties-dinas-et-al-2018"><span class="header-section-number">5.4</span> Waking Up the Golden Dawn: Does Exposure to the Refugee Crisis Increase Support for Extreme-Right Parties? (Dinas et al, 2018)</h2>
 <p>The main question of this paper is the following: <strong>Did the influx of refugees in Greece increase support for the right-wing Golden Dawn party in 2015?</strong></p>
 <p>The authors exploit that the Aegean islands close to the Turkish border experienced sudden and drastic increases in the number of Syrian refugees while other islands slightly farther away—but with otherwise similar institutional and socio-economic characteristics—did not.</p>
 <p>We can see here on the Figure in the left that level of exposure to refugees across the Aegean islands. The figure on the right shows how sudden was the influx of refugees.</p>
-<section id="timing" class="level3">
-<h3 class="anchored" data-anchor-id="timing">Timing</h3>
+<section id="timing" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="timing"><span class="header-section-number">5.4.1</span> Timing</h3>
 <ul>
 <li>The refugee crisis started in the spring of 2015</li>
 <li>Greece held an election September, 2015, right after the first wave of refugee arrival, where in the data is coded as 1 for the <code>post</code> variable and coded as year 2016</li>
@@ -372,8 +504,8 @@ Using the <code>unique</code> command, we find that four elections are covered b
 </p>
 </section>
 </section>
-<section id="differences-in-differences" class="level2">
-<h2 class="anchored" data-anchor-id="differences-in-differences">Differences-in-Differences</h2>
+<section id="differences-in-differences" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="differences-in-differences"><span class="header-section-number">5.5</span> Differences-in-Differences</h2>
 <p><br>
 </p>
 <p>Being aware of the general trends of the Golden Dawn’s vote share is an important information about context and the party’s history. However, it cannot tell us anything about the treatment effect we seek to analyse: The arrival of refugees in some Greek municipalities in the summer of 2015.<br>
@@ -466,8 +598,8 @@ All three fixed effects estimators provide the same estimate - which corresponds
 <p><br>
 </p>
 </section>
-<section id="generalised-diff-in-diff" class="level2">
-<h2 class="anchored" data-anchor-id="generalised-diff-in-diff">Generalised Diff-in-Diff</h2>
+<section id="generalised-diff-in-diff" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="generalised-diff-in-diff"><span class="header-section-number">5.6</span> Generalised Diff-in-Diff</h2>
 <p>Let’s now extend our analysis by including all pre-treatment periods in our analysis. The easiest way to do so is running a two-way fixed effects regression.<br>
 </p>
 <p><strong>Exercise 7: Estimate the difference-in-differences using a two-way Fixed Effects regression with all time periods and <code>treatment</code> as independent variable.</strong><br>
@@ -519,9 +651,8 @@ As you can see, the estimate is now slightly smaller than the one we got by coma
 <p><br>
 </p>
 </section>
-</section>
-<section id="pararell-trends" class="level1">
-<h1>Pararell trends</h1>
+<section id="pararell-trends" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Pararell trends</h1>
 <p>As we know, we cannot test whether the parallel trends, but we can conduct some visual inspects and statistical analyses. One way to do this is to plot the outcome variable for both treated and untreated units overtime before the intervention.</p>
 <p>Let’s first get the mean vote share for the Golden Dawn for the treated and untreated units. Let’s do using Tidyverse using the <code>group_by()</code> and <code>summarise()</code> functions.</p>
 <p><strong>Exercise 9: Calculate the mean vote share for the Golden Dawn for the treated and the untreated units for all the elections. Store this into a new data frame and called <code>plot.parallel</code>. Use tidy to create this new data frame.The syntax and the description of the functions below:</strong></p>
@@ -702,8 +833,8 @@ As you can see, the estimate is now slightly smaller than the one we got by coma
 </details>
 <p><br>
 </p>
-<section id="placebo-test" class="level2">
-<h2 class="anchored" data-anchor-id="placebo-test">Placebo test</h2>
+<section id="placebo-test" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="placebo-test"><span class="header-section-number">6.1</span> Placebo test</h2>
 <p>We can conduct a placebo test to evaluate whether the parallel trend holds. We are trying to prove that there is no clear difference in trending tendencies between treated and untreated municipalities.</p>
 <p>The steps to conduct are the following:</p>
 <ol type="1">
@@ -1086,6 +1217,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./iv.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./panel.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Panel Data</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
