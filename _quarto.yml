@@ -29,10 +29,8 @@ format:
 
 editor: visual
 
-# Add the following section for GitHub Pages publishing
 publish:
   gh-pages:
-    branch: gh-pages  # Use the gh-pages branch for GitHub Pages
-    dir: docs         # Directory to store the book's HTML files (matches output-dir)
-
+    branch: gh-pages
+    dir: docs
 
